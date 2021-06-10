@@ -13,6 +13,7 @@ object ConsumptionCycleModel {
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
          |"memberId":{"cf":"cf", "col":"memberId", "type":"string"},
+         |"isTest":{"cf":"cf", "col":"isTest", "type":"string"},
          |"finishTime":{"cf":"cf", "col":"finishTime", "type":"string"}
          |}
          |}""".stripMargin
@@ -29,8 +30,9 @@ object ConsumptionCycleModel {
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .load()
 
+    readDF.show()
 
-    val result = readDF.groupBy('memberId).agg(max('finishTime).as("finishTime"))
+    val result = readDF.where("isTest = false").groupBy('memberId).agg(max('finishTime).as("finishTime"))
     val userDiffTime = result.select('memberId,
       (datediff(current_timestamp(), from_unixtime('finishTime)) - 720).as('finishTime))
 
