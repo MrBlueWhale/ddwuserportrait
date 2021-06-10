@@ -1,8 +1,10 @@
-import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
-import org.apache.spark.sql.functions._
+package PopulationAttribute
 
-object GenderModel {
+import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
+import org.apache.spark.sql.functions.when
+import org.apache.spark.sql.{DataFrame, SparkSession}
+
+object marriageInfoModel {
   def main(args: Array[String]): Unit = {
     def catalog =
       s"""{
@@ -10,7 +12,7 @@ object GenderModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"gender":{"cf":"cf", "col":"gender", "type":"string"}
+         |"marriage":{"cf":"cf", "col":"marriage", "type":"string"}
          |}
          |}""".stripMargin
 
@@ -27,10 +29,10 @@ object GenderModel {
       .load()
 
     val result = readDF.select('id,
-      when('gender === "1", "男")
-        .when('gender === "2", "女")
-        .otherwise("未知")
-        .as("gender")
+      when('marriage === "1", "未婚")
+        .when('marriage === "2", "已婚")
+        .otherwise("离异")
+        .as("marriage")
     )
 
     def catalogWrite =
@@ -39,7 +41,7 @@ object GenderModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"gender":{"cf":"cf", "col":"gender", "type":"string"}
+         |"marriage":{"cf":"cf", "col":"marriage", "type":"string"}
          |}
          |}""".stripMargin
 

@@ -1,5 +1,7 @@
-import org.apache.spark.sql.{DataFrame, SparkSession}
+package PopulationAttribute
+
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object ConstellationModel {
   def main(args: Array[String]): Unit = {
@@ -17,8 +19,6 @@ object ConstellationModel {
       .appName("shc test")
       .master("local[10]")
       .getOrCreate()
-
-    import spark.implicits._
 
     val readDF: DataFrame = spark.read
       .option(HBaseTableCatalog.tableCatalog, catalog)
