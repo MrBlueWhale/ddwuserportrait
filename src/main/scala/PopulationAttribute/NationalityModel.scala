@@ -23,7 +23,7 @@ object NationalityModel {
          |  "rowkey":"id",
          |  "columns":{
          |    "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |    "nationality":{"Population":"cf", "col":"nationality", "type":"string"}
+         |    "nationality":{"cf":"cf", "col":"nationality", "type":"string"}
          |  }
          |}""".stripMargin
 
@@ -53,7 +53,7 @@ object NationalityModel {
          |  "rowkey":"id",
          |  "columns":{
          |    "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |    "nationality":{"cf":"cf", "col":"nationality", "type":"string"}
+         |    "nationality":{"cf":"Population", "col":"nationality", "type":"string"}
          |  }
          |}""".stripMargin
 
