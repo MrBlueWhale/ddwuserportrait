@@ -8,6 +8,7 @@ import com.ibegu.dalaoadmin.exception.BusinessException;
 import com.ibegu.dalaoadmin.exception.BusinessExceptionCode;
 import com.ibegu.dalaoadmin.mapper.UserMapper;
 import com.ibegu.dalaoadmin.req.UserQueryReq;
+import com.ibegu.dalaoadmin.req.UserSaveReq;
 import com.ibegu.dalaoadmin.resp.PageResp;
 import com.ibegu.dalaoadmin.resp.UserQueryResp;
 import com.ibegu.dalaoadmin.utils.CopyUtil;
@@ -19,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,44 +77,45 @@ public class UserService {
         return pageResp;
     }
 
-    /**
-     * 保存
-     */
-    // public void save(UserSaveReq req) {
-    //     User user = CopyUtil.copy(req, User.class);
-    //     if (ObjectUtils.isEmpty(req.getId())) {
-    //         User userDB = selectByLoginName(req.getLoginName());
-    //         if (ObjectUtils.isEmpty(userDB)) {
-    //             // 新增
-    //             user.setId(snowFlake.nextId());
-    //             userMapper.insert(user);
-    //         } else {
-    //             // 用户名已存在
-    //             throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
-    //         }
-    //     } else {
-    //         // 更新
-    //         user.setLoginName(null);
-    //         user.setPassword(null);
-    //         userMapper.updateByPrimaryKeySelective(user);
-    //     }
-    // }
+     /**
+      * 保存
+      */
+    public void save(UserSaveReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        if (ObjectUtils.isEmpty(req.getId())) {
+            User userDB = selectByUserName(req.getUserName());
+            if (ObjectUtils.isEmpty(userDB)) {
+                // 新增
+                user.setUid(snowFlake.nextId());
+                user.setCreateTime(new Date());
+                userMapper.insert(user);
+            } else {
+                // 用户名已存在
+                throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+            }
+        } else {
+            // 更新
+            user.setUserName(null);
+            user.setPassword(null);
+            userMapper.updateByPrimaryKeySelective(user);
+        }
+    }
 
     public void delete(Long id) {
         userMapper.deleteByPrimaryKey(id);
     }
 
-    // public User selectByLoginName(String LoginName) {
-    //     UserExample userExample = new UserExample();
-    //     UserExample.Criteria criteria = userExample.createCriteria();
-    //     criteria.andLoginNameEqualTo(LoginName);
-    //     List<User> userList = userMapper.selectByExample(userExample);
-    //     if (CollectionUtils.isEmpty(userList)) {
-    //         return null;
-    //     } else {
-    //         return userList.get(0);
-    //     }
-    // }
+    public User selectByUserName(String UserName) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUserNameEqualTo(UserName);
+        List<User> userList = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(userList)) {
+            return null;
+        } else {
+            return userList.get(0);
+        }
+    }
 
     /**
      * 修改密码
@@ -126,10 +129,10 @@ public class UserService {
      * 登录
      */
     // public UserLoginResp login(UserLoginReq req) {
-    //     User userDb = selectByLoginName(req.getLoginName());
+    //     User userDb = selectByUserName(req.getUserName());
     //     if (ObjectUtils.isEmpty(userDb)) {
     //         // 用户名不存在
-    //         LOG.info("用户名不存在, {}", req.getLoginName());
+    //         LOG.info("用户名不存在, {}", req.getUserName());
     //         throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
     //     } else {
     //         if (userDb.getPassword().equals(req.getPassword())) {

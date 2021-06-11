@@ -2,6 +2,7 @@ package com.ibegu.dalaoadmin.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ibegu.dalaoadmin.req.UserQueryReq;
+import com.ibegu.dalaoadmin.req.UserSaveReq;
 import com.ibegu.dalaoadmin.resp.CommonResp;
 import com.ibegu.dalaoadmin.resp.PageResp;
 import com.ibegu.dalaoadmin.resp.UserQueryResp;
@@ -44,13 +45,13 @@ public class UserController {
         return resp;
     }
 
-    // @PostMapping("/save")
-    // public CommonResp save(@Valid @RequestBody UserSaveReq req) {
-    //     req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
-    //     CommonResp resp = new CommonResp<>();
-    //     userService.save(req);
-    //     return resp;
-    // }
+    @PostMapping("/save")
+    public CommonResp save(@Valid @RequestBody UserSaveReq req) {
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp resp = new CommonResp<>();
+        userService.save(req);
+        return resp;
+    }
     //
     // @DeleteMapping("/delete/{id}")
     // public CommonResp delete(@PathVariable Long id) {
