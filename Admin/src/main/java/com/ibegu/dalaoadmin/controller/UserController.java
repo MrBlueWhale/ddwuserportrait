@@ -53,12 +53,13 @@ public class UserController {
         return resp;
     }
     //
-    // @DeleteMapping("/delete/{id}")
-    // public CommonResp delete(@PathVariable Long id) {
-    //     CommonResp resp = new CommonResp<>();
-    //     userService.delete(id);
-    //     return resp;
-    // }
+    @DeleteMapping("/delete/{uid}")
+    public CommonResp delete(@PathVariable Long uid) {
+        CommonResp resp = new CommonResp<>();
+        userService.delete(uid);
+        return resp;
+    }
+
     //
     // @PostMapping("/reset-password")
     // public CommonResp resetPassword(@Valid @RequestBody UserResetPasswordReq req) {

@@ -101,8 +101,8 @@ public class UserService {
         }
     }
 
-    public void delete(Long id) {
-        userMapper.deleteByPrimaryKey(id);
+    public void delete(Long uid) {
+        userMapper.deleteByPrimaryKey(uid);
     }
 
     public User selectByUserName(String UserName) {
