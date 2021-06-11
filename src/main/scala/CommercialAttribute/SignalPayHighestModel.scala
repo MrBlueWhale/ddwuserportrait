@@ -45,7 +45,9 @@ object SignalPayHighestModel {
          |}
          |}""".stripMargin
 
-    result.write
+    val newResult = result.select('id, 'highestPay).where('id + 0 <= 950)
+    newResult.show()
+    newResult.write
       .option(HBaseTableCatalog.tableCatalog, catalogWrite)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")
