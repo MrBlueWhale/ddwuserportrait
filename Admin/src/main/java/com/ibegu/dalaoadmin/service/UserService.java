@@ -8,6 +8,7 @@ import com.ibegu.dalaoadmin.exception.BusinessException;
 import com.ibegu.dalaoadmin.exception.BusinessExceptionCode;
 import com.ibegu.dalaoadmin.mapper.UserMapper;
 import com.ibegu.dalaoadmin.req.UserQueryReq;
+import com.ibegu.dalaoadmin.req.UserResetPasswordReq;
 import com.ibegu.dalaoadmin.req.UserSaveReq;
 import com.ibegu.dalaoadmin.resp.PageResp;
 import com.ibegu.dalaoadmin.resp.UserQueryResp;
@@ -120,10 +121,10 @@ public class UserService {
     /**
      * 修改密码
      */
-    // public void resetPassword(UserResetPasswordReq req) {
-    //     User user = CopyUtil.copy(req, User.class);
-    //     userMapper.updateByPrimaryKeySelective(user);
-    // }
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 
     /**
      * 登录

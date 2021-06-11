@@ -23,3 +23,13 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8083/user/delete/3
+
+
+###
+POST http://localhost:8083/user/reset-password
+Content-Type: application/json
+
+{
+  "uid": "3",
+  "password": "321asd"
+}
