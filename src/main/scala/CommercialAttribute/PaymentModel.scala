@@ -46,7 +46,7 @@ object PaymentModel {
          |"rowkey":"id",
          |"columns":{
          |  "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |  "paymentCode":{"cf":"cf", "col":"paymentCode", "type":"string"}
+         |  "paymentCode":{"cf":"Commercial", "col":"paymentCode", "type":"string"}
          |}
          |}""".stripMargin
 

@@ -23,7 +23,7 @@ object JobModel {
          |  "rowkey":"id",
          |  "columns":{
          |    "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |    "job":{"cf":"Population", "col":"job", "type":"string"}
+         |    "job":{"cf":"cf", "col":"job", "type":"string"}
          |  }
          |}""".stripMargin
 
@@ -54,7 +54,7 @@ object JobModel {
          |  "rowkey":"id",
          |  "columns":{
          |    "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |    "job":{"cf":"cf", "col":"job", "type":"string"}
+         |    "job":{"cf":"Population", "col":"job", "type":"string"}
          |  }
          |}""".stripMargin
 
