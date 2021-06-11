@@ -45,7 +45,7 @@ object AgeGroupModel {
            |"rowkey":"id",
            |"columns":{
            |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-           |"ageGroup":{"cf":"cf", "col":"ageGroup", "type":"string"}
+           |"ageGroup":{"cf":"Population", "col":"ageGroup", "type":"string"}
            |}
            |}""".stripMargin
 

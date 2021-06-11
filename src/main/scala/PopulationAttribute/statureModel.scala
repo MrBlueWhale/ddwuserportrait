@@ -11,7 +11,7 @@ object statureModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"tall":{"cf":"cf", "col":"salt", "type":"int"}
+         |"tall":{"cf":"Population", "col":"salt", "type":"int"}
          |}
          |}""".stripMargin
 

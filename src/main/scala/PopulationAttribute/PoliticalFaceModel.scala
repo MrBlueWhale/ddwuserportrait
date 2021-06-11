@@ -23,7 +23,7 @@ object PoliticalFaceModel {
          |  "rowkey":"id",
          |  "columns":{
          |    "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |    "politicalFace":{"cf":"cf", "col":"politicalFace", "type":"string"}
+         |    "politicalFace":{"cf":"Population", "col":"politicalFace", "type":"string"}
          |  }
          |}""".stripMargin
 

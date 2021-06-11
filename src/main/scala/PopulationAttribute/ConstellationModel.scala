@@ -61,7 +61,7 @@ object ConstellationModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"Constellation":{"cf":"cf", "col":"Constellation", "type":"string"}
+         |"Constellation":{"cf":"Population", "col":"Constellation", "type":"string"}
          |}
          |}""".stripMargin
 

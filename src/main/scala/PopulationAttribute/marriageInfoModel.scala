@@ -41,7 +41,7 @@ object marriageInfoModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"marriage":{"cf":"cf", "col":"marriage", "type":"string"}
+         |"marriage":{"cf":"Population", "col":"marriage", "type":"string"}
          |}
          |}""".stripMargin
 

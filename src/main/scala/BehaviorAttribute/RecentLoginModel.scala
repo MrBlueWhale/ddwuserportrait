@@ -72,7 +72,7 @@ object RecentLoginModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"RecentLogin":{"cf":"cf", "col":"RecentLogin", "type":"string"}
+         |"RecentLogin":{"cf":"Behavior", "col":"RecentLogin", "type":"string"}
          |}
          |}""".stripMargin
 

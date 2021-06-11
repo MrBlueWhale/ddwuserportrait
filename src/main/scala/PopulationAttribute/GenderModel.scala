@@ -41,7 +41,7 @@ object GenderModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"gender":{"cf":"cf", "col":"gender", "type":"string"}
+         |"gender":{"cf":"Population", "col":"gender", "type":"string"}
          |}
          |}""".stripMargin
 

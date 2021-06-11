@@ -79,7 +79,7 @@ object ConsumptionCycleModel {
          |"rowkey":"id",
          |"columns":{
          |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |"ConsumptionCycle":{"cf":"cf", "col":"ConsumptionCycle", "type":"string"}
+         |"ConsumptionCycle":{"cf":"Commercial", "col":"ConsumptionCycle", "type":"string"}
          |}
          |}""".stripMargin
 
