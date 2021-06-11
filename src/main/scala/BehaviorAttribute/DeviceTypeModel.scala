@@ -1,6 +1,7 @@
 package BehaviorAttribute
 
 import com.google.re2j.Pattern
+import eu.bitwalker.useragentutils.{OperatingSystem, UserAgent}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
@@ -44,37 +45,36 @@ object DeviceTypeModel {
 
 
     val DeviceType = (data: String) => {
-      val pattern = Pattern.compile(";\\s?(\\S*?\\s?\\S*?)\\s?(Build)?/")
-      val matcher = pattern.matcher(data)
-      var model:String = null
-      if (matcher.find) {
-        model = matcher.group(1).trim
-      }
-      model
+
+        val operatingSystem:OperatingSystem =  UserAgent.parseUserAgentString(data).getOperatingSystem
+        val deviceType = operatingSystem.getGroup.getName
+
+        deviceType
+
     }
     spark.udf.register("DeviceType",DeviceType)
 
     result.createTempView("tb")
-    spark.sql(
+    result = spark.sql(
       """
         |select id, DeviceType(user_agent) as DeviceType from tb
-      """.stripMargin).show()
+      """.stripMargin).toDF()
 
 
-//    def catalogWrite =
-//      s"""{
-//         |"table":{"namespace":"default", "name":"user_profile"},
-//         |"rowkey":"id",
-//         |"columns":{
-//         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-//         |"ConsumptionCycle":{"cf":"Commercial", "col":"ConsumptionCycle", "type":"string"}
-//         |}
-//         |}""".stripMargin
-//
-//    result.write
-//      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-//      .option(HBaseTableCatalog.newTable, "5")
-//      .format("org.apache.spark.sql.execution.datasources.hbase")
-//      .save()
+    def catalogWrite =
+      s"""{
+         |"table":{"namespace":"default", "name":"user_profile"},
+         |"rowkey":"id",
+         |"columns":{
+         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
+         |"DeviceType":{"cf":"Behavior", "col":"DeviceType", "type":"string"}
+         |}
+         |}""".stripMargin
+
+    result.write
+      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+      .option(HBaseTableCatalog.newTable, "5")
+      .format("org.apache.spark.sql.execution.datasources.hbase")
+      .save()
   }
 }
