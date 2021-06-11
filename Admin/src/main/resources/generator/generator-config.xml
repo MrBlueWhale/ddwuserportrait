@@ -25,6 +25,11 @@
                         connectionURL="jdbc:mysql://localhost:3306/userportrait?serverTimezone=Asia/Shanghai"
                         userId="root"
                         password="123qwe">
+
+            <!--MySQL 不支持 schema 或者 catalog 所以需要添加这个-->
+            <!--参考 : http://www.mybatis.org/generator/usage/mysql.html-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+
         </jdbcConnection>
 
 
@@ -41,7 +46,8 @@
                              targetPackage="com.ibegu.dalaoadmin.mapper"
                              type="XMLMAPPER"/>
 
-        <table tableName="demo" />
+<!--        <table tableName="demo" />-->
+        <table tableName="user" />
         <!--        <table tableName="demo" domainObjectName="Demo"/>-->
         <!--<table tableName="ebook"/>-->
         <!--<table tableName="category"/>-->

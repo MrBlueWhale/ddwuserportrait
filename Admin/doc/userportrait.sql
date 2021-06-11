@@ -120,17 +120,19 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `uid` bigint(20) NOT NULL COMMENT '用户表主键',
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '姓名',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `tel_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电话号码',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '密码',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`uid`) USING BTREE
+  PRIMARY KEY (`uid`) USING BTREE,
+ unique key `user_name_unique` (`user_name`)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '2971529737@qq.com', '19981481120', 'admin', '2021-06-11 13:08:04');
+INSERT INTO `user` VALUES (1, 'admin', '兰鑫', '2971529737@qq.com', '19981481120', 'admin', '2021-06-11 13:08:04');
 
 -- ----------------------------
 -- Table structure for user_role

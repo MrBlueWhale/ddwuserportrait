@@ -1,0 +1,25 @@
+###
+GET http://localhost:8083/user/list
+
+
+###
+GET http://localhost:8083/user/list?userName=admin
+
+###
+GET http://localhost:8083/user/list?userName=admin2
+
+
+###
+POST http://localhost:8083/user/save
+Content-Type: application/json
+
+{
+  "userName": "admin2",
+  "name": "张志成",
+  "password": "321asd",
+  "email": "2512466133@qq.com",
+  "telNum": "19912341234"
+}
+
+###
+DELETE http://localhost:8083/user/delete/3
