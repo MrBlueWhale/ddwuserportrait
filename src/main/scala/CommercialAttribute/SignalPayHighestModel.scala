@@ -31,7 +31,7 @@ object SignalPayHighestModel {
     source.show(20, false)
 
     val result = source.groupBy('memberId as "id")
-      .agg(max('paidAmount) as "highestPay")
+      .agg(max('paidAmount + 0.0) as "highestPay")
 
     result.show(20, false)
 

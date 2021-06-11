@@ -1,0 +1,8 @@
+
+###
+
+###
+GET http://localhost:8083/demo/list
+
+###
+GET http://localhost:8083/demo/list?name=test
