@@ -32,7 +32,7 @@ object ConsumptionCycleModel {
 
     readDF.show()
 
-    val result = readDF.where("isTest = false").groupBy('memberId).agg(max('finishTime).as("finishTime"))
+    val result = readDF.where("isTest = false").groupBy('memberId).agg(max('finishTime+0).as("finishTime"))
     val userDiffTime = result.select('memberId,
       (datediff(current_timestamp(), from_unixtime('finishTime)) - 720).as('finishTime))
 
@@ -83,7 +83,7 @@ object ConsumptionCycleModel {
          |}
          |}""".stripMargin
 
-    result.write
+    Fina.write
       .option(HBaseTableCatalog.tableCatalog, catalogWrite)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")

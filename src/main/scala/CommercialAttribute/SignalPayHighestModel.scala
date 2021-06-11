@@ -41,7 +41,7 @@ object SignalPayHighestModel {
          |"rowkey":"id",
          |"columns":{
          |  "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |  "highestPay":{"cf":"cf", "col":"highestPay", "type":"string"}
+         |  "highestPay":{"cf":"Commercial", "col":"highestPay", "type":"string"}
          |}
          |}""".stripMargin
 
