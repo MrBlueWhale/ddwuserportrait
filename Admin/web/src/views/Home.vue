@@ -63,11 +63,15 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+// import AdminHeader from '@/components/admin-header.vue'; // @ is an alias to /src
+// import AdminFooter from '@/components/admin-footer.vue'; // @ is an alias to /src
 
 export default defineComponent({
   name: 'Home',
   components: {
     HelloWorld,
+    // AdminHeader,
+    // AdminFooter,
   },
 });
 </script>
