@@ -14,7 +14,7 @@ POST http://localhost:8083/user/save
 Content-Type: application/json
 
 {
-  "userName": "admin2",
+  "userName": "admin3",
   "name": "张志成",
   "password": "321asd",
   "email": "2512466133@qq.com",
@@ -31,5 +31,15 @@ Content-Type: application/json
 
 {
   "uid": "3",
+  "password": "321asd"
+}
+
+
+###
+POST http://localhost:8083/user/login
+Content-Type: application/json
+
+{
+  "userName": "admin3",
   "password": "321asd"
 }
