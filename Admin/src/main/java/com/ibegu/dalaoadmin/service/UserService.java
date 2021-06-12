@@ -98,8 +98,8 @@ public class UserService {
             }
         } else {
             // 更新
-            user.setUserName(null);   //不允许修改用户名
-            user.setPassword(null);
+            user.setUserName(null);   //更新时不允许修改用户名
+            user.setPassword(null);     //更新时不允许修改密码
             userMapper.updateByPrimaryKeySelective(user);
         }
     }
