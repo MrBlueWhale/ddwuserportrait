@@ -14,9 +14,9 @@ POST http://localhost:8083/user/save
 Content-Type: application/json
 
 {
-  "userName": "admin3",
+  "userName": "admin4",
   "name": "张志成",
-  "password": "321asd",
+  "password": "46f94c8de14fb36680850768ff1b7f2a",
   "email": "2512466133@qq.com",
   "telNum": "19912341234"
 }
@@ -40,6 +40,6 @@ POST http://localhost:8083/user/login
 Content-Type: application/json
 
 {
-  "userName": "admin3",
-  "password": "321asd"
+  "userName": "admin4",
+  "password": "46f94c8de14fb36680850768ff1b7f2a"
 }
