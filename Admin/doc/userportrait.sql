@@ -150,3 +150,11 @@ CREATE TABLE `user_role`  (
 INSERT INTO `user_role` VALUES (1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+INSERT INTO `userportrait`.`user` (`uid`, `user_name`, `name`, `email`, `tel_num`, `password`, `create_time`) VALUES (1, 'admin', '兰鑫', '2971529737@qq.com', '19981481120', 'admin', '2021-06-11 13:08:04');
+INSERT INTO `userportrait`.`user` (`uid`, `user_name`, `name`, `email`, `tel_num`, `password`, `create_time`) VALUES (59091910668718080, 'admin3', '张志成', '2512466133@qq.com', '19912341234', '036c8c6aada989607e81318778b0b007', '2021-06-13 09:30:09');
+INSERT INTO `userportrait`.`user` (`uid`, `user_name`, `name`, `email`, `tel_num`, `password`, `create_time`) VALUES (59119916342710272, 'admin4', '张志成', '2512466133@qq.com', '19912341234', '200820e3227815ed1756a6b531e7e0d2', '2021-06-13 11:21:26');
+INSERT INTO `userportrait`.`user` (`uid`, `user_name`, `name`, `email`, `tel_num`, `password`, `create_time`) VALUES (59158606452494336, 'admin5', '曾派', '1023479515@qq.com', '19943214321', '4617837e97e175dfae31d78d9a106ce5', '2021-06-13 13:55:11');
+INSERT INTO `userportrait`.`user` (`uid`, `user_name`, `name`, `email`, `tel_num`, `password`, `create_time`) VALUES (59161125849272320, 'test2', '李鑫洋', '2512466133@qq.com', '19912341234', '4b93c6353a04b365433ad4a7fa2d9efc', '2021-06-13 14:05:12');
+INSERT INTO `userportrait`.`user` (`uid`, `user_name`, `name`, `email`, `tel_num`, `password`, `create_time`) VALUES (59165037641732096, 'admin6', '王新龙', '2912312213@qq.com', '19911112222', '46f94c8de14fb36680850768ff1b7f2a', '2021-06-13 14:20:44');
