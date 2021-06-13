@@ -13,7 +13,7 @@
           <MailOutlined />
           <span>欢迎</span>
         </a-menu-item>
-        <a-menu-item key="profile">
+        <a-menu-item key="profile" :style="user.uid? {}:{display:'none'}">
           <UserOutlined />
           <span><router-link to="/profile">个人资料</router-link></span>
         </a-menu-item>
@@ -96,8 +96,10 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {computed, defineComponent} from 'vue';
 import {createFromIconfontCN} from "@ant-design/icons-vue/es/index";
+import store from "@/store";
+
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2609195_kuaa21fd5m.js',
@@ -105,6 +107,18 @@ const IconFont = createFromIconfontCN({
 
 export default defineComponent({
   name: 'TempApp',
+
+  setup(){
+    // 登录后保存
+    const user = computed(() => store.state.user);
+
+    return {
+      user,
+
+
+    }
+  },
+
   components: {
     IconFont,
   },
