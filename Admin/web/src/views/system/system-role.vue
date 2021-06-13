@@ -29,6 +29,43 @@
         :loading="loading"
         @change="handleTableChange"
     >
+
+<!--      <template #active="{ text: active }">-->
+
+<!--        <a-tag color="warning" :active="active" v-if="role.active == 0">-->
+<!--          <template #icon>-->
+<!--            <exclamation-circle-outlined/>-->
+<!--          </template>-->
+<!--          不可用-->
+<!--        </a-tag>-->
+<!--        <a-tag color="success" :identity_status="identityStatus" v-else>-->
+<!--          <template #icon>-->
+<!--            <check-circle-outlined/>-->
+<!--          </template>-->
+<!--          可用-->
+<!--        </a-tag>-->
+
+<!--      </template>-->
+
+      <template #active="{ text: active }">
+        <a-tag color="#55acee" :active="active" v-if="active == 0">
+          <template #icon>
+            <clock-circle-outlined/>
+          </template>
+          可用
+        </a-tag>
+
+        <a-tag color="#cd201f" :active="active" v-if="active == 1">
+          <template #icon>
+            <minus-circle-outlined/>
+          </template>
+          不可用
+        </a-tag>
+
+      </template>
+
+
+
       <template v-slot:action="{ text, record }">
         <a-space size="small">
 
@@ -64,6 +101,7 @@
       <a-form-item label="角色描述">
         <a-input v-model:value="role.desc" />
       </a-form-item>
+
 <!--      <a-form-item label="密码" v-show="!role.rid">-->
 <!--        <a-input v-model:value="role.password" type="password"/>-->
 <!--      </a-form-item>-->
@@ -81,6 +119,8 @@ import axios from 'axios';
 import { message } from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 
+import {Moment,} from 'moment';
+import moment from 'moment';
 
 
 export default defineComponent({
@@ -109,6 +149,15 @@ export default defineComponent({
       {
         title: '角色名',
         dataIndex: 'roleName'
+      },
+      {
+        title: '状态',
+        key: 'active',
+        dataIndex: 'active',
+        slots: { customRender: 'active' }
+      },{
+        title: '创建时间',
+        dataIndex: 'createTime'
       },
       {
         title: '描述',
@@ -143,6 +192,10 @@ export default defineComponent({
         const data = response.data;
         if (data.success) {
           roles.value = data.content.list;
+
+          for (let i = 0; i < roles.value.length; i++) {
+            roles.value[i].createTime = moment(roles.value[i].createTime).format('YYYY-MM-DD HH:mm:ss')
+          }
 
           // 重置分页按钮
           pagination.value.current = params.page;
