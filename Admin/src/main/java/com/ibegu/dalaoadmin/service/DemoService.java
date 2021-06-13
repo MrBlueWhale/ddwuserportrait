@@ -7,6 +7,7 @@ import com.ibegu.dalaoadmin.req.DemoReq;
 import com.ibegu.dalaoadmin.resp.DemoResp;
 import com.ibegu.dalaoadmin.utils.CopyUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,10 +34,13 @@ public class DemoService {
 
     public List<DemoResp> list(DemoReq demoReq){
 
+        //创建查询条件 从数据库中返回
         DemoExample demoExample = new DemoExample();
         DemoExample.Criteria criteria = demoExample.createCriteria();
-        criteria.andNameLike("%" + demoReq.getName() + "%");
-
+        //条件查询
+        if (!ObjectUtils.isEmpty(demoReq.getName())) {
+            criteria.andNameLike("%" + demoReq.getName() + "%");
+        }
         List<Demo> demoList = demoMapper.selectByExample(demoExample);
 
 

@@ -1,27 +1,29 @@
 <template>
   <a-layout>
-<admin-header></admin-header>
+    <admin-header></admin-header>
     <router-view></router-view>
-    <a-layout-footer style="text-align: center">
-      Dalao Template @2021
-    </a-layout-footer>
+    <!--    <a-layout-footer style="text-align: center">-->
+    <!--      Dalao Template @2021-->
+    <!--    </a-layout-footer>-->
+    <admin-footer></admin-footer>
+
   </a-layout>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
 import AdminHeader from '@/components/admin-header.vue';
+import AdminFooter from '@/components/admin-footer.vue';
 
 export default defineComponent({
   name: 'app',
   components: {
     AdminHeader,
+    AdminFooter,
   },
 
 });
 </script>
-
-
 
 
 <style>

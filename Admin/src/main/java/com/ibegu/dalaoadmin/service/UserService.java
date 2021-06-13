@@ -7,9 +7,12 @@ import com.ibegu.dalaoadmin.domain.UserExample;
 import com.ibegu.dalaoadmin.exception.BusinessException;
 import com.ibegu.dalaoadmin.exception.BusinessExceptionCode;
 import com.ibegu.dalaoadmin.mapper.UserMapper;
+import com.ibegu.dalaoadmin.req.UserLoginReq;
 import com.ibegu.dalaoadmin.req.UserQueryReq;
+import com.ibegu.dalaoadmin.req.UserResetPasswordReq;
 import com.ibegu.dalaoadmin.req.UserSaveReq;
 import com.ibegu.dalaoadmin.resp.PageResp;
+import com.ibegu.dalaoadmin.resp.UserLoginResp;
 import com.ibegu.dalaoadmin.resp.UserQueryResp;
 import com.ibegu.dalaoadmin.utils.CopyUtil;
 import com.ibegu.dalaoadmin.utils.SnowFlake;
@@ -95,8 +98,8 @@ public class UserService {
             }
         } else {
             // 更新
-            user.setUserName(null);
-            user.setPassword(null);
+            user.setUserName(null);   //更新时不允许修改用户名
+            user.setPassword(null);     //更新时不允许修改密码
             userMapper.updateByPrimaryKeySelective(user);
         }
     }
@@ -120,30 +123,30 @@ public class UserService {
     /**
      * 修改密码
      */
-    // public void resetPassword(UserResetPasswordReq req) {
-    //     User user = CopyUtil.copy(req, User.class);
-    //     userMapper.updateByPrimaryKeySelective(user);
-    // }
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 
     /**
      * 登录
      */
-    // public UserLoginResp login(UserLoginReq req) {
-    //     User userDb = selectByUserName(req.getUserName());
-    //     if (ObjectUtils.isEmpty(userDb)) {
-    //         // 用户名不存在
-    //         LOG.info("用户名不存在, {}", req.getUserName());
-    //         throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
-    //     } else {
-    //         if (userDb.getPassword().equals(req.getPassword())) {
-    //             // 登录成功
-    //             UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
-    //             return userLoginResp;
-    //         } else {
-    //             // 密码不对
-    //             LOG.info("密码不对, 输入密码：{}, 数据库密码：{}", req.getPassword(), userDb.getPassword());
-    //             throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
-    //         }
-    //     }
-    // }
+    public UserLoginResp login(UserLoginReq req) {
+        User userDb = selectByUserName(req.getUserName());
+        if (ObjectUtils.isEmpty(userDb)) {
+            // 用户名不存在
+            LOG.info("用户名不存在, {}", req.getUserName());
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        } else {
+            if (userDb.getPassword().equals(req.getPassword())) {
+                // 登录成功
+                UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
+                return userLoginResp;
+            } else {
+                // 密码不对
+                LOG.info("密码不对, 输入密码：{}, 数据库密码：{}", req.getPassword(), userDb.getPassword());
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }
+    }
 }
