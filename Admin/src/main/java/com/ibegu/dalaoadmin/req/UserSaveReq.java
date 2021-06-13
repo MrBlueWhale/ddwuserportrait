@@ -29,11 +29,11 @@ public class UserSaveReq {
 // TODO: 后续可在这里面添加分配角色的属性
 
 
-    public Long getId() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setId(Long uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

@@ -85,7 +85,7 @@ public class UserService {
       */
     public void save(UserSaveReq req) {
         User user = CopyUtil.copy(req, User.class);
-        if (ObjectUtils.isEmpty(req.getId())) {
+        if (ObjectUtils.isEmpty(req.getUid())) {
             User userDB = selectByUserName(req.getUserName());
             if (ObjectUtils.isEmpty(userDB)) {
                 // 新增

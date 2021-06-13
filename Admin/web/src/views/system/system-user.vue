@@ -3,7 +3,96 @@
 
     <h1 class="h1">这是用户管理模块的页面</h1>
 
+    <p>
+      <a-form layout="inline" :model="param">
+        <a-form-item>
+          <a-input v-model:value="param.userName" placeholder="登陆名">
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" @click="handleQuery({page: 1, size: pagination.pageSize})">
+            查询
+          </a-button>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" @click="add()">
+            新增
+          </a-button>
+        </a-form-item>
+      </a-form>
+    </p>
+    <a-table
+        :columns="columns"
+        :row-key="record => record.uid"
+        :data-source="users"
+        :pagination="pagination"
+        :loading="loading"
+        @change="handleTableChange"
+    >
+      <template v-slot:action="{ text, record }">
+        <a-space size="small">
+          <a-button type="primary" @click="resetPassword(record)">
+            重置密码
+          </a-button>
+          <a-button type="primary" @click="edit(record)">
+            编辑
+          </a-button>
+          <a-popconfirm
+              title="删除后不可恢复，确认删除?"
+              ok-text="是"
+              cancel-text="否"
+              @confirm="handleDelete(record.uid)"
+          >
+            <a-button type="danger">
+              删除
+            </a-button>
+          </a-popconfirm>
+        </a-space>
+      </template>
+    </a-table>
+
+
   </a-layout>
+
+  <a-modal
+      title="用户表单"
+      v-model:visible="modalVisible"
+      :confirm-loading="modalLoading"
+      @ok="handleModalOk"
+  >
+    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="登陆名">
+        <a-input v-model:value="user.userName" :disabled="!!user.uid"/>
+      </a-form-item>
+      <a-form-item label="真实姓名">
+        <a-input v-model:value="user.name" />
+      </a-form-item>
+      <a-form-item label="密码" v-show="!user.uid">
+        <a-input v-model:value="user.password" type="password"/>
+      </a-form-item>
+      <a-form-item label="电话号码" >
+        <a-input v-model:value="user.telNum" />
+      </a-form-item>
+      <a-form-item label="邮箱" >
+        <a-input v-model:value="user.email" />
+      </a-form-item>
+    </a-form>
+  </a-modal>
+
+  <a-modal
+      title="重置密码"
+      v-model:visible="resetModalVisible"
+      :confirm-loading="resetModalLoading"
+      @ok="handleResetModalOk"
+  >
+    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="新密码">
+        <a-input v-model:value="user.password" type="password"/>
+      </a-form-item>
+    </a-form>
+  </a-modal>
+
+
 </template>
 
 
@@ -11,25 +100,13 @@
 import {defineComponent, onMounted, ref, reactive, toRef} from 'vue';
 
 import axios from 'axios';
+import { message } from 'ant-design-vue';
+import {Tool} from "@/util/tool";
+
+declare let hexMd5: any;
+declare let KEY: any;
 
 // import HelloWorld from "@/components/HelloWorld.vue";
-
-// const listData: Record<string, string>[] = [];
-const listData: any = [];
-
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
-
-
 
 
 export default defineComponent({
@@ -43,30 +120,216 @@ export default defineComponent({
     //reactive中放入对象 并自定义属性
     const demos2 = reactive({demos: []});
 
+
+    const param = ref();
+    param.value = {};
+    const users = ref();
+    const pagination = ref({
+      current: 1,
+      pageSize: 5,
+      total: 0
+    });
+    const loading = ref(false);
+
+    const columns = [
+      {
+        title: '登陆名',
+        dataIndex: 'userName'
+      },
+      {
+        title: '真实姓名',
+        dataIndex: 'name'
+      },
+      {
+        title: '密码',
+        dataIndex: 'password'
+      },{
+        title: '邮箱',
+        dataIndex: 'email'
+      },{
+        title: '电话',
+        dataIndex: 'telNum'
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        slots: { customRender: 'action' }
+      }
+    ];
+
+    /**
+     * 数据查询
+     **/
+    const handleQuery = (params: any) => {
+      loading.value = true;
+      // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
+      users.value = [];
+      axios.get("/user/list", {
+        params: {
+          page: params.page,
+          size: params.size,
+          userName: param.value.userName
+        }
+      }).then((response) => {
+        loading.value = false;
+        const data = response.data;
+        if (data.success) {
+          users.value = data.content.list;
+
+          // 重置分页按钮
+          pagination.value.current = params.page;
+          pagination.value.total = data.content.total;
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    /**
+     * 表格点击页码时触发
+     */
+    const handleTableChange = (pagination: any) => {
+      console.log("看看自带的分页参数都有啥：" + pagination);
+      handleQuery({
+        page: pagination.current,
+        size: pagination.pageSize
+      });
+    };
+
+    // -------- 表单 ---------
+    const user = ref();
+    const modalVisible = ref(false);
+    const modalLoading = ref(false);
+    const handleModalOk = () => {
+      modalLoading.value = true;
+
+      // user.value.password = hexMd5(user.value.password + KEY);
+      user.value.password = hexMd5(user.value.password);
+
+      axios.post("/user/save", user.value).then((response) => {
+        modalLoading.value = false;
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          modalVisible.value = false;
+
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    /**
+     * 编辑
+     */
+    const edit = (record: any) => {
+      modalVisible.value = true;
+      user.value = Tool.copy(record);
+    };
+
+    /**
+     * 新增
+     */
+    const add = () => {
+      modalVisible.value = true;
+      user.value = {};
+    };
+
+    const handleDelete = (uid: number) => {
+      axios.delete("/user/delete/" + uid).then((response) => {
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    // -------- 重置密码 ---------
+    const resetModalVisible = ref(false);
+    const resetModalLoading = ref(false);
+    const handleResetModalOk = () => {
+      resetModalLoading.value = true;
+
+      // user.value.password = hexMd5(user.value.password + KEY);
+      user.value.password = hexMd5(user.value.password);
+
+      axios.post("/user/reset-password", user.value).then((response) => {
+        resetModalLoading.value = false;
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          resetModalVisible.value = false;
+
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    /**
+     * 重置密码
+     */
+    const resetPassword = (record: any) => {
+      resetModalVisible.value = true;
+      user.value = Tool.copy(record);
+      user.value.password = null;
+    };
+
+
+
     //初始化逻辑都写到onMounted()里
     onMounted(() => {
       console.log("onMounted");
-      axios.get("/demo/list").then((response) => {
-        const data = response.data;
-        //ref数据的赋值
-        demos.value = data.content;
-        demos2.demos = data.content;
 
-        // console.log(response)
+      handleQuery({
+        page: 1,
+        size: pagination.value.pageSize,
       });
+
+
+
     });
 
     //html代码要拿到响应式变量 需要在setup的最后return
     return {
-      demos,
-      demos_reactive: toRef(demos2, "demos"),
-      listData,
-      pagination : {
-        onChange: (page: any) => {
-          console.log(page);
-        },
-        pageSize: 3,
-      },
+
+      param,
+      users,
+      pagination,
+      columns,
+      loading,
+      handleTableChange,
+      handleQuery,
+
+      edit,
+      add,
+
+      user,
+      modalVisible,
+      modalLoading,
+      handleModalOk,
+
+      handleDelete,
+
+      resetModalVisible,
+      resetModalLoading,
+      handleResetModalOk,
+      resetPassword,
+
       actions: [
         { type: 'StarOutlined', text: '156' },
         { type: 'LikeOutlined', text: '156' },

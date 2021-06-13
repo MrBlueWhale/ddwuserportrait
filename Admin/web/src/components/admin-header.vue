@@ -39,7 +39,7 @@
         </a>
       </a-popconfirm>
       <a class="login-menu" v-show="user.uid">
-        <span>您好：{{user.name}}</span>
+        <span>您好：{{user.userName}}-{{user.name}}</span>
       </a>
 
       <a class="login-menu" v-show="!user.uid" @click="showLoginModal">
