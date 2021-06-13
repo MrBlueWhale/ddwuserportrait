@@ -47,7 +47,8 @@
                              type="XMLMAPPER"/>
 
 <!--        <table tableName="demo" />-->
-        <table tableName="user" />
+<!--        <table tableName="user" />-->
+        <table tableName="role" />
         <!--        <table tableName="demo" domainObjectName="Demo"/>-->
         <!--<table tableName="ebook"/>-->
         <!--<table tableName="category"/>-->

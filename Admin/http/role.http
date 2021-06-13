@@ -1,0 +1,44 @@
+###
+GET http://localhost:8083/role/list
+
+
+###
+GET http://localhost:8083/role/list?roleName=超级管理员
+
+###
+GET http://localhost:8083/role/list?roleName=admin2
+
+
+###
+POST http://localhost:8083/role/save
+Content-Type: application/json
+
+{
+  "rid": "59192977502900224",
+  "roleName": "testRole3",
+  "desc": "test2"
+
+}
+
+###
+DELETE http://localhost:8083/role/delete/59192977502900224
+
+
+###
+POST http://localhost:8083/role/reset-password
+Content-Type: application/json
+
+{
+  "uid": "admin3",
+  "password": "321asd"
+}
+
+
+###
+POST http://localhost:8083/role/login
+Content-Type: application/json
+
+{
+  "roleName": "admin4",
+  "password": "200820e3227815ed1756a6b531e7e0d2"
+}
