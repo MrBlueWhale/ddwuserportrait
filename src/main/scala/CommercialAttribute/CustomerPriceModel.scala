@@ -4,7 +4,7 @@ import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-object SignalPayHighestModel {
+object CustomerPriceModel {
   def main(args: Array[String]): Unit = {
     def catalog =
       s"""{
@@ -31,7 +31,7 @@ object SignalPayHighestModel {
     source.show(20, false)
 
     val result = source.groupBy('memberId as "id")
-      .agg(max('paidAmount + 0.0) as "highestPay")
+      .agg(avg('paidAmount + 0.0) as "highestPay")
 
     result.show(20, false)
 
@@ -43,7 +43,7 @@ object SignalPayHighestModel {
         .when('highestPay + 0.0 >= 1000 && 'highestPay + 0.0 < 2000, "1000-2999")
         .when('highestPay + 0.0 >= 3000 && 'highestPay + 0.0 < 5000, "3000-4999")
         .otherwise("5000-9999")
-        .as("highestPay")
+        .as("customerPrice")
     )
     price.show()
 
@@ -53,7 +53,7 @@ object SignalPayHighestModel {
          |"rowkey":"id",
          |"columns":{
          |  "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |  "highestPay":{"cf":"Commercial", "col":"highestPay", "type":"string"}
+         |  "customerPrice":{"cf":"Commercial", "col":"customerPrice", "type":"string"}
          |}
          |}""".stripMargin
 
