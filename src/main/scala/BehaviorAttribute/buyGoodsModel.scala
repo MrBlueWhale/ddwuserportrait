@@ -17,7 +17,7 @@ object buyGoodsModel {
          |    "paymentStatus":{"cf":"cf", "col":"paymentStatus", "type":"string"}
          |  }
          |}""".stripMargin
-    
+
     def catalog2 =
       s"""{
          |  "table":{"namespace":"default", "name":"tbl_goods"},

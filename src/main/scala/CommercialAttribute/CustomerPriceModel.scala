@@ -31,7 +31,7 @@ object CustomerPriceModel {
     source.show(20, false)
 
     val result = source.groupBy('memberId as "id")
-      .agg(max('paidAmount + 0.0) as "highestPay")
+      .agg(avg('paidAmount + 0.0) as "highestPay")
 
     result.show(20, false)
 

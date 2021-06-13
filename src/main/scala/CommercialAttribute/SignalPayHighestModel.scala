@@ -35,6 +35,18 @@ object SignalPayHighestModel {
 
     result.show(20, false)
 
+    val newResult = result.select('id, 'highestPay).where('id + 0 <= 950)
+    newResult.show()
+
+    val price = newResult.select('id,
+      when('highestPay + 0.0 < 1000, "1-999")
+        .when('highestPay + 0.0 >= 1000 && 'highestPay + 0.0 < 2000, "1000-2999")
+        .when('highestPay + 0.0 >= 3000 && 'highestPay + 0.0 < 5000, "3000-4999")
+        .otherwise("5000-9999")
+        .as("highestPay")
+    )
+    price.show()
+
     def catalogWrite =
       s"""{
          |"table":{"namespace":"default", "name":"user_profile"},
@@ -45,9 +57,7 @@ object SignalPayHighestModel {
          |}
          |}""".stripMargin
 
-    val newResult = result.select('id, 'highestPay).where('id + 0 <= 950)
-    newResult.show()
-    newResult.write
+    price.write
       .option(HBaseTableCatalog.tableCatalog, catalogWrite)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")
