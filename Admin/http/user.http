@@ -30,7 +30,7 @@ POST http://localhost:8083/user/reset-password
 Content-Type: application/json
 
 {
-  "uid": "3",
+  "uid": "admin3",
   "password": "321asd"
 }
 
@@ -41,5 +41,5 @@ Content-Type: application/json
 
 {
   "userName": "admin4",
-  "password": "46f94c8de14fb36680850768ff1b7f2a"
+  "password": "200820e3227815ed1756a6b531e7e0d2"
 }
