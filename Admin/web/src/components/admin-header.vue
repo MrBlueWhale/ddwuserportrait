@@ -28,9 +28,20 @@
       </a-menu-item>
 
 <!--      登录菜单-->
+      <a-popconfirm
+          title="确认退出登录?"
+          ok-text="是"
+          cancel-text="否"
+          @confirm="logout()"
+      >
+        <a class="login-menu" v-show="user.uid">
+          <span>退出登录</span>
+        </a>
+      </a-popconfirm>
       <a class="login-menu" v-show="user.uid">
         <span>您好：{{user.name}}</span>
       </a>
+
       <a class="login-menu" v-show="!user.uid" @click="showLoginModal">
         <span>登录</span>
       </a>
@@ -123,7 +134,8 @@ export default defineComponent({
         const data = response.data;
         if (data.success) {
           message.success("退出登录成功！");
-          // store.commit("setUser", {});
+          //清除缓存
+          store.commit("setUser", {});
         } else {
           message.error(data.message);
         }
