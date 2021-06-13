@@ -50,7 +50,7 @@ public class RoleService {
         RoleExample.Criteria criteria = roleExample.createCriteria();
 
         if (!ObjectUtils.isEmpty(req.getRoleName())) {
-            criteria.andRoleNameEqualTo(req.getRoleName());
+            criteria.andRoleNameLike("%" + req.getRoleName() + "%");
         }
 
         if (!ObjectUtils.isEmpty(req.getDesc())) {
