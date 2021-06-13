@@ -21,6 +21,16 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8083/role/save
+Content-Type: application/json
+
+{
+  "rid": "59192977502900224",
+  "active": "0"
+
+}
+
+###
 DELETE http://localhost:8083/role/delete/59192977502900224
 
 

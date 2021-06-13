@@ -151,7 +151,7 @@ export default defineComponent({
         dataIndex: 'telNum'
       },
       {
-        title: 'Action',
+        title: '操作',
         key: 'action',
         slots: { customRender: 'action' }
       }

@@ -23,7 +23,7 @@
     </p>
     <a-table
         :columns="columns"
-        :row-key="record => record.uid"
+        :row-key="record => record.rid"
         :data-source="roles"
         :pagination="pagination"
         :loading="loading"
@@ -47,22 +47,33 @@
 
 <!--      </template>-->
 
-      <template #active="{ text: active }">
-        <a-tag color="#55acee" :active="active" v-if="active == 0">
-          <template #icon>
-            <clock-circle-outlined/>
-          </template>
-          可用
-        </a-tag>
+<!--      <template #active="{ text: active }">-->
+<!--        <a-tag color="#55acee" :active="active" v-if="active == 0">-->
+<!--          <template #icon>-->
+<!--            <clock-circle-outlined/>-->
+<!--          </template>-->
+<!--          可用-->
+<!--        </a-tag>-->
 
-        <a-tag color="#cd201f" :active="active" v-if="active == 1">
-          <template #icon>
-            <minus-circle-outlined/>
-          </template>
-          不可用
-        </a-tag>
+<!--        <a-tag color="#cd201f" :active="active" v-if="active == 1">-->
+<!--          <template #icon>-->
+<!--            <minus-circle-outlined/>-->
+<!--          </template>-->
+<!--          不可用-->
+<!--        </a-tag>-->
 
-      </template>
+<!--      </template>-->
+
+<template #active="{ text: active, record }">
+
+  <a-switch
+      checked-children="启"
+      un-checked-children="禁"
+      :checked="!active"
+      @change="onActiveSwitchChange($event,record)"
+      size="large"
+  />
+</template>
 
 
 
@@ -155,7 +166,15 @@ export default defineComponent({
         key: 'active',
         dataIndex: 'active',
         slots: { customRender: 'active' }
-      },{
+      },
+      // {
+      //   title: '状态',
+      //   key: 'active',
+      //   dataIndex: 'active',
+      //   slots: {customRender: 'active'},
+      //
+      // },
+      {
         title: '创建时间',
         dataIndex: 'createTime'
       },
@@ -168,7 +187,7 @@ export default defineComponent({
       //   dataIndex: 'password'
       // },
       {
-        title: 'Action',
+        title: '操作',
         key: 'action',
         slots: { customRender: 'action' }
       }
@@ -297,6 +316,38 @@ export default defineComponent({
       });
     };
 
+    // 角色狀態開關切換
+    const onActiveSwitchChange = (checked: any, record: any) => {
+      console.log(checked)
+      console.log(record)
+
+      const newStatus = checked ? 0 : 1;
+
+      console.log(newStatus)
+
+      axios.post("/role/save", {
+        rid: record.rid,
+        roleName: record.roleName,
+        active: newStatus
+      }).then((response) => {
+        modalLoading.value = false;
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          modalVisible.value = false;
+
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+      });
+
+
+    }
+
 
 
 
@@ -337,6 +388,8 @@ export default defineComponent({
       resetModalVisible,
       resetModalLoading,
       handleResetModalOk,
+
+      onActiveSwitchChange,
 
 
       actions: [
