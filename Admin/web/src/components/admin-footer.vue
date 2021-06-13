@@ -1,21 +1,10 @@
 <template>
 
-  <!--  <div :style="{ bottom: 0, width: '100%', background: '#001529'}">-->
-  <!--    <a-layout-footer style="text-align: center; background: #2c3e50">-->
-  <!--      ibegu-来个大佬一站式组队平台 @2021-->
-  <!--    </a-layout-footer>-->
-  <!--  </div>-->
-  <!--  <a-layout-footer style="text-align: center; background: #2c3e50; font-size: larger; color: whitesmoke">-->
-  <!--            ibegu-来个大佬一站式组队平台 @2021-->
-  <!--  </a-layout-footer>-->
 
   <a-layout-footer style="background: #2c3e50">
-    <!--  <div class="footer-wrap">-->
-    <!--    <div class="footerO">-->
 
-<!--    <div class="slogan" style="text-align: center;font-size: larger; color: whitesmoke">-->
-<!--      ibegu-来个大佬一站式组队平台 @2021-->
-<!--    </div>-->
+
+
     <div class="common-box footer-box">
       <div class="fl ft-info-box">
         <div class="ft-tit" title="关于赛氪">关于来个大佬</div>
@@ -63,7 +52,6 @@
           <li class="item pop weixin">
             <a>来个大佬公众号：</a>
           </li>
-          <li class="item-tip">(竞赛/竞赛资料)</li>
         </ul>
       </div>
       <div class="fr ft-info-box" style="width: 200px;">
@@ -104,7 +92,7 @@
     </div>
 
     <div class="slogan" style="text-align: center;font-size: larger; color: whitesmoke; margin-top: 20px;">
-      ibegu-来个大佬一站式组队平台 @2021
+      ibegu-来个大佬用户画像管理平台 @2021
     </div>
 
     <!--    </div>-->
