@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import TempApp from '../views/TempApp.vue'
 import Home from '../views/Home.vue'
+import Profile from '../views/Profile.vue'
 // import About from '../views/About.vue'
 import PortraitBaseTag from '../views/portrait/portrait-basetag.vue'
 import PortraitGroupTag from '../views/portrait/portrait-grouptag.vue'
@@ -13,14 +14,26 @@ import SystemUser from '../views/system/system-user.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'TempApp',
+    // component: Home
+      component: TempApp,
+      redirect: '/home',
+      children: [{
+          path: '/home',
+          name: 'Home',
+          component: Home
+      },{
+          path: '/profile',
+          name: 'Profile',
+          component: Profile
+      },
+      ]
   },
-    {
-        path: '/home',
-        name: 'Home',
-        component: Home
-    },
+    // {
+    //     path: '/home',
+    //     name: 'Home',
+    //     component: Home
+    // },
   {
     path: '/about',
     name: 'About',
