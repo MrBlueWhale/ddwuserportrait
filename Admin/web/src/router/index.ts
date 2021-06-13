@@ -10,6 +10,8 @@ import SystemAuthority from '../views/system/system-authority.vue'
 import SystemLog from '../views/system/system-log.vue'
 import SystemRole from '../views/system/system-role.vue'
 import SystemUser from '../views/system/system-user.vue'
+import {Tool} from "@/util/tool";
+import store from "@/store";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -70,6 +72,9 @@ const routes: Array<RouteRecordRaw> = [
         path: '/system/',
         name: 'System',
         component: TempApp,
+        meta: {
+            loginRequire: true,
+        },
         redirect: '/system/user-manage',
         children: [
             {
@@ -101,5 +106,29 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+
+// 路由登录拦截
+router.beforeEach((to, from, next) => {
+    // 要不要对meta.loginRequire属性做监控拦截
+    if (to.matched.some(function (item) {
+        console.log(item, "是否需要登录校验：", item.meta.loginRequire);
+        return item.meta.loginRequire
+    })) {
+        const loginUser = store.state.user;
+        if (Tool.isEmpty(loginUser)) {
+            console.log("用户未登录！");
+            // 未登录 跳到首页 或者 登录页
+            next('/');
+        } else {
+            next();
+        }
+    } else {
+        // 不用做登录校验
+        next();
+    }
+});
+
+
 
 export default router
