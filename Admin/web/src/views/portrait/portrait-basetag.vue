@@ -150,7 +150,7 @@ export default defineComponent({
      ];
 
       var option = {
-  backgroundColor: '#0f375f',
+  backgroundColor: '#8076a3',
   title: [
     {
       text: '各渠道投诉占比',
