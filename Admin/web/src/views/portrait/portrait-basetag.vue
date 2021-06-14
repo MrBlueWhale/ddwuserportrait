@@ -9,6 +9,12 @@
       </a-col>
     </a-row>
 
+    <a-row>
+      <a-col :span="24" id="main-col">
+        <div id="calendar" style="width:100%;height:400px;"></div>
+      </a-col>
+    </a-row>
+
   </a-layout>
 </template>
 
@@ -78,12 +84,52 @@ export default defineComponent({
       myChart.setOption(option);
     };
 
+   const testCalendarChart = () => {
+     const myCalendarChart = echarts.init(document.getElementById('calendar'));
+
+     // 模拟数据
+     function getVirtulData(year: any) {
+       year = year || '2021';
+       var date = +echarts.number.parseDate(year + '-01-01');
+       var end = +echarts.number.parseDate(year + '-12-31');
+       var dayTime = 3600 * 24 * 1000;
+       var data = [];
+       for (var time = date; time <= end; time += dayTime) {
+         data.push([
+           echarts.format.formatTime('yyyy-MM-dd', time),
+           Math.floor(Math.random() * 10000)
+         ]);
+       }
+       return data;
+     }
+     var option = {
+       visualMap: {
+         show: false,
+         min: 0,
+         max: 10000
+       },
+       calendar: {
+         range: '2021'
+       },
+       series: {
+         type: 'heatmap',
+         coordinateSystem: 'calendar',
+         data: getVirtulData(2021)
+       }
+     };
+
+     // 使用刚指定的配置项和数据显示图表。
+     myCalendarChart.setOption(option);
+
+   };
+
 
     //初始化逻辑都写到onMounted()里
     onMounted(() => {
       console.log("onMounted");
 
       testEcharts();
+      testCalendarChart();
 
 
     });
