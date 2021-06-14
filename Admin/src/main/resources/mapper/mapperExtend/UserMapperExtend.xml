@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibegu.dalaoadmin.mapper.UserMapper">
+
+
+  <select id="findRoleNameByUid" resultType="java.lang.String">
+
+    select `role`.role_name FROM (`user_role` Left JOIN `role` ON `user_role`.rid =
+    `role`.rid) WHERE  `user_role`.uid = #{uid}
+
+  </select>
+
+<!--  <select id="findRoleNameByUidPlus" resultType="com.ibegu.dalao.domain.User">-->
+
+<!--    select `user_role`.uid, `user_role`.rid, `role`.role_name FROM (`user_role` Left JOIN `role` ON `user_role`.rid =-->
+<!--    `role`.rid) WHERE  `user_role`.uid = #{uid}-->
+
+<!--  </select>-->
+
+</mapper>

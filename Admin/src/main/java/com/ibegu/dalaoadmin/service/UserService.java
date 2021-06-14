@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,26 +57,34 @@ public class UserService {
         PageHelper.startPage(req.getPage(), req.getSize());
         List<User> userList = userMapper.selectByExample(userExample);
 
+
         PageInfo<User> pageInfo = new PageInfo<>(userList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
 
-        // List<UserResp> respList = new ArrayList<>();
-        // for (User user : userList) {
-        //     // UserResp userResp = new UserResp();
-        //     // BeanUtils.copyProperties(user, userResp);
-        //     // 对象复制
-        //     UserResp userResp = CopyUtil.copy(user, UserResp.class);
-        //
-        //     respList.add(userResp);
-        // }
+        List<UserQueryResp> respList = new ArrayList<>();
+        for (User user : userList) {
+            // UserResp userResp = new UserResp();
+            // BeanUtils.copyProperties(user, userResp);
+            // 对象复制
+            UserQueryResp userQueryResp = CopyUtil.copy(user, UserQueryResp.class);
+
+            String userRoleName = ObjectUtils.isEmpty(userMapper.findRoleNameByUid(user.getUid())) ? "暂未分配角色" : userMapper.findRoleNameByUid(user.getUid());
+            userQueryResp.setRoleName(userRoleName);
+
+
+            respList.add(userQueryResp);
+        }
+
+        // String userRoleName = userMapper.findRoleNameByUid();
+
 
         // 列表复制
-        List<UserQueryResp> list = CopyUtil.copyList(userList, UserQueryResp.class);
+        // List<UserQueryResp> list = CopyUtil.copyList(userList, UserQueryResp.class);
 
         PageResp<UserQueryResp> pageResp = new PageResp();
         pageResp.setTotal(pageInfo.getTotal());
-        pageResp.setList(list);
+        pageResp.setList(respList);
 
         return pageResp;
     }

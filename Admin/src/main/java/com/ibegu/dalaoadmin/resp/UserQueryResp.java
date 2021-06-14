@@ -17,6 +17,16 @@ public class UserQueryResp {
 
     private Date createTime;
 
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     public Long getUid() {
         return uid;
     }
@@ -75,18 +85,15 @@ public class UserQueryResp {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", uid=").append(uid);
-        sb.append(", userName=").append(userName);
-        sb.append(", name=").append(name);
-        sb.append(", email=").append(email);
-        sb.append(", telNum=").append(telNum);
-        sb.append(", password=").append(password);
-        sb.append(", createTime=").append(createTime);
-        sb.append("]");
-        return sb.toString();
+        return "UserQueryResp{" +
+                "uid=" + uid +
+                ", userName='" + userName + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", telNum='" + telNum + '\'' +
+                ", password='" + password + '\'' +
+                ", createTime=" + createTime +
+                ", roleName='" + roleName + '\'' +
+                '}';
     }
 }

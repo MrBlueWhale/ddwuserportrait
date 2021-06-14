@@ -140,10 +140,15 @@ export default defineComponent({
         title: '真实姓名',
         dataIndex: 'name'
       },
+      // {
+      //   title: '密码',
+      //   dataIndex: 'password'
+      // },
       {
-        title: '密码',
-        dataIndex: 'password'
-      },{
+        title: '角色',
+        dataIndex: 'roleName'
+      },
+      {
         title: '邮箱',
         dataIndex: 'email'
       },{

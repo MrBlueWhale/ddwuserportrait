@@ -48,7 +48,8 @@
 
 <!--        <table tableName="demo" />-->
 <!--        <table tableName="user" />-->
-        <table tableName="role" />
+<!--        <table tableName="role" />-->
+        <table tableName="user_role" />
         <!--        <table tableName="demo" domainObjectName="Demo"/>-->
         <!--<table tableName="ebook"/>-->
         <!--<table tableName="category"/>-->

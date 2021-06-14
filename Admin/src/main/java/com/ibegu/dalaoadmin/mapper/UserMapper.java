@@ -3,9 +3,11 @@ package com.ibegu.dalaoadmin.mapper;
 import com.ibegu.dalaoadmin.domain.User;
 import com.ibegu.dalaoadmin.domain.UserExample;
 import java.util.List;
+
+import com.ibegu.dalaoadmin.mapper.extendMapper.UserMapperExtend;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserMapper {
+public interface UserMapper extends UserMapperExtend {
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);

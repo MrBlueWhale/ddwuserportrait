@@ -13,6 +13,7 @@ public class RoleQueryResp {
 
     private Date createTime;
 
+
     public Long getRid() {
         return rid;
     }
