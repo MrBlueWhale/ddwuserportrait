@@ -29,6 +29,19 @@
         :loading="loading"
         @change="handleTableChange"
     >
+
+            <template #roleName="{ text: roleName, record }">
+
+              <a-tag :color="roleColorMap.get(roleName)" :roleName="roleName" >
+                <template #icon>
+                  <exclamation-circle-outlined/>
+                </template>
+                {{ roleName }}
+              </a-tag>
+            </template>
+
+<!--      v-if="role.active == 0"-->
+
       <template v-slot:action="{ text, record }">
         <a-space size="small">
           <a-button type="primary" @click="resetPassword(record)">
@@ -131,6 +144,17 @@ export default defineComponent({
     });
     const loading = ref(false);
 
+
+    let roleColorMap = new Map()
+    roleColorMap.set('超级管理员', 'red')
+    roleColorMap.set('角色管理员', 'green')
+    roleColorMap.set('用户管理员', 'cyan')
+    roleColorMap.set('标签开发员', 'blue')
+    roleColorMap.set('标签维护员', 'purple')
+    roleColorMap.set('普通用户', 'orange')
+    roleColorMap.set('暂未分配角色', 'gray')
+
+
     const columns = [
       {
         title: '登陆名',
@@ -146,8 +170,12 @@ export default defineComponent({
       // },
       {
         title: '角色',
-        dataIndex: 'roleName'
+        key: 'roleName',
+        dataIndex: 'roleName',
+        slots: { customRender: 'roleName' }
+
       },
+
       {
         title: '邮箱',
         dataIndex: 'email'
@@ -334,6 +362,9 @@ export default defineComponent({
       resetModalLoading,
       handleResetModalOk,
       resetPassword,
+
+
+      roleColorMap,
 
       actions: [
         { type: 'StarOutlined', text: '156' },
