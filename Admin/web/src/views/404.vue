@@ -12,11 +12,11 @@ export default {
 <style scoped>
 .not-found {
   width: 100%;
-  height: 100%;
+  height: 60%;
   overflow: hidden;
 }
 .not-found img {
   width: 100%;
-  height: 100%;
+  height: 800px;
 }
 </style>>

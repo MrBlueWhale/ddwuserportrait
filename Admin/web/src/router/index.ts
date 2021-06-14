@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import TempApp from '../views/TempApp.vue'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
@@ -14,60 +14,66 @@ import {Tool} from "@/util/tool";
 import store from "@/store";
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'TempApp',
-    // component: Home
-      component: TempApp,
-      redirect: '/home',
-      children: [{
-          path: '/home',
-          name: 'Home',
-          component: Home
-      },{
-          path: '/profile',
-          name: 'Profile',
-          component: Profile
-      },
-      ]
-  },
+    {
+        path: '/',
+        name: 'TempApp',
+        // component: Home
+        meta: {
+            loginRequire: true,
+        },
+        component: TempApp,
+        redirect: '/home',
+        children: [{
+            path: '/home',
+            name: 'Home',
+            component: Home
+        }, {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile
+        },
+        ]
+    },
     // {
     //     path: '/home',
     //     name: 'Home',
     //     component: Home
     // },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
+    {
+        path: '/about',
+        name: 'About',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    },
 
-  {
-    path: '/portrait/',
-    name: 'Portrait',
-    component: TempApp,
-    redirect: '/userportrait/basetag',
-    children: [
-      {
-        path: 'basetag',
-        name: 'PortraitBaseTag',
-        component: PortraitBaseTag
-      },
-      {
-        path: 'grouptag',
-        name: 'PortraitGroupTag',
-        component: PortraitGroupTag
-      },
-        {
-            path: 'userportrait',
-            name: 'PortraitUserPortrait',
-            component: PortraitUserPortrait
+    {
+        path: '/portrait/',
+        name: 'Portrait',
+        meta: {
+            loginRequire: true,
         },
-    ],
-  },
+        component: TempApp,
+        redirect: '/userportrait/basetag',
+        children: [
+            {
+                path: 'basetag',
+                name: 'PortraitBaseTag',
+                component: PortraitBaseTag
+            },
+            {
+                path: 'grouptag',
+                name: 'PortraitGroupTag',
+                component: PortraitGroupTag
+            },
+            {
+                path: 'userportrait',
+                name: 'PortraitUserPortrait',
+                component: PortraitUserPortrait
+            },
+        ],
+    },
     {
         path: '/system/',
         name: 'System',
@@ -104,17 +110,23 @@ const routes: Array<RouteRecordRaw> = [
         path: '/:catchAll(.*)',
         name: '/404',
         component: () => import('../views/404.vue')
-    }
+    },
+
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/Login.vue')
+    },
 
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+    history: createWebHistory(process.env.BASE_URL),
+    routes
 })
 
 
-// 路由登录拦截
+// 路由登录拦截---路由守卫
 router.beforeEach((to, from, next) => {
     // 要不要对meta.loginRequire属性做监控拦截
     if (to.matched.some(function (item) {
@@ -125,7 +137,8 @@ router.beforeEach((to, from, next) => {
         if (Tool.isEmpty(loginUser)) {
             console.log("用户未登录！");
             // 未登录 跳到首页 或者 登录页
-            next('/');
+            // next('/');
+            next('/login');
         } else {
             next();
         }
@@ -134,7 +147,6 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-
 
 
 export default router

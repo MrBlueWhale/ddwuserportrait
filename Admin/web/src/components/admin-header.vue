@@ -75,6 +75,7 @@ import { createFromIconfontCN } from '@ant-design/icons-vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import store from "@/store";
+import router from "@/router";
 
 declare let hexMd5: any;
 declare let KEY: any;
@@ -134,6 +135,14 @@ export default defineComponent({
         const data = response.data;
         if (data.success) {
           message.success("退出登录成功！");
+
+          router.push({
+            path: '/login',
+            query: {
+              // pid: data.content.pid
+            }
+          })
+
           //清除缓存
           store.commit("setUser", {});
         } else {
