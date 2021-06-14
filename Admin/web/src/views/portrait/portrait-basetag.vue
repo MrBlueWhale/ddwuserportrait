@@ -3,6 +3,12 @@
 
     <h1 class="h1">这是基础标签模块的页面</h1>
 
+    <a-row>
+      <a-col :span="24" id="main-col">
+        <div id="main" style="width: 100%;height:300px;"></div>
+      </a-col>
+    </a-row>
+
   </a-layout>
 </template>
 
@@ -12,22 +18,9 @@ import {defineComponent, onMounted, ref, reactive, toRef} from 'vue';
 
 import axios from 'axios';
 
+declare let echarts: any;
+
 // import HelloWorld from "@/components/HelloWorld.vue";
-
-// const listData: Record<string, string>[] = [];
-const listData: any = [];
-
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
 
 
 
@@ -38,35 +31,74 @@ export default defineComponent({
   //放一些参数定义，方法定义
   setup() {
     console.log("setup");
-    // 使用ref()定义响应式数据
-    const demos = ref();
-    //reactive中放入对象 并自定义属性
-    const demos2 = reactive({demos: []});
+
+    const statistic = ref();
+    statistic.value = {};
+
+    const getStatistic = () => {
+      // axios.get('/ebook-snapshot/get-statistic').then((response) => {
+      //   const data = response.data;
+      //   if (data.success) {
+      //     const statisticResp = data.content;
+      //     statistic.value.viewCount = statisticResp[1].viewCount;
+      //     statistic.value.voteCount = statisticResp[1].voteCount;
+      //     statistic.value.todayViewCount = statisticResp[1].viewIncrease;
+      //     statistic.value.todayVoteCount = statisticResp[1].voteIncrease;
+      //
+
+      // });
+    };
+
+
+    const testEcharts = () => {
+      // 基于准备好的dom，初始化echarts实例
+      const myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      const option = {
+        title: {
+          text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+          data:['销量']
+        },
+        xAxis: {
+          data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        },
+        yAxis: {},
+        series: [{
+          name: '销量',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+        }]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    };
+
 
     //初始化逻辑都写到onMounted()里
     onMounted(() => {
       console.log("onMounted");
-      axios.get("/demo/list").then((response) => {
-        const data = response.data;
-        //ref数据的赋值
-        demos.value = data.content;
-        demos2.demos = data.content;
 
-        // console.log(response)
-      });
+      testEcharts();
+
+
     });
 
     //html代码要拿到响应式变量 需要在setup的最后return
     return {
-      demos,
-      demos_reactive: toRef(demos2, "demos"),
-      listData,
-      pagination : {
-        onChange: (page: any) => {
-          console.log(page);
-        },
-        pageSize: 3,
-      },
+
+      statistic,
+
+      // pagination : {
+      //   onChange: (page: any) => {
+      //     console.log(page);
+      //   },
+      //   pageSize: 3,
+      // },
       actions: [
         { type: 'StarOutlined', text: '156' },
         { type: 'LikeOutlined', text: '156' },
