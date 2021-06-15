@@ -1,0 +1,56 @@
+###
+GET http://localhost:8083/baseTag/list
+
+
+###
+GET http://localhost:8083/baseTag/list?baseTagName=超级管理员
+
+###
+GET http://localhost:8083/baseTag/list?baseTagName=admin2
+
+
+###
+POST http://localhost:8083/baseTag/save
+Content-Type: application/json
+
+{
+  "rid": "59192977502900224",
+  "baseTagName": "testRank3Tags3",
+  "desc": "test2"
+
+}
+
+
+###
+DELETE http://localhost:8083/baseTag/delete/59192977502900224
+
+
+###
+POST http://localhost:8083/baseTag/distribute
+Content-Type: application/json
+
+{
+  "uid": "59165037641732096",
+  "baseTagName": "超级管理员"
+}
+
+
+###
+GET http://localhost:8083/baseTag/listRank3Tags
+
+###
+
+###
+#GET http://localhost:8083/baseTag/listRank4Tags?t3Name=用户价值
+#GET http://localhost:8083/baseTag/listRank4Tags?t3Name=商业属性
+#GET http://localhost:8083/baseTag/listRank4Tags?t3Name=行为属性
+GET http://localhost:8083/baseTag/listRank4Tags?t3Name=人口属性
+
+###
+
+###
+#GET http://localhost:8083/baseTag/listRank5Tags?t4Name=所在商圈
+GET http://localhost:8083/baseTag/listRank5Tags?t4Name=设备类型
+
+
+###
