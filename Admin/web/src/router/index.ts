@@ -3,6 +3,7 @@ import TempApp from '../views/TempApp.vue'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 // import About from '../views/About.vue'
+import PortraitEchartsExample from '../views/portrait/portrait-echarts-example.vue'
 import PortraitBaseTag from '../views/portrait/portrait-basetag.vue'
 import PortraitGroupTag from '../views/portrait/portrait-grouptag.vue'
 import PortraitUserPortrait from '../views/portrait/portrait-userportrait.vue'
@@ -71,6 +72,10 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'userportrait',
                 name: 'PortraitUserPortrait',
                 component: PortraitUserPortrait
+            },{
+                path: 'echarts',
+                name: 'PortraitEchartsExample',
+                component: PortraitEchartsExample
             },
         ],
     },

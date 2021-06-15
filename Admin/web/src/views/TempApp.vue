@@ -39,6 +39,11 @@
             <span>组合标签</span>
             <router-link to="/portrait/grouptag"></router-link>
           </a-menu-item>
+          <a-menu-item key="echarts">
+            <icon-font class="icons-bar" type="icon-sucai-outline" style="font-size:15px"/>
+            <span>可视化示例</span>
+            <router-link to="/portrait/echarts"></router-link>
+          </a-menu-item>
           <a-menu-item key="4">option4</a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="system">
