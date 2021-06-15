@@ -54,3 +54,9 @@ GET http://localhost:8083/baseTag/listRank5Tags?t4Name=设备类型
 
 
 ###
+
+#GET http://localhost:8083/baseTag/listRank5Tags?t4Name=所在商圈
+GET http://localhost:8083/baseTag/listBaseTags
+
+
+###

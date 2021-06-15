@@ -84,6 +84,15 @@ public class BaseTagController {
     //     return resp;
     // }
 
+
+    @GetMapping("/listBaseTags")
+    public CommonResp<List<BaseTagQueryResp>> listBaseTags(){
+        CommonResp<List<BaseTagQueryResp>> resp = new CommonResp<>();
+        resp.setContent(baseTagService.listBaseTags());
+
+        return resp;
+    }
+
     @GetMapping("/listRank3Tags")
     public CommonResp<TagResp<Rank3TagsQueryResp>> listRank3Tags(){
         CommonResp<TagResp<Rank3TagsQueryResp>> resp = new CommonResp<>();

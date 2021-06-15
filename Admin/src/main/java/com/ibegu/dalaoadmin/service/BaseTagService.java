@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ibegu.dalaoadmin.domain.*;
 // import com.ibegu.dalaoadmin.domain.UserRank3Tags;
 // import com.ibegu.dalaoadmin.domain.UserRank3TagsExample;
+import com.ibegu.dalaoadmin.mapper.BaseTagMapper;
 import com.ibegu.dalaoadmin.mapper.Rank3TagsMapper;
 import com.ibegu.dalaoadmin.mapper.Rank4TagsMapper;
 import com.ibegu.dalaoadmin.mapper.Rank5TagsMapper;
@@ -40,6 +41,9 @@ import java.util.List;
 public class BaseTagService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseTagService.class);
+
+    @Resource
+    private BaseTagMapper baseTagMapper;
 
     @Resource
     private Rank3TagsMapper rank3TagsMapper;
@@ -81,6 +85,7 @@ public class BaseTagService {
 
     /**
      * 保存
+     * @return
      */
     // public void save(Rank3TagsSaveReq req) {
     //     Rank3Tags rank3Tags = CopyUtil.copy(req, Rank3Tags.class);
@@ -134,6 +139,23 @@ public class BaseTagService {
     //
     //     userRank3TagsMapper.insert(userRank3Tags);
     // }
+
+    public List<BaseTagQueryResp> listBaseTags() {
+
+        BaseTagExample example = new BaseTagExample();
+        List<BaseTag> baseTagList = baseTagMapper.selectByExample(example);
+
+        // rank3TagsList.size();
+
+        // 列表复制
+        List<BaseTagQueryResp> list = CopyUtil.copyList(baseTagList, BaseTagQueryResp.class);
+
+
+
+        LOG.info("我的结果:{}", list);
+        return list;
+
+    }
 
 
     public TagResp<Rank3TagsQueryResp> listRank3Tags() {
@@ -269,6 +291,13 @@ public class BaseTagService {
             return rank4Tags.get(0);
         }
     }
+
+    // public BaseTagsTreeResp listBaseTagsTree() {
+    //
+    //     return null;
+    // }
+
+
 
     // public PageResp<Rank5TagsQueryResp> listRank5Tags(Rank5TagsQueryReq req) {
     //
