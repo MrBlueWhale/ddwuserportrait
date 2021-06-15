@@ -34,3 +34,4 @@ build/
 /log/
 /Admin/mvnw
 /Admin/mvnw.cmd
+/Admin/web/src/components/WordCloud.vue
