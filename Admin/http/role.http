@@ -52,3 +52,20 @@ Content-Type: application/json
   "roleName": "admin4",
   "password": "200820e3227815ed1756a6b531e7e0d2"
 }
+
+
+###
+POST http://localhost:8083/role/distribute
+Content-Type: application/json
+
+{
+  "uid": "59165037641732096",
+  "roleName": "超级管理员"
+}
+
+
+###
+GET http://localhost:8083/role/listRole
+
+###
+

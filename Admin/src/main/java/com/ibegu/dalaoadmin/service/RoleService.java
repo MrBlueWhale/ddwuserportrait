@@ -4,10 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ibegu.dalaoadmin.domain.Role;
 import com.ibegu.dalaoadmin.domain.RoleExample;
+import com.ibegu.dalaoadmin.domain.UserRole;
+import com.ibegu.dalaoadmin.domain.UserRoleExample;
 import com.ibegu.dalaoadmin.exception.BusinessException;
 import com.ibegu.dalaoadmin.exception.BusinessExceptionCode;
 import com.ibegu.dalaoadmin.mapper.RoleMapper;
 
+import com.ibegu.dalaoadmin.mapper.UserRoleMapper;
 import com.ibegu.dalaoadmin.req.RoleQueryReq;
 
 import com.ibegu.dalaoadmin.req.RoleSaveReq;
@@ -42,6 +45,8 @@ public class RoleService {
     @Resource
     private RoleMapper roleMapper;
 
+    @Resource
+    private UserRoleMapper userRoleMapper;
     @Resource
     private SnowFlake snowFlake;
 
@@ -117,6 +122,31 @@ public class RoleService {
         } else {
             return roleList.get(0);
         }
+    }
+
+    public void distributeRole(UserRole userRole) {
+        if(userRole.getUid()==null){
+            LOG.info("结果：{}", userRole);
+        }
+        UserRoleExample example = new UserRoleExample();
+        UserRoleExample.Criteria criteria = example.createCriteria();
+        criteria.andUidEqualTo(userRole.getUid());
+        List<UserRole> userRoles = userRoleMapper.selectByExample(example);
+
+        LOG.info("结果：{}", userRole);
+        if(!CollectionUtils.isEmpty(userRoles)) {
+            userRoleMapper.deleteByPrimaryKey(userRole.getUid(),userRole.getRid());
+        }
+
+        userRoleMapper.insert(userRole);
+    }
+
+    public List<Role> listRole() {
+        RoleExample example = new RoleExample();
+        List<Role> roleList = roleMapper.selectByExample(example);
+
+        LOG.info("我的结果:{}",roleList);
+        return roleList;
     }
 
 }

@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <a-layout>
 
     <h1 class="h1">这是用户管理模块的页面</h1>
@@ -50,6 +50,9 @@
           <a-button type="primary" @click="edit(record)">
             编辑
           </a-button>
+          <a-button type="primary" @click="distributeRole(record)">
+            角色分配
+          </a-button>
           <a-popconfirm
               title="删除后不可恢复，确认删除?"
               ok-text="是"
@@ -93,15 +96,30 @@
   </a-modal>
 
   <a-modal
-      title="重置密码"
-      v-model:visible="resetModalVisible"
-      :confirm-loading="resetModalLoading"
-      @ok="handleResetModalOk"
+        title="重置密码"
+        v-model:visible="resetModalVisible"
+        :confirm-loading="resetModalLoading"
+        @ok="handleResetModalOk"
+>
+  <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+    <a-form-item label="新密码">
+      <a-input v-model:value="user.password" type="password"/>
+    </a-form-item>
+  </a-form>
+</a-modal>
+
+  <a-modal
+          title="角色分配"
+          v-model:visible="roleModalVisible"
+          :confirm-loading="roleModalLoading"
+          @ok="roleModalOk"
   >
     <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-form-item label="新密码">
-        <a-input v-model:value="user.password" type="password"/>
-      </a-form-item>
+      <a-radio-group v-model:value="selectedRole">
+        <a-radio :style="distributeRoleRadioStyle" v-for="item in rolelist" :value="item.roleName" :key="item">{{ item.roleName}} -- {{ item.desc}}</a-radio>
+<!--        <a-radio :style="radioStyle" :value="2">Option B</a-radio>-->
+
+      </a-radio-group>
     </a-form>
   </a-modal>
 
@@ -272,6 +290,73 @@ export default defineComponent({
       user.value = {};
     };
 
+/////////////////  分配角色  /////////////////
+    const roleRecord = ref({
+      uid: 0,
+      roleName: ''
+    });
+    const roleModalVisible = ref(false);
+    const roleModalLoading = ref(false);
+    const distributeRoleRadioStyle = reactive({
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    });
+    //分配角色点击事件
+    const rolelist = ref({});
+    const distributeRole = (record: any) => {
+      roleModalVisible.value = true;
+      roleRecord.value = record;
+      axios.get("/role/listRole" ).then((response) => {
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          rolelist.value = data.content;
+        } else {
+          message.error("角色列表加载失败，请重试...");
+        }
+      });
+
+    }
+
+
+    //分配角色
+    const selectedRole = ref('')
+    const roleModalOk = () => {
+      roleModalLoading.value = true;
+      console.log("开始分配角色");
+      console.log("uid:", roleRecord.value.uid);
+      console.log("分配角色", selectedRole.value);
+
+      axios.post("/role/distribute", {
+        uid: roleRecord.value.uid,
+        roleName: selectedRole.value,
+      }).then((response) => {
+        roleModalLoading.value = false;
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          roleModalVisible.value = false;
+
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+
+
+      });
+
+    };
+
+
+
+
+
+
+
+    //删除
     const handleDelete = (uid: number) => {
       axios.delete("/user/delete/" + uid).then((response) => {
         const data = response.data; // data = commonResp
@@ -363,8 +448,16 @@ export default defineComponent({
       handleResetModalOk,
       resetPassword,
 
+      distributeRole,
+      roleModalVisible,
+      roleModalLoading,
+      roleModalOk,
+      rolelist,
+      distributeRoleRadioStyle,
+      selectedRole,
 
       roleColorMap,
+
 
       actions: [
         { type: 'StarOutlined', text: '156' },
