@@ -1,5 +1,7 @@
 package com.ibegu.dalaoadmin.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
@@ -8,6 +10,7 @@ import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class HBaseService {
@@ -37,6 +40,7 @@ public class HBaseService {
         //调用API进行建表操作
         admin.createTable(student);
     }
+
     @Test
     //判断表是否存在
     public void isTableExists() throws IOException {
@@ -67,6 +71,8 @@ public class HBaseService {
 
         //创建table类
         Table student = getConnection().getTable(TableName.valueOf("user_profile"));
+        Scan scan = new Scan();
+
         //创建get类
         Get get = new Get(Bytes.toBytes("1"));
         //调用API进行获取数据
@@ -79,6 +85,106 @@ public class HBaseService {
             System.out.println("列名:"+Bytes.toString(CellUtil.cloneQualifier(cell)));
             System.out.println("值:"+Bytes.toString(CellUtil.cloneValue(cell)));
         }
+    }
+
+    @Test
+    public void genderAndAgeGroupRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        ResultScanner results = table.getScanner(new Scan());
+
+        int boy = 0;
+        int girl = 0 ;
+
+        int zero = 0, one = 0, two = 0, three = 0, four = 0, five = 0, six = 0, seven = 0, eight = 0 , nine = 0;
+
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("gender")){
+                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("男")){
+                        boy++;
+                    }else{
+                        girl++;
+                    }
+                }else if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("ageGroup")){
+                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("00")){
+                        zero++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("10")){
+                        one++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("20")){
+                        two++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("30")){
+                        three++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("40")){
+                        four++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("50")){
+                        five++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("60")){
+                        six++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("70")){
+                        seven++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("80")){
+                        eight++;
+                    }else {
+                        nine++;
+                    }
+                }
+
+            }
+
+        }
+
+        JSONObject json = new JSONObject();
+
+        json.put("男",boy);
+        json.put("女",girl);
+        json.put("00",zero);
+        json.put("10",one);
+        json.put("20",two);
+        json.put("30",three);
+        json.put("40",four);
+        json.put("60",six);
+        json.put("50",five);
+        json.put("70",seven);
+        json.put("80",eight);
+        json.put("90",nine);
+
+        System.out.println(json);
+    }
+
+    @Test
+    public  void queryTable() throws IOException {
+//        System.out.println("--------------------查询整表的数据--------");
+
+        //获取数据表对象
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+
+
+        //获取表中的数据
+        ResultScanner scanner = table.getScanner(new Scan());
+        JSONObject outPut = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+
+        //循环输出表中的数据
+        for (Result result : scanner) {
+
+            byte[] row = result.getRow();
+//            System.out.println("row key is:"+new String(row));
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",new String(row));
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+            }
+            jsonArray.add(jsonObject);
+
+        }
+        outPut.put("user_profile",jsonArray);
+        System.out.println(outPut);
+//        System.out.println("---------------查询整表数据结束----------");
+        //return outPut;
     }
 
     //删除表操作
