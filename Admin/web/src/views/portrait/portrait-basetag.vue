@@ -25,11 +25,11 @@
           </a-col>
         </a-row>
 
-        <a-row>
-          <a-col :span="24" id="main-col">
-            <div id="main2" style="width:100%;height:800px;"></div>
-          </a-col>
-        </a-row>
+<!--        <a-row>-->
+<!--          <a-col :span="24" id="main-col">-->
+<!--            <div id="main2" style="width:100%;height:800px;"></div>-->
+<!--          </a-col>-->
+<!--        </a-row>-->
 
       </a-tab-pane>
       <a-tab-pane key="tag-process" >
@@ -69,13 +69,16 @@ import {defineComponent, onMounted, ref, reactive, toRef} from 'vue';
 import {createFromIconfontCN} from "@ant-design/icons-vue/es/index";
 import store from "@/store";
 
+import {message} from 'ant-design-vue';
+import {Tool} from "@/util/tool";
+
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2612795_r0pnkbi5lnb.js',
 });
 
 
-import { groupItems } from './data/tagdata';
+// import { groupItems } from './data/tagdata';
 
 
 
@@ -461,6 +464,77 @@ export default defineComponent({
       myChart.setOption(option);
     };
 
+    // const tagTreeStatistic = () => {
+    //
+    //   // 基于准备好的dom，初始化echarts实例
+    //   const myChart = echarts.init(document.getElementById('main2'));
+    //
+    //   // for(let i=0; i< groupItems.length; i++){
+    //   //   // if(groupItems[i].children !== undefined){
+    //   //   // if('children' in groupItems[i]){
+    //   //   // if(groupItems[i].hasOwnProperty('children')){
+    //   //   if(groupItems[i].children){
+    //   //
+    //   //     let groupChildren = groupItems[i].children;
+    //   //
+    //   //     groupChildren.forEach(function (datum:any, index:any) {
+    //   //       index % 2 === 0 && (datum.collapsed = true);
+    //   //     });
+    //   //
+    //   //   }
+    //   //
+    //   // }
+    //
+    //   let option = {
+    //     tooltip: {
+    //       trigger: 'item',
+    //       triggerOn: 'mousemove'
+    //     },
+    //     series: [
+    //       {
+    //         type: 'tree',
+    //
+    //         data: groupItems,
+    //
+    //         top: '1%',
+    //         left: '7%',
+    //         bottom: '1%',
+    //         right: '20%',
+    //
+    //         symbolSize: 7,
+    //
+    //         label: {
+    //           position: 'left',
+    //           verticalAlign: 'middle',
+    //           align: 'right',
+    //           fontSize: 9
+    //         },
+    //
+    //         leaves: {
+    //           label: {
+    //             position: 'right',
+    //             verticalAlign: 'middle',
+    //             align: 'left'
+    //           }
+    //         },
+    //
+    //         emphasis: {
+    //           focus: 'descendant'
+    //         },
+    //
+    //         expandAndCollapse: true,
+    //         animationDuration: 550,
+    //         animationDurationUpdate: 750
+    //       }
+    //     ]
+    //   }
+    //
+    //
+    //   // 使用刚指定的配置项和数据显示图表。
+    //   myChart.setOption(option);
+    //
+    // };
+
     const tagTreeStatistic = () => {
 
       // 基于准备好的dom，初始化echarts实例
@@ -491,7 +565,7 @@ export default defineComponent({
           {
             type: 'tree',
 
-            data: groupItems,
+            data: JSON.parse(baseTagsTree.value),
 
             top: '1%',
             left: '7%',
@@ -587,11 +661,6 @@ export default defineComponent({
             {
               name: '心理',
               children: [{
-                name: '5☆',
-                children: [{
-                  name: '我们时代的神经症人格'
-                }]
-              }, {
                 name: '已通过',
                 children: [{
                   name: '皮格马利翁效应'
@@ -628,11 +697,6 @@ export default defineComponent({
             {
               name: '心理',
               children: [{
-                name: '5☆',
-                children: [{
-                  name: '我们时代的神经症人格'
-                }]
-              }, {
                 name: '已通过',
                 children: [{
                   name: '皮格马利翁效应'
@@ -669,11 +733,6 @@ export default defineComponent({
             {
               name: '心理',
               children: [{
-                name: '5☆',
-                children: [{
-                  name: '我们时代的神经症人格'
-                }]
-              }, {
                 name: '已通过',
                 children: [{
                   name: '皮格马利翁效应'
@@ -712,9 +771,6 @@ export default defineComponent({
           for (var star = 0; star < block.length; ++star) {
             var style = (function (name:string) {
               switch (name) {
-                case '5☆':
-                  bookScoreId = 0;
-                  return itemStyle.star5;
                 case '未处理':
                   bookScoreId = 1;
                   return itemStyle.star4;
@@ -846,10 +902,45 @@ export default defineComponent({
 
     const activeKey = ref('basetag-statistic')
 
+    const baseTags = ref();
+    // baseTags.value = {};
+
+    // const baseTagsTree = ref([])
+    const baseTagsTree = ref();
+    baseTagsTree.value = [];
+
+    const handleQueryBaseTag = () => {
+      axios.get("/baseTag/listBaseTags").then((response) => {
+        const data = response.data;
+
+        // console.log(response)
+
+        if (data.success) {
+          baseTags.value = data.content;
+
+          baseTagsTree.value = [];
+          baseTagsTree.value = Tool.array2Tree(baseTags.value, 10);
+
+          console.log("baseTagTree",baseTagsTree.value)
+
+          // alert(JSON.stringify(baseTagsTree));
+
+        } else {
+          message.error(data.message);
+        }
+
+      });
+
+    };
+
+
 
     //初始化逻辑都写到onMounted()里
     onMounted(() => {
       console.log("onMounted");
+
+      // handleQueryBaseTag();
+
 
       tagStatistic();
 
