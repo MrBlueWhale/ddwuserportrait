@@ -1,0 +1,68 @@
+###
+GET http://localhost:8083/user-profile/listUserProfile
+
+
+###
+
+###
+GET http://localhost:8083/user-profile/saveUserProfile
+
+
+###
+GET http://localhost:8083/user-profile/list?user-profileName=超级管理员
+
+###
+GET http://localhost:8083/user-profile/list?user-profileName=admin2
+
+
+###
+POST http://localhost:8083/user-profile/save
+Content-Type: application/json
+
+{
+  "rid": "59192977502900224",
+  "user-profileName": "testRank3Tags3",
+  "desc": "test2"
+
+}
+
+
+###
+DELETE http://localhost:8083/user-profile/delete/59192977502900224
+
+
+###
+POST http://localhost:8083/user-profile/distribute
+Content-Type: application/json
+
+{
+  "uid": "59165037641732096",
+  "user-profileName": "超级管理员"
+}
+
+
+###
+GET http://localhost:8083/user-profile/listRank3Tags
+
+###
+
+###
+#GET http://localhost:8083/user-profile/listRank4Tags?t3Name=用户价值
+#GET http://localhost:8083/user-profile/listRank4Tags?t3Name=商业属性
+#GET http://localhost:8083/user-profile/listRank4Tags?t3Name=行为属性
+GET http://localhost:8083/user-profile/listRank4Tags?t3Name=人口属性
+
+###
+
+###
+#GET http://localhost:8083/user-profile/listRank5Tags?t4Name=所在商圈
+GET http://localhost:8083/user-profile/listRank5Tags?t4Name=设备类型
+
+
+###
+
+#GET http://localhost:8083/user-profile/listRank5Tags?t4Name=所在商圈
+GET http://localhost:8083/user-profile/listuser-profiles
+
+
+###

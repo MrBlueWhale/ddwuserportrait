@@ -1,13 +1,11 @@
 package com.ibegu.dalaoadmin.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -171,7 +169,7 @@ public class HBaseService {
     }
 
     /*
-    参数：family   user_profile 列族
+    参数：family   user_profile 列族:
     返回：{family：[{id: ,col1: , coln:},{},{}]}
 
      */
