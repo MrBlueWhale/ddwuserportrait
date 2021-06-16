@@ -304,4 +304,27 @@ public class HBaseService {
         System.out.println(json);
         return  json;
     }
+
+
+    public String searchByTelAndCol(String tel,String col) throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
+                , CompareFilter.CompareOp.EQUAL,Bytes.toBytes("tel"));
+        filter.setFilterIfMissing(true);
+        String out = "";
+        Scan scan = new Scan();
+        scan.setFilter(filter);
+        ResultScanner results = table.getScanner(scan);
+        for (Result result : results){
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells){
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("col")){
+                    out = Bytes.toString(CellUtil.cloneValue(cell));
+                    //System.out.println(out);
+                }
+            }
+        }
+        return out;
+    }
 }
