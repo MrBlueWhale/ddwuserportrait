@@ -9,7 +9,6 @@ import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -173,7 +172,7 @@ public class HBaseService {
     }
 
     /*
-    参数：family   user_profile 列族
+    参数：family   user_profile 列族:
     返回：{family：[{id: ,col1: , coln:},{},{}]}
 
      */
