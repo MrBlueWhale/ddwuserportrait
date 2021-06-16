@@ -1,4 +1,5 @@
 package com.ibegu.dalaoadmin.service;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
@@ -10,7 +11,10 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HBaseService {
@@ -348,7 +352,7 @@ public class HBaseService {
     }
 
 
-    public String searchByTelAndCol(String tel,String col) throws IOException{
+    public String searchByTelAndCol(String tel, String col) throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
                 , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));

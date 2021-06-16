@@ -2,9 +2,10 @@ package com.ibegu.dalaoadmin.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.ibegu.dalaoadmin.req.Rank4TagsQueryReq;
-import com.ibegu.dalaoadmin.req.Rank5TagsQueryReq;
-import com.ibegu.dalaoadmin.resp.*;
+import com.ibegu.dalaoadmin.resp.CommonResp;
+import com.ibegu.dalaoadmin.resp.Rank3TagsQueryResp;
+import com.ibegu.dalaoadmin.resp.TagResp;
+import com.ibegu.dalaoadmin.resp.UserProfileResp;
 import com.ibegu.dalaoadmin.service.BaseTagService;
 import com.ibegu.dalaoadmin.service.HBaseService;
 import com.ibegu.dalaoadmin.utils.JsonFileUtil;
@@ -12,12 +13,13 @@ import com.ibegu.dalaoadmin.utils.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 // import com.ibegu.dalaoadmin.resp.BaseTagQueryResp;
 
@@ -93,6 +95,78 @@ public class UserProfileController {
         return resp;
     }
 
+    @GetMapping("/listUserProfileMap")
+    public CommonResp listUserProfileMap() {
+        CommonResp resp = new CommonResp<>();
+
+        List list = null;
+
+        list = hBaseService.getData();
+
+        resp.setContent(list);
+//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+
+        return resp;
+    }
+
+    @GetMapping("/listUserProfileByTel/{tel}")
+    public CommonResp listUserProfileByTel(@PathVariable String tel) {
+        CommonResp resp = new CommonResp<>();
+
+        UserProfileResp userProfileResp = new UserProfileResp();
+        try {
+
+            String behaviorAttrs = hBaseService.searchByTelAndCol(tel,"Behavior");
+//            String behaviorAttrs = ObjectUtils.isEmpty(hBaseService.searchByTelAndCol(tel,"Behavior")) ? "暂无数据" : hBaseService.searchByTelAndCol(tel,"Behavior");
+            String commercialAttrs = hBaseService.searchByTelAndCol(tel,"Commercial");
+//            String commercialAttrs = ObjectUtils.isEmpty(hBaseService.searchByTelAndCol(tel,"Commercial")) ? "暂无数据" : hBaseService.searchByTelAndCol(tel,"Commercial");
+            String populationAttrs = hBaseService.searchByTelAndCol(tel,"Population");
+//            String populationAttrs = ObjectUtils.isEmpty(hBaseService.searchByTelAndCol(tel,"Population")) ? "暂无数据" : hBaseService.searchByTelAndCol(tel,"Population");
+            String userValueAttrs = hBaseService.searchByTelAndCol(tel,"userValue");
+//            String userValueAttrs = ObjectUtils.isEmpty(hBaseService.searchByTelAndCol(tel,"userValue")) ? "暂无数据" : hBaseService.searchByTelAndCol(tel,"userValue");
+
+            LOG.info("行为属性","{}",behaviorAttrs);
+            LOG.info("商业属性","{}",commercialAttrs);
+            LOG.info("人口属性","{}",populationAttrs);
+            LOG.info("价值属性","{}",userValueAttrs);
+
+            userProfileResp.setBehaviorAttrs(JSONObject.parseObject(behaviorAttrs));
+            userProfileResp.setCommercialAttrs(JSONObject.parseObject(commercialAttrs));
+            userProfileResp.setPopulationAttrs(JSONObject.parseObject(populationAttrs));
+            userProfileResp.setUserValueAttrs(JSONObject.parseObject(userValueAttrs));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        resp.setContent(userProfileResp);
+//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+
+        return resp;
+
+
+
+
+    }
+
+    @GetMapping("/searchByTel/{tel}")
+    public CommonResp searchByTel(@PathVariable String tel) {
+        CommonResp resp = new CommonResp<>();
+
+        JSONObject userProfileJson = null;
+        JsonFileUtil jsonFileUtil = new JsonFileUtil();
+
+        try {
+            userProfileJson =  hBaseService.searchByTel(tel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        resp.setContent(userProfileJson);
+//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+
+        return resp;
+    }
+
     @GetMapping("/listRank3Tags")
     public CommonResp<TagResp<Rank3TagsQueryResp>> listRank3Tags() {
         CommonResp<TagResp<Rank3TagsQueryResp>> resp = new CommonResp<>();
@@ -109,21 +183,6 @@ public class UserProfileController {
     //     return resp;
     // }
 
-    @GetMapping("/listRank4Tags")
-    public CommonResp listRank4Tags(@Valid Rank4TagsQueryReq req) {
-        CommonResp<PageResp<Rank4TagsQueryResp>> resp = new CommonResp<>();
-        PageResp<Rank4TagsQueryResp> list = baseTagService.listRank4Tags(req);
-        resp.setContent(list);
-        return resp;
-    }
-
-    @GetMapping("/listRank5Tags")
-    public CommonResp listRank5Tags(@Valid Rank5TagsQueryReq req) {
-        CommonResp<PageResp<Rank5TagsQueryResp>> resp = new CommonResp<>();
-        PageResp<Rank5TagsQueryResp> list = baseTagService.listRank5Tags(req);
-        resp.setContent(list);
-        return resp;
-    }
 
 
 }
