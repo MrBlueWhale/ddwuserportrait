@@ -1,11 +1,13 @@
 package com.ibegu.dalaoadmin.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -166,6 +168,31 @@ public class HBaseService {
         json.putAll(ageGroup());
         System.out.println(json);
         return  json;
+    }
+
+    /*
+    参数：family   user_profile 列族
+    返回：{family：[{id: ,col1: , coln:},{},{}]}
+
+     */
+    public JSONObject family(String family) throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        ResultScanner population = table.getScanner(Bytes.toBytes(family));
+        JSONObject outPut = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        for (Result result : population) {
+            List<Cell> listCells = result.listCells();
+            System.out.println(Bytes.toString(result.getRow()));
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",Bytes.toString(result.getRow()));
+            for (Cell cell : listCells) {
+                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+            }
+
+            jsonArray.add(jsonObject);
+        }
+        outPut.put(family,jsonArray);
+        return outPut;
     }
 
 
