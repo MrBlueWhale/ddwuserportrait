@@ -1,16 +1,14 @@
 package com.ibegu.dalaoadmin.service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.CompareFilter;
-import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -261,5 +259,49 @@ public class HBaseService {
         admin.disableTable(TableName.valueOf("student"));
         //调用API删除表
         admin.deleteTable(TableName.valueOf("student"));
+    }
+
+
+
+    public JSONObject paymentCodeRate() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("tbl_orders"));
+
+        Scan scan = new Scan();
+        scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("paymentCode"));
+        ResultScanner results = table.getScanner(scan);
+
+        int alipay = 0, wx = 0, card = 0, cdd = 0, other = 0;
+
+        for (Result result : results) {
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("paymentCode")){
+                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("cod")){
+                        cdd++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("alipay")){
+                        alipay++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("wxpay")||
+                            Bytes.toString(CellUtil.cloneValue(cell)).equals("wspay")){
+                        wx++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("chinapay")||
+                            Bytes.toString(CellUtil.cloneValue(cell)).equals("chinaecpay")||
+                            Bytes.toString(CellUtil.cloneValue(cell)).equals("ccb")){
+                        card++;
+                    }else {
+                        other++;
+                    }
+                }
+            }
+        }
+
+
+        JSONObject json = new JSONObject();
+        json.put("货到付款",cdd);
+        json.put("微信支付",wx);
+        json.put("支付宝",alipay);
+        json.put("银行卡",card);
+        json.put("其他",other);
+        System.out.println(json);
+        return  json;
     }
 }
