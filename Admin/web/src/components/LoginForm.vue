@@ -81,6 +81,9 @@ export default {
       console.log("开始登录");
       // loginUser.value.password = hexMd5(loginUser.value.password + KEY);
       loginUser.value.password = hexMd5(loginUser.value.password);
+      // console.log(loginUser.value.password)
+
+
       axios.post('/user/login', loginUser.value).then((response) => {
         const data = response.data;
         if (data.success) {

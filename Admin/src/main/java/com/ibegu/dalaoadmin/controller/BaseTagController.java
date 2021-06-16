@@ -2,6 +2,7 @@ package com.ibegu.dalaoadmin.controller;
 
 
 // import com.ibegu.dalaoadmin.domain.BaseTag;
+import com.alibaba.fastjson.JSONObject;
 import com.ibegu.dalaoadmin.domain.Rank3Tags;
 import com.ibegu.dalaoadmin.domain.Rank4Tags;
 import com.ibegu.dalaoadmin.domain.Rank5Tags;
@@ -14,6 +15,7 @@ import com.ibegu.dalaoadmin.req.Rank5TagsQueryReq;
 import com.ibegu.dalaoadmin.resp.*;
 // import com.ibegu.dalaoadmin.resp.BaseTagQueryResp;
 import com.ibegu.dalaoadmin.service.BaseTagService;
+import com.ibegu.dalaoadmin.service.HBaseService;
 import com.ibegu.dalaoadmin.utils.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 
