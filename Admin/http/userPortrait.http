@@ -1,11 +1,25 @@
 ###
 GET http://localhost:8083/user-profile/listUserProfile
 
+###
+GET http://localhost:8083/user-profile/listUserProfileMap
+
 
 ###
 
 ###
 GET http://localhost:8083/user-profile/saveUserProfile
+
+
+###
+GET http://localhost:8083/user-profile/searchByTel/15806945687
+
+
+###
+GET http://localhost:8083/user-profile/listUserProfileByTel/15806945687
+
+###
+GET http://localhost:8083/user-profile/listUserProfileByTel/email
 
 
 ###

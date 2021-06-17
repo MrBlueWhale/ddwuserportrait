@@ -55,9 +55,9 @@ object productRecommendationModel {
       .setPredictionCol("predict")
       .setColdStartStrategy("drop")
       .setAlpha(10)
-//      .setMaxIter(10)
-//      .setRank(10)
-//      .setRegParam(1.0)
+      .setMaxIter(10)
+      .setRank(10)
+      .setRegParam(1.0)
       .setImplicitPrefs(true)
 
     // 将数据集切分为两份，其中训练集占80%(0.8), 测试集占20%(0.2)
@@ -70,77 +70,32 @@ object productRecommendationModel {
       .setPredictionCol("predict")
       .setMetricName("rmse")
 
-    // 通过训练集进行训练，建立模型
-//    val model: ALSModel = als.fit(trainSet)
+     //通过训练集进行训练，建立模型
+    val model: ALSModel = als.fit(trainSet)
+
+
+    // 通过模型进行预测
+    val predictions = model.transform(trainSet)
 //
-//    // 通过模型进行预测
-//    val predictions = model.transform(trainSet)
+    val rmse = evaluator.evaluate(predictions)
 //
-//    val rmse = evaluator.evaluate(predictions)
+    println(s"rmse value is ${rmse}")
 //
-//    println(s"rmse value is ${rmse}")
-
-    // 创建als pipeline
-    val pipeline: Pipeline = new Pipeline().setStages(Array(als))
-
-    // 构建参数网格
-    val paramGrid: Array[ParamMap] = new ParamGridBuilder()
-      .addGrid(als.rank, Array[Int](5, 8, 10, 14, 17))
-      .addGrid(als.maxIter, Array[Int](5, 7, 10, 13))
-      .addGrid(als.regParam, Array[Double](0.01, 0.05, 0.1, 0.3, 0.5, 0.8))
-      .build
-
-    // 使用穷举搜索出最佳的参数
-    val crossValidator: CrossValidator = new CrossValidator()
-      .setEstimator(pipeline) // pipeline模型
-      .setEvaluator(evaluator) // 评估器
-      .setEstimatorParamMaps(paramGrid) // 参数网格
-      .setNumFolds(2) // 现实中使用3+以上
-
-    // 运行交叉检验，自动选择最佳的参数组合
-    val crossValidatorModel: CrossValidatorModel = crossValidator.fit(trainSet)
-
-    // 每个参数网格的平均指标
-    val avgMetrics: Array[Double] = crossValidatorModel.avgMetrics
-
-    // 打印所有的参数组合
-    val estimatorParamMaps: Array[ParamMap] = crossValidatorModel.getEstimatorParamMaps
-    for (i <- 1 until  estimatorParamMaps.length) {
-      println(s"------ 第${i}次网格搜索的Metric：${avgMetrics(i)} -------")
-      val paramMap: ParamMap = estimatorParamMaps(i)
-      paramMap.toSeq.foreach(p => {
-        println(s"----- 第${i}次网格搜索所选择训练模型的参数组合：${p.param.name} -> ${p.value}")
-      })
-    }
-
-    // 最优的参数
-    val bestPipeline: Pipeline = crossValidatorModel.bestModel.parent.asInstanceOf[Pipeline]
-    val stage = bestPipeline.getStages(0)
-    val paramMap: ParamMap = stage.extractParamMap
-    val rank: Any = paramMap.get(stage.getParam("rank")).get
-    val maxIter: Any = paramMap.get(stage.getParam("maxIter")).get
-    val regParam: Any = paramMap.get(stage.getParam("regParam")).get
-    println("==== ALS参数为：rank={},maxIter={},regParam={} ====", rank, maxIter, regParam)
-
-    // 预测测试集
-    val testPredicts: Dataset[Row] = crossValidatorModel.transform(testSet)
-    // 评估测试集
-    val testRmse: Double = evaluator.evaluate(testPredicts)
-    // 预测训练集
-    val trainPredicts: Dataset[Row] = crossValidatorModel.transform(trainSet)
-    // 评估训练集
-    val trainRmse: Double = evaluator.evaluate(trainPredicts)
-    println("==== 本次推荐数据集和RMSE指标评估：训练集RMSE={},测试集RMSE={} ====", trainRmse, testRmse)
-
-    //    val model: ALSModel = als.fit(ratingDF)
-    //
-    //    model.save("model/product/als")
-
-//    val model = ALSModel.load("model/product/als")
 //
-//    val predict2StringFunc = udf(predict2String _)
+    model.transform(ratingDF).show()
 //
-//    // 为每个用户推荐
+//
+//
+//
+//    val model: ALSModel = als.fit(ratingDF)
+//
+    model.save("model/product/als")
+
+    //val model = ALSModel.load("model/product/als")
+
+    val predict2StringFunc = udf(predict2String _)
+
+    // 为每个用户推荐
 //    val result: DataFrame = model.recommendForAllUsers(10)
 //      .withColumn("favorProducts", predict2StringFunc('recommendations))
 //      .withColumnRenamed("userId", "id")

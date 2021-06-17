@@ -1,17 +1,18 @@
 package com.ibegu.dalaoadmin.service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.CompareFilter;
-import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -219,6 +220,122 @@ public class HBaseService {
         return outP;
     }
 
+    @Test
+    public void test(){
+        try {
+            System.out.println(searchByTel("15302753472"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject spendPowerRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0, four = 0, five = 0,six = 0,seven = 0;
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("spendPower")){
+                    if(Bytes.toString(CellUtil.cloneValue(cell)).equals("很低")){
+                        one++;
+                    }else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("低")){
+                        two++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("中下")){
+                        three++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("中")){
+                        four++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("中上")){
+                        five++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("高")){
+                        six++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("超高")){
+                        seven++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("很低",one);
+        json.put("低",two);
+        json.put("中下",three);
+        json.put("中",four);
+        json.put("中上",five);
+        json.put("高",six);
+        json.put("超高",seven);
+        //System.out.println(json);
+        return  json;
+    }
+
+    public JSONObject jobRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0, four = 0, five = 0,six = 0,seven = 0;
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("job")){
+                    if(Bytes.toString(CellUtil.cloneValue(cell)).equals("学生")){
+                        one++;
+                    }else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("公务员")){
+                        two++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("军人")){
+                        three++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("警察")){
+                        four++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("教师")){
+                        five++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("白领")){
+                        six++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("学生",one);
+        json.put("公务员",two);
+        json.put("军人",three);
+        json.put("警察",four);
+        json.put("教师",five);
+        json.put("白领",six);
+        //System.out.println(json);
+        return  json;
+    }
+
+    public JSONObject DeviceRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0, four = 0, five = 0;
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("DeviceType")){
+                    if(Bytes.toString(CellUtil.cloneValue(cell)).equals("Android")){
+                        one++;
+                    }else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("Windows")){
+                        two++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("iOS")){
+                        three++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("Mac")){
+                        four++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("Linux")){
+                        five++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("Android",one);
+        json.put("Windows",two);
+        json.put("iOS",three);
+        json.put("Mac",four);
+        json.put("Linux",five);
+        //System.out.println(json);
+        return  json;
+    }
 
     public JSONObject queryTable() throws IOException {
 //        System.out.println("--------------------查询整表的数据--------");
@@ -261,5 +378,139 @@ public class HBaseService {
         admin.disableTable(TableName.valueOf("student"));
         //调用API删除表
         admin.deleteTable(TableName.valueOf("student"));
+    }
+
+
+
+    public JSONObject paymentCodeRate() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("tbl_orders"));
+
+        Scan scan = new Scan();
+        scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("paymentCode"));
+        ResultScanner results = table.getScanner(scan);
+
+        int alipay = 0, wx = 0, card = 0, cdd = 0, other = 0;
+
+        for (Result result : results) {
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("paymentCode")){
+                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("cod")){
+                        cdd++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("alipay")){
+                        alipay++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("wxpay")||
+                            Bytes.toString(CellUtil.cloneValue(cell)).equals("wspay")){
+                        wx++;
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("chinapay")||
+                            Bytes.toString(CellUtil.cloneValue(cell)).equals("chinaecpay")||
+                            Bytes.toString(CellUtil.cloneValue(cell)).equals("ccb")){
+                        card++;
+                    }else {
+                        other++;
+                    }
+                }
+            }
+        }
+
+
+        JSONObject json = new JSONObject();
+        json.put("货到付款",cdd);
+        json.put("微信支付",wx);
+        json.put("支付宝",alipay);
+        json.put("银行卡",card);
+        json.put("其他",other);
+        System.out.println(json);
+        return  json;
+    }
+
+
+    public String searchByTelAndCol(String tel,String col) throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
+                , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
+        filter.setFilterIfMissing(true);
+        String out = "";
+        Scan scan = new Scan();
+        scan.setFilter(filter);
+        ResultScanner results = table.getScanner(scan);
+        for (Result result : results){
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells){
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals(col)){
+                    out = Bytes.toString(CellUtil.cloneValue(cell));
+                    //System.out.println(out);
+                }
+            }
+        }
+        return out;
+    }
+
+
+    public int cell2Hours(Cell cell){
+        return Integer.parseInt(Bytes.toString(CellUtil.cloneValue(cell)).split(" ")[1].split(":")[0]);
+    }
+
+    public JSONObject LogTimeRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("tbl_logs"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0, four = 0, five = 0;
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("log_time")){
+                    if(cell2Hours(cell) >= 0 && cell2Hours(cell)<1){
+                        one++;
+                    }else if (cell2Hours(cell) >= 1 && cell2Hours(cell)<8){
+                        two++;
+                    }else if(cell2Hours(cell) < 13){
+                        three++;
+                    }else if(cell2Hours(cell) < 18){
+                        four++;
+                    }else if(cell2Hours(cell) < 22){
+                        five++;
+                    }else if(cell2Hours(cell) < 24){
+                        one++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("22时--24时",one);
+        json.put("1时--7时",two);
+        json.put("8时--12时",three);
+        json.put("13时--17时",four);
+        json.put("18时--21时",five);
+        //System.out.println(json);
+        return  json;
+    }
+
+
+    public JSONObject politicsFaceRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0;
+        for (Result result : results) {
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("politicalFace")){
+                    if(Bytes.toString(CellUtil.cloneValue(cell)).equals("群众")){
+                        one++;
+                    }else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("党员")){
+                        two++;
+                    }else{
+                        three++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("群众",one);
+        json.put("党员",two);
+        json.put("无党派人士",three);
+        //System.out.println(json);
+        return  json;
     }
 }
