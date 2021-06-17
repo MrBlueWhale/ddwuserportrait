@@ -101,7 +101,7 @@ public class UserProfileController {
 
         List list = null;
 
-        list = hBaseService.getData();
+        //list = hBaseService.getData();
 
         resp.setContent(list);
 //        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
