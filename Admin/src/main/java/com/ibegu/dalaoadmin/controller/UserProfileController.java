@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // import com.ibegu.dalaoadmin.resp.BaseTagQueryResp;
 
@@ -76,6 +78,84 @@ public class UserProfileController {
 
     }
 
+    @GetMapping("/saveTagRatio")
+    public void saveTagRatio() throws IOException {
+
+//        Map<String,JSONObject> tagRatioJson = new HashMap<>();
+
+//        JSONArray jsonArray = new JSONArray();
+//////        jsonArray.a;
+
+        JSONObject tagRatioJson = new JSONObject();
+
+        try {
+            JSONObject genderRatioJson = hBaseService.genderRatio();
+            JSONObject pliticsFaceRatioJson = hBaseService.politicsFaceRatio();
+            JSONObject spendPowerRatioJson = hBaseService.spendPowerRatio();
+            JSONObject LogTimeRatioJson = hBaseService.LogTimeRatio();
+            JSONObject deviceRatioJson = hBaseService.DeviceRatio();
+            JSONObject jobRatioJson = hBaseService.jobRatio();
+
+
+
+//            tagRatioJson.put("sa",genderRatioJson);
+//            tagRatioJson.put("saas",pliticsFaceRatioJson);
+
+//            jobRatioJson.put
+            tagRatioJson.put("genderRatio", genderRatioJson);
+            tagRatioJson.put("pliticsFace", pliticsFaceRatioJson);
+
+            tagRatioJson.put("spendPowerRatio", spendPowerRatioJson);
+            tagRatioJson.put("LogTimeRatio", LogTimeRatioJson);
+            tagRatioJson.put("deviceRatio", deviceRatioJson);
+            tagRatioJson.put("jobRatio", jobRatioJson);
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JsonFileUtil jsonFileUtil = new JsonFileUtil();
+
+//        jsonFileUtil.writeJson("D://portrait//data//", tagRatioJson, "tagRatioJson.json");
+        jsonFileUtil.writeJson("C://Users//Administrator//IdeaProjects//ddwuserportrait//Admin//web//src//views//portrait//data//", tagRatioJson, "tagRatioJson.json");
+    }
+
+
+    @GetMapping("/showPanorama")
+    public CommonResp showPanorama() throws IOException {
+        CommonResp resp = new CommonResp<>();
+
+        Map<String,JSONObject> panorama = new HashMap<>();
+
+        JSONObject genderRatioJson = hBaseService.genderRatio();
+        JSONObject pliticsFaceRatioJson = hBaseService.politicsFaceRatio();
+        JSONObject spendPowerRatioJson = hBaseService.spendPowerRatio();
+        JSONObject LogTimeRatioJson = hBaseService.LogTimeRatio();
+        JSONObject deviceRatioJson = hBaseService.DeviceRatio();
+        JSONObject jobRatioJson = hBaseService.jobRatio();
+//        JsonFileUtil jsonFileUtil = new JsonFileUtil();
+        LOG.info("gender"+"{}", genderRatioJson);
+
+        panorama.put("genderRatio", genderRatioJson);
+        LOG.info("panorama"+"{}", panorama);
+        panorama.put("pliticsFace", pliticsFaceRatioJson);
+        LOG.info("pliticsFace"+"{}", pliticsFaceRatioJson);
+        panorama.put("spendPowerRatio", spendPowerRatioJson);
+        panorama.put("LogTimeRatio", LogTimeRatioJson);
+        panorama.put("deviceRatio", deviceRatioJson);
+        panorama.put("jobRatio", jobRatioJson);
+
+//        hBaseService.
+
+//        panoramaJson = JSONObject.parseObject();
+
+        resp.setContent(panorama);
+//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+
+        return resp;
+    }
 
     @GetMapping("/listUserProfile")
     public CommonResp listUserProfile() {

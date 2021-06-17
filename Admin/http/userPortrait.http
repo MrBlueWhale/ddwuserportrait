@@ -1,6 +1,10 @@
 ###
 GET http://localhost:8083/user-profile/listUserProfile
 
+
+###
+GET http://localhost:8083/user-profile/showPanorama
+
 ###
 GET http://localhost:8083/user-profile/listUserProfileMap
 
@@ -9,6 +13,9 @@ GET http://localhost:8083/user-profile/listUserProfileMap
 
 ###
 GET http://localhost:8083/user-profile/saveUserProfile
+
+###
+GET http://localhost:8083/user-profile/saveTagRatio
 
 
 ###
