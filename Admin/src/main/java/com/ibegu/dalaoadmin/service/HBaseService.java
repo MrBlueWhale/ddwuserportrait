@@ -335,8 +335,8 @@ public class HBaseService {
     public int cell2Hours(Cell cell){
         return Integer.parseInt(Bytes.toString(CellUtil.cloneValue(cell)).split(" ")[1].split(":")[0]);
     }
-    @Test
-    public void LogTimeRatio() throws IOException{
+
+    public JSONObject LogTimeRatio() throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("tbl_logs"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0;
@@ -367,7 +367,7 @@ public class HBaseService {
         json.put("8时--12时",three);
         json.put("13时--17时",four);
         json.put("18时--21时",five);
-        System.out.println(json);
-        //return  json;
+        //System.out.println(json);
+        return  json;
     }
 }
