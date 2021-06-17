@@ -43,6 +43,12 @@
 
                 </a-row>
 
+<!--                <a-row>-->
+<!--                    <a-col :span="24" id="commercial-statistic-radar-col">-->
+<!--                        <div id="commercial-statistic-radar" style="width:400px;height:800px;"></div>-->
+<!--                    </a-col>-->
+<!--                </a-row>-->
+
                 <!--        <a-row>-->
                 <!--          <a-col :span="24" id="main-col">-->
                 <!--            <div id="tag-statistic" style="width:50%;height:600px;"></div>-->
@@ -173,26 +179,43 @@
                                         <div class="post-title">
                                             <h3><a href="#">商业属性 · 消费特征</a></h3>
                                         </div>
-                                        <div class="post-content">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dum my text ever
-                                                since the when an unknown printer </p>
-                                        </div>
+
                                         <div class="blog-meta fix">
                                             <div class="meta-left pull-left">
                                                 <ul>
-                                                    <li><span class="flaticon-man-user user"></span>
-                                                        <p>By <a href="#">Admin</a></p></li>
-                                                    <li><span class="flaticon-calendar "></span>
-                                                        <p>20 Jan 2018</p></li>
+                                                    <li><span class="flaticon-user commercial-head"></span>
+                                                        <a href="#" style="font-size: 20px;">消费周期 </a><p style="font-size: 30px;">7日</p>
+                                                    </li>
+                                                    <li><span class="flaticon-calendar commercial-tail"></span>
+                                                        <a href="#" style="font-size: 20px;">客单价 </a><p style="font-size: 30px;">1-999</p>
+                                                    </li>
+                                                    <li><span class="flaticon-man-user commercial-head"></span>
+                                                        <a href="#" style="font-size: 20px;">最喜欢的支付方式 </a><p style="font-size: 30px;">{{ userProfile.paymentCode }}</p>
+                                                    </li>
+                                                    <li><span class="flaticon-calendar commercial-tail"></span>
+                                                        <a href="#" style="font-size: 20px;">单笔最高 </a><p style="font-size: 30px;">1-999</p>
+                                                    </li>
+                                                    <li><span class="flaticon-man-clendar commercial-head"></span>
+                                                        <a href="#" style="font-size: 20px;">省钱能手 </a><p style="font-size: 30px;">5折-7折</p>
+                                                    </li>
+                                                    <li><span class="flaticon-man-user commercial-tail"></span>
+                                                        <a href="#" style="font-size: 20px;">有券必买 </a><p style="font-size: 30px;">折扣券</p>
+                                                    </li>
+                                                    <li><span class="flaticon-man-clendar commercial-head"></span>
+                                                        <a href="#" style="font-size: 20px;">消费能力 </a><p style="font-size: 30px;">{{ userProfile.spendPower }}</p>
+                                                    </li>
+
                                                 </ul>
+
                                             </div>
 
-                                          <a-row>
-                                            <a-col :span="24" id="main-col">
-                                              <div id="commercial-statistic-polar" style="width:400px;height:800px;"></div>
-                                            </a-col>
-                                          </a-row>
+                                          <div class="commercial-radar" style="padding-left: 100px;">
+                                              <a-row>
+                                                  <a-col :span="24" id="commercial-statistic-radar-col">
+                                                      <div id="commercial-statistic-radar" style="width:490px;height:400px;"></div>
+                                                  </a-col>
+                                              </a-row>
+                                          </div>
 
 
                                             <div class="post-readmore pull-right">
@@ -333,6 +356,13 @@
         //放一些参数定义，方法定义
         setup() {
             console.log("setup");
+
+            let paymentMap = new Map();
+            paymentMap.set("cdd","货到付款");
+            paymentMap.set("wx","微信支付");
+            paymentMap.set("alipay","支付宝");
+            paymentMap.set("card","银行卡");
+            paymentMap.set("other","其他");
 
 
 
@@ -1130,6 +1160,109 @@
                 myChart.setOption(option);
             };
 
+            const commercialStatisticRadar = () => {
+                // 基于准备好的dom，初始化echarts实例
+                const myChart = echarts.init(document.getElementById('commercial-statistic-radar'));
+
+                // 指定图表的配置项和数据
+
+                // 消费能力 购买频率 退货率 换货率 客服咨询频率
+                // let data = ['高','高','低','低','中'];
+                let dataBJ = [
+                    [6,2,2,2],
+                ];
+
+                let lineStyle = {
+                    normal: {
+                        width: 2,
+                        opacity: 0.9
+                    }
+                };
+
+                let option = {
+                    backgroundColor: '#fff',
+                    title: {
+                        text: 'AQI - 雷达图',
+                        left: 'center',
+                        textStyle: {
+                            color: '#000'
+                        }
+                    },
+                    legend: {
+                        bottom: 5,
+                        data: ['商业属性-消费特征',],
+                        itemGap: 20,
+                        textStyle: {
+                            color: '#89C6F2',
+                            fontSize: 16
+                        },
+                        selectedMode: 'single'
+                    },
+                    visualMap: {
+                        show: true,
+                        min: 0,
+                        max: 20,
+                        dimension: 4,
+                        inRange: {
+                            colorLightness: [0.5, 0.8]
+                        }
+                    },
+                    radar: {
+                        indicator: [
+                            {name: '购买频率', max: 7},
+                            {name: '退货率', max: 7},
+                            {name: '换货率', max: 7},
+                            {name: '客服咨询频率', max: 7},
+                        ],
+                        shape: 'circle',
+                        splitNumber: 5,
+                        name: {
+                            textStyle: {
+                                color: 'rgb(238, 197, 102)'
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+
+                                color: [
+                                    'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
+                                    'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
+                                    'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
+                                ].reverse()
+                            }
+                        },
+                        splitArea: {
+                            show: true
+                        },
+                        axisLine: {
+                            lineStyle: {
+
+                                color: 'rgba(238, 197, 102, 0.5)'
+                            }
+                        }
+                    },
+                    series: [
+                        {
+                            name: '商业属性-消费特征',
+                            type: 'radar',
+                            lineStyle: lineStyle,
+                            data: dataBJ,
+                            symbol: 'none',
+                            itemStyle: {
+                                color: '#F9713C',
+                                // fontSize: 25,
+                            },
+                            areaStyle: {
+                                opacity: 0.3
+                            }
+                        }
+                    ]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            };
+
 
             const activeKey = ref('user-profile-statistic');
 
@@ -1137,29 +1270,33 @@
             const userSearchValue = ref('');
 
             const userProfile = ref();
+            // userProfile.value = {
+            //   "gender": "女",
+            //   "RecentLogin": "超过30日",
+            //   "highestPay": "99.00",
+            //   "mobile": "13306834911",
+            //   "ageGroup": "90",
+            //   "userName": "督咏",
+            //   "BrowseProduct": "电饭煲,滤芯,冷柜,4K电视,Haier/海尔冰箱,燃气热水器,微波炉,前置过滤器,电磁炉,烤箱,电风扇,电热水器,燃气灶,Leader/统帅冰箱,净水机,吸尘器/除螨仪,烟灶套系,嵌入式厨电,取暖电器,破壁机,挂烫机,LED电视,波轮洗衣机,电水壶/热水瓶,空气净化器,其他,料理机,冰吧,智能电视",
+            //   "log_time": "8时--10时",
+            //   "politicalFace": "群众",
+            //   "powerOfConsumption": "很低",
+            //   "DeviceType": "Windows",
+            //   "ConsumptionCycle": "2周",
+            //   "moneySaver": "8折-9折",
+            //   "paymentCode": "alipay",
+            //   "nationality": "中国大陆",
+            //   "spendPower": "超高",
+            //   "Constellation": "双子座",
+            //   "marriage": "已婚",
+            //   "BrowsePage": "商品页",
+            //   "id": "1",
+            //   "job": "军人",
+            //   "email": "wcfr817e@yeah.net"
+            // };
             userProfile.value = {
-              "gender": "女",
-              "RecentLogin": "超过30日",
-              "highestPay": "99.00",
-              "mobile": "13306834911",
-              "ageGroup": "90",
-              "userName": "督咏",
-              "BrowseProduct": "电饭煲,滤芯,冷柜,4K电视,Haier/海尔冰箱,燃气热水器,微波炉,前置过滤器,电磁炉,烤箱,电风扇,电热水器,燃气灶,Leader/统帅冰箱,净水机,吸尘器/除螨仪,烟灶套系,嵌入式厨电,取暖电器,破壁机,挂烫机,LED电视,波轮洗衣机,电水壶/热水瓶,空气净化器,其他,料理机,冰吧,智能电视",
-              "log_time": "8时--10时",
-              "politicalFace": "群众",
-              "powerOfConsumption": "很低",
-              "DeviceType": "Windows",
-              "ConsumptionCycle": "2周",
-              "moneySaver": "8折-9折",
-              "paymentCode": "alipay",
-              "nationality": "中国大陆",
-              "spendPower": "超高",
-              "Constellation": "双子座",
-              "marriage": "已婚",
-              "BrowsePage": "商品页",
-              "id": "1",
-              "job": "军人",
-              "email": "wcfr817e@yeah.net"
+              paymentCode: "alipay",
+                spendPower: "中",
             };
 
 
@@ -1171,8 +1308,17 @@
                     const data = response.data;
                     if (data.success) {
                         userProfile.value = data.content;
-                        alert(userProfile.value);
+                        // alert(userProfile.value);
                         console.log(userProfile.value);
+
+                        userProfile.value.paymentCode = paymentMap.has(userProfile.value.paymentCode) ? paymentMap.get(userProfile.value.paymentCode) : "暂无数据";
+
+                        if (userProfile.value.spendPower === null || userProfile.value.spendPower === undefined || userProfile.value.spendPower === '') {
+                            userProfile.value.spendPower = "中";
+                        }
+
+                        commercialStatisticRadar();
+
                     } else {
                         message.error(data.message);
                     }
@@ -1196,7 +1342,9 @@
 
                 tagStatisticSun();
 
-              commercialStatisticPolar();
+              // commercialStatisticPolar();
+
+                // commercialStatisticRadar();
 
                 // axios.get("/demo/list").then((response) => {
                 //   const data = response.data;
@@ -1220,6 +1368,7 @@
 
                 userProfile,
               randomHeight,
+                paymentMap,
 
                 handleClick,
 
@@ -1459,6 +1608,14 @@
 
     .post-area .single-post .inner-post .post-info .blog-meta .meta-left ul li span.clendar {
         background: #ffd7d7;
+    }
+
+    .post-area .single-post .inner-post .post-info .blog-meta .meta-left ul li span.commercial-head {
+        background: #8076a3;
+    }
+
+    .post-area .single-post .inner-post .post-info .blog-meta .meta-left ul li span.commercial-tail {
+        background: #f9f4dc;
     }
 
     .post-area .single-post .inner-post .post-info .blog-meta .meta-left ul li span.clendar:before {
