@@ -217,7 +217,6 @@
                                               </a-row>
                                           </div>
 
-
                                             <div class="post-readmore pull-right">
                                                 <a href="#" class="readmore-btn">Read More <span>+</span></a>
                                             </div>
@@ -237,21 +236,208 @@
                                         <div class="post-title">
                                             <h3><a href="#">行为属性 · 兴趣特征</a></h3>
                                         </div>
-                                        <div class="post-content">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dum my text ever
-                                                since the when an unknown printer took a galley of type and scrambled it
-                                                to make aspecimen book. It has survived not only five centuries, but
-                                                also the leap into typesetting, remaining essentially </p>
-                                        </div>
+
                                         <div class="blog-meta fix">
                                             <div class="meta-left pull-left">
-                                                <ul>
-                                                    <li><span class="flaticon-man-user user"></span>
-                                                        <p>By <a href="#">Admin</a></p></li>
-                                                    <li><span class="flaticon-calendar clendar"></span>
-                                                        <p>20 Jan 2018</p></li>
-                                                </ul>
+
+                                                    <p class="behavior-item" style="font-size: 20px; color: #61ac85;">
+                                                        <icon-font class="icons-bar" type="icon-denglu" style="font-size: 18px"/>
+                                                访问状态 </p>
+
+                                                <div class="contact-info">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-telephone">
+                                                                            <icon-font class="icons-bar" type="icon-huabanfuben" style="font-size: 18px"/>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>最近登录</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>{{ userProfile.RecentLogin }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>设备类型</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>@{{ userProfile.DeviceType }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>登录频率</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>较少</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <p class="behavior-item" style="font-size: 20px; color: #57c3c2;">
+                                                    <icon-font class="icons-bar" type="icon-liulan" style="font-size: 18px"/>
+                                                    浏览轨迹 </p>
+
+                                                <div class="contact-info">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-telephone">
+                                                                            <icon-font class="icons-bar" type="icon-huabanfuben" style="font-size: 18px"/>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>浏览页面 · 时长</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>{{ userProfile.BrowsePage }} -- 5分钟以上</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>浏览时段</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>@{{ userProfile.log_time }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>浏览商品</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>较少</p>
+                                                                        </div>
+
+                                                                        <div class="user-BP-wordCloud" style="padding-left: 100px;">
+                                                                            <a-row>
+                                                                                <a-col :span="24" id="commercial-statistic-radar-col">
+                                                                                    <div id="user-browse-product-wordCloud" style="width:520px;height:400px;"></div>
+                                                                                </a-col>
+                                                                            </a-row>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <p class="behavior-item" style="font-size: 20px; color: #29b7cb;">
+                                                    <icon-font class="icons-bar" type="icon-fengxianpianhaoceshi" style="font-size: 18px"/>
+                                                    偏好分析 </p>
+
+
+                                                <div class="contact-info">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-telephone"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>商品偏好</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>所有商品</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>品类偏好</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>所有品类</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="single-info box-shadow">
+                                                            <div class="info-iiner">
+                                                                <div class="info-incon">
+                                                                    <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                </div>
+                                                                <div class="info-content">
+                                                                    <div class="contact-info-title">
+                                                                        <h5>品牌偏好</h5>
+                                                                    </div>
+                                                                    <div class="contact-info-content">
+                                                                        <p>海尔 卡萨帝 摩卡 小超人 统帅</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
                                             </div>
                                             <div class="post-readmore pull-right">
                                                 <a href="#" class="readmore-btn">Read More <span>+</span></a>
@@ -273,20 +459,19 @@
                                             <h3><a href="#">用户价值</a></h3>
                                         </div>
                                         <div class="post-content">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dum my text ever
-                                                since the when an unknown printer took a galley of type and scrambled it
-                                                to make aspecimen book. It has survived not only five centuries, but
-                                                also the leap into typesetting, remaining essentially </p>
+                                            <p> </p>
                                         </div>
                                         <div class="blog-meta fix">
                                             <div class="meta-left pull-left">
-                                                <ul>
-                                                    <li><span class="flaticon-man-user user"></span>
-                                                        <p>By <a href="#">Admin</a></p></li>
-                                                    <li><span class="flaticon-calendar clendar"></span>
-                                                        <p>20 Jan 2018</p></li>
-                                                </ul>
+                                                <a-list :grid="{ gutter: 16, column: 4 }" :data-source="userValueData">
+                                                    <template #renderItem="{ item }">
+                                                        <a-list-item>
+                                                            <a-card :title="item.title">
+                                                                <p style="font-weight: bolder;">{{ item.value }}</p>
+                                                            </a-card>
+                                                        </a-list-item>
+                                                    </template>
+                                                </a-list>
                                             </div>
                                             <div class="post-readmore pull-right">
                                                 <a href="#" class="readmore-btn">Read More <span>+</span></a>
@@ -342,12 +527,43 @@
     import {message} from 'ant-design-vue';
 
     const IconFont = createFromIconfontCN({
-        scriptUrl: '//at.alicdn.com/t/font_2614026_czwi4xllqlp.js',
+        scriptUrl: '//at.alicdn.com/t/font_2614026_u9y8k012thc.js',
     });
 
     import {groupItems} from './data/tagdata';
 
     declare let echarts: any;
+
+    interface DataItem {
+        title: string;
+        value: string;
+    }
+    const userValueData: DataItem[] = [
+        {
+            title: '房产',
+            value: '商业贷款',
+        },
+        {
+            title: '房产价值',
+            value: '50-100w以内',
+        },
+        {
+            title: '车产',
+            value: '有车有贷',
+        },
+        {
+            title: '车产价值',
+            value: '10-20w以内',
+        },
+    ];
+
+    interface UBPWordCloud {
+        name: string;
+        value: number;
+    }
+
+
+
 
 
     export default defineComponent({
@@ -1269,6 +1485,8 @@
             const userSearchKey = ref('电话号码');
             const userSearchValue = ref('');
 
+            let userBrowseProductWD: UBPWordCloud[]  = [];
+
             const userProfile = ref();
             // userProfile.value = {
             //   "gender": "女",
@@ -1297,6 +1515,53 @@
             userProfile.value = {
               paymentCode: "alipay",
                 spendPower: "中",
+                BrowseProduct: ['',],
+            };
+
+            const userBrowseProductWordCloud = () => {
+                // 基于准备好的dom，初始化echarts实例
+                const myWordCloud = echarts.init(document.getElementById('user-browse-product-wordCloud'));
+
+                // 指定图表的配置项和数据
+                const option ={
+                    title: {
+                        text: 'Ta喜欢看',
+                        x:"center"
+                    },
+
+                    backgroundColor:"#c6fbff",//tooltip: {//pointFormat: "{series.name}: {point.percentage:.1f}%"//},
+                    series: [
+                        {
+                            type:"wordCloud",//用来调整词之间的距离
+                            gridSize: 10,//用来调整字的大小范围//Text size range which the value in data will be mapped to.//Default to have minimum 12px and maximum 60px size.
+                            sizeRange: [12, 40],//Text rotation range and step in degree. Text will be rotated randomly in range [-90, 90] by rotationStep 45//用来调整词的旋转方向，，[0,0]--表明着没有角度，也就是词为水平方向，须要设置角度参考注释内容//rotationRange: [-45, 0, 45, 90],//rotationRange: [ 0,90],
+                            rotationRange: [0, 0],//随机生成字体颜色//maskImage: maskImage,
+                            textStyle: {
+                                normal: {
+                                    color: function() {return("rgb(" +Math.round(Math.random()* 255) +
+
+                                        "," +Math.round(Math.random()* 255) +
+
+                                        "," +Math.round(Math.random()* 255) +
+
+                                        ")");
+
+                                    }
+                                }
+                            },
+                            //位置相关设置//Folllowing left/top/width/height/right/bottom are used for positioning the word cloud//Default to be put in the center and has 75% x 80% size.
+                            left: "center",
+                            top:"center",
+                            right:null,
+                            bottom:null,
+                            width:"400px",
+                            height:"400px",//数据
+                            data: userBrowseProductWD,
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myWordCloud.setOption(option);
             };
 
 
@@ -1318,6 +1583,28 @@
                         }
 
                         commercialStatisticRadar();
+
+                        let userBrowseProducts = userProfile.value.BrowseProduct.split(",");
+                        // let userBrowseProductWD:any = [];
+                        console.log("userBrowseProductWD:",userBrowseProductWD);
+                        for(let i=0; i<userBrowseProducts.length; i++){
+
+
+                            let ubpWordCloud: UBPWordCloud = {
+                                name: userBrowseProducts[i],
+                                value: Math.floor(Math.random()*userBrowseProducts.length)
+                            }
+
+                            userBrowseProductWD.push(ubpWordCloud);
+
+                            // userBrowseProductWD.name = userBrowseProducts[i];
+                            // userBrowseProductWD[i].value = Math.floor(Math.random()*userBrowseProducts.length);
+                        }
+
+                        console.log("userBrowseProductWD:",userBrowseProductWD);
+                        // userBrowseProductWD
+
+                        userBrowseProductWordCloud();
 
                     } else {
                         message.error(data.message);
@@ -1369,6 +1656,8 @@
                 userProfile,
               randomHeight,
                 paymentMap,
+
+                userValueData,
 
                 handleClick,
 
@@ -1423,6 +1712,69 @@
         background: #3a8ee6;
         border: 1px solid black;
     }
+
+
+    /*=================================================
+    14. contact-area
+==============================================================*/
+       .contact-info {
+        margin-bottom: 20px; }
+       .contact-info .single-info {
+        padding: 30px; }
+       .contact-info .single-info:hover .info-iiner .info-incon span {
+        background: #6c62ff; }
+       .contact-info .single-info:hover .info-iiner .info-incon span:before {
+        color: #ffffff; }
+       .contact-info .single-info .info-iiner {
+        padding: 10px 20px 15px 20px;
+        border: 1px dashed #e2e0ff;
+        overflow: hidden; }
+       .contact-info .single-info .info-iiner .info-incon {
+        float: left;
+        margin-top: 18px;
+        margin-right: 20px; }
+       .contact-info .single-info .info-iiner .info-incon span {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        border-radius: 50%;
+        text-align: center;
+        background: #e2e0ff;
+        display: inline-block;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s; }
+       .contact-info .single-info .info-iiner .info-incon span:before {
+        margin-left: 0px;
+        color: #6c62ff;
+        font-size: 25px;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s; }
+       .contact-info .single-info .info-iiner .info-content {
+        float: left; }
+       .contact-info .single-info .info-iiner .info-content .contact-info-title h5 {
+        font-size: 16px;
+        color: #333333;
+        font-weight: 700;
+        margin-bottom: 5px; }
+       .contact-info .single-info .info-iiner .info-content .contact-info-content p {
+        margin-bottom: 0px;
+        font-size: 16px;
+        color: #333333; }
+
+
+
+
+
 
 
     /*  ================ container&row  ====================*/
