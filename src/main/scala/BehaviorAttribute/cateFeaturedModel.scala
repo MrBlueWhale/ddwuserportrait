@@ -189,13 +189,13 @@ object cateFeaturedModel {
 
     resultDuplication.show(100,false)
 
-//    resultDuplication.createOrReplaceTempView("test");
-//    val Df1 = spark.sql(
-//      """
-//        |select memberId,concat_ws(',',collect_set(cateId)) as favorCates from test group by memberId
-//      """.stripMargin)
-//
-//    Df1.show(100,false)
+    resultDuplication.createOrReplaceTempView("test");
+    val Df1 = spark.sql(
+      """
+        |select id,concat_ws(',',collect_set(favorCates)) as favorCates from test group by id
+      """.stripMargin)
+
+    Df1.show(100,false)
 
 
     def recommendationCatalog =
@@ -209,7 +209,7 @@ object cateFeaturedModel {
          |}""".stripMargin
 
 
-    resultDuplication.write
+    Df1.write
       .option(HBaseTableCatalog.tableCatalog, recommendationCatalog)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")
