@@ -105,20 +105,53 @@
                                         <div class="post-title">
                                             <h3><a href="#">人口属性 · 用户特征</a></h3>
                                         </div>
-                                        <div class="post-content">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dum my text ever
-                                                since the when an unknown printer took a galley of type and scrambled it
-                                                to make aspecimen book. It has survived not only five centuries, but
-                                                also the leap into typesetting, remaining essentially </p>
-                                        </div>
+
                                         <div class="blog-meta fix">
                                             <div class="meta-left pull-left">
                                                 <ul>
+                                                  <li><span class="flaticon-user user"></span>
+                                                    <a href="#" style="font-size: 20px;">性别 </a><p style="font-size: 30px;">{{ userProfile.gender }}</p>
+                                                  </li>
+                                                  <li><span class="flaticon-calendar clendar"></span>
+                                                    <a href="#" style="font-size: 20px;">年龄段 </a><p style="font-size: 30px;">{{ userProfile.ageGroup }}后</p>
+                                                  </li>
                                                     <li><span class="flaticon-man-user user"></span>
-                                                        <p>By <a href="#">Admin</a></p></li>
+                                                      <a href="#" style="font-size: 20px;">身高 </a><p style="font-size: 30px;">170-179cm</p>
+                                                    </li>
                                                     <li><span class="flaticon-calendar clendar"></span>
-                                                        <p>20 Jan 2018</p></li>
+                                                      <a href="#" style="font-size: 20px;">民族 </a><p style="font-size: 30px;">汉族</p>
+                                                    </li>
+                                                  <li><span class="flaticon-man-clendar clendar"></span>
+                                                    <a href="#" style="font-size: 20px;">籍贯 </a><p style="font-size: 30px;">成都</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-user user"></span>
+                                                    <a href="#" style="font-size: 20px;">政治面貌 </a><p style="font-size: 30px;">{{ userProfile.politicalFace }}</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-clendar clendar"></span>
+                                                    <a href="#" style="font-size: 20px;">职业 </a><p style="font-size: 30px;">{{ userProfile.job }}</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-user user"></span>
+                                                    <a href="#" style="font-size: 20px;">婚姻状况 </a><p style="font-size: 30px;">{{ userProfile.marriage }}</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-clendar clendar"></span>
+                                                    <a href="#" style="font-size: 20px;">学历 </a><p style="font-size: 30px;">本科</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-user user"></span>
+                                                    <a href="#" style="font-size: 20px;">就业状况 </a><p style="font-size: 30px;">事业单位</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-clendar clendar"></span>
+                                                    <a href="#" style="font-size: 20px;">星座 </a><p style="font-size: 30px;">
+                                                      {{ userProfile.Constellation }}</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-user user"></span>
+                                                    <a href="#" style="font-size: 20px;">所在商圈 </a><p style="font-size: 30px;">王府井</p>
+                                                  </li>
+                                                  <li><span class="flaticon-man-clendar clendar"></span>
+                                                    <a href="#" style="font-size: 20px;">国籍 </a><p style="font-size: 30px;">
+                                                      {{ userProfile.nationality }}</p>
+                                                  </li>
+
+
                                                 </ul>
                                             </div>
                                             <div class="post-readmore pull-right">
@@ -143,19 +176,25 @@
                                         <div class="post-content">
                                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                                                 industry. Lorem Ipsum has been the industry's standard dum my text ever
-                                                since the when an unknown printer took a galley of type and scrambled it
-                                                to make aspecimen book. It has survived not only five centuries, but
-                                                also the leap into typesetting, remaining essentially </p>
+                                                since the when an unknown printer </p>
                                         </div>
                                         <div class="blog-meta fix">
                                             <div class="meta-left pull-left">
                                                 <ul>
                                                     <li><span class="flaticon-man-user user"></span>
                                                         <p>By <a href="#">Admin</a></p></li>
-                                                    <li><span class="flaticon-calendar clendar"></span>
+                                                    <li><span class="flaticon-calendar "></span>
                                                         <p>20 Jan 2018</p></li>
                                                 </ul>
                                             </div>
+
+                                          <a-row>
+                                            <a-col :span="24" id="main-col">
+                                              <div id="commercial-statistic-polar" style="width:400px;height:800px;"></div>
+                                            </a-col>
+                                          </a-row>
+
+
                                             <div class="post-readmore pull-right">
                                                 <a href="#" class="readmore-btn">Read More <span>+</span></a>
                                             </div>
@@ -295,7 +334,19 @@
         setup() {
             console.log("setup");
 
-            const statistic = ref();
+
+
+          var items = ['1','2','4','5','6','7','8','9','10'];
+          var item = items[Math.floor(Math.random()*items.length)];
+
+          //身高
+          let heights = ['150以下'.repeat(1),'160-164'.repeat(2),'165-168'.repeat(12),'169-171'.repeat(20),'172-174'.repeat(30),'175-177'.repeat(20),'178-181'.repeat(12),'182-186'.repeat(2),'187以上'.repeat(1)];
+          let randomHeight = heights[Math.floor(Math.random()*heights.length)];
+
+
+
+
+          const statistic = ref();
             statistic.value = {};
 
             const getStatistic = () => {
@@ -1033,6 +1084,52 @@
                 myChart.setOption(option);
             };
 
+            const commercialStatisticPolar = () => {
+                // 基于准备好的dom，初始化echarts实例
+                const myChart = echarts.init(document.getElementById('commercial-statistic-polar'));
+
+                // 指定图表的配置项和数据
+
+                // let option = {
+                //   xAxis: {
+                //     type: 'category',
+                //     data: ['消费能力', '购买频率', '退货率', '换货率', '客服咨询频率']
+                //   },
+                //   yAxis: {
+                //     type: 'value'
+                //   },
+                //   series: [{
+                //     data: ['中上', '高', '低', '低', '低'],
+                //     type: 'bar',
+                //     showBackground: true,
+                //     backgroundStyle: {
+                //       color: 'rgba(180, 180, 180, 0.2)'
+                //     }
+                //   }]
+                // };
+
+              let option = {
+                xAxis: {
+                  type: 'category',
+                  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                  type: 'value'
+                },
+                series: [{
+                  data: [120, 200, 150, 80, 70, 110, 130],
+                  type: 'bar',
+                  showBackground: true,
+                  backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                  }
+                }]
+              };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            };
+
 
             const activeKey = ref('user-profile-statistic');
 
@@ -1040,7 +1137,30 @@
             const userSearchValue = ref('');
 
             const userProfile = ref();
-            userProfile.value = {};
+            userProfile.value = {
+              "gender": "女",
+              "RecentLogin": "超过30日",
+              "highestPay": "99.00",
+              "mobile": "13306834911",
+              "ageGroup": "90",
+              "userName": "督咏",
+              "BrowseProduct": "电饭煲,滤芯,冷柜,4K电视,Haier/海尔冰箱,燃气热水器,微波炉,前置过滤器,电磁炉,烤箱,电风扇,电热水器,燃气灶,Leader/统帅冰箱,净水机,吸尘器/除螨仪,烟灶套系,嵌入式厨电,取暖电器,破壁机,挂烫机,LED电视,波轮洗衣机,电水壶/热水瓶,空气净化器,其他,料理机,冰吧,智能电视",
+              "log_time": "8时--10时",
+              "politicalFace": "群众",
+              "powerOfConsumption": "很低",
+              "DeviceType": "Windows",
+              "ConsumptionCycle": "2周",
+              "moneySaver": "8折-9折",
+              "paymentCode": "alipay",
+              "nationality": "中国大陆",
+              "spendPower": "超高",
+              "Constellation": "双子座",
+              "marriage": "已婚",
+              "BrowsePage": "商品页",
+              "id": "1",
+              "job": "军人",
+              "email": "wcfr817e@yeah.net"
+            };
 
 
             const onSearch = (searchValue: string) => {
@@ -1076,6 +1196,8 @@
 
                 tagStatisticSun();
 
+              commercialStatisticPolar();
+
                 // axios.get("/demo/list").then((response) => {
                 //   const data = response.data;
                 //   //ref数据的赋值
@@ -1097,6 +1219,7 @@
                 onSearch,
 
                 userProfile,
+              randomHeight,
 
                 handleClick,
 
@@ -1449,6 +1572,83 @@
         -moz-transition: all 0.5s;
         -ms-transition: all 0.5s;
         transition: all 0.5s;
+    }
+
+
+    /*  属性列表  */
+
+    .row {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .col-5 {
+      -ms-flex: 0 0 41.666667%;
+      flex: 0 0 41.666667%;
+      max-width: 41.666667%;
+    }
+
+    .card-stats .icon-big {
+      width: 100%;
+      height: 100%;
+      font-size: 2.2em;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .text-center {
+      text-align: center !important;
+    }
+
+    .text-warning, .text-warning a {
+      color: #ffad46 !important;
+    }
+
+    .card-stats .col-stats {
+      align-items: center;
+      display: flex;
+      padding-left: 15px;
+    }
+
+    .col-7 {
+      -ms-flex: 0 0 58.333333%;
+      flex: 0 0 58.333333%;
+      max-width: 58.333333%;
+    }
+
+    .card-stats .card-category {
+      margin-top: 0;
+    }
+    .card-category {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #8d9498;
+      margin-bottom: 0;
+      word-break: normal;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.82;
+      margin-bottom: 1rem;
+      word-break: break-word;
+    }
+
+    .card-stats .card-title {
+      margin-bottom: 0 !important;
+    }
+    .card-title {
+      margin: 0;
+      margin-bottom: 0px;
+      color: #575962;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
 
