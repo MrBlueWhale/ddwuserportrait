@@ -1,5 +1,4 @@
 package com.ibegu.dalaoadmin.service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
@@ -8,22 +7,22 @@ import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class HBaseService {
 
-    private Connection getConnection() throws IOException {
+    private Connection getConnection() throws IOException{
         //创建配置
         Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "master");
-        conf.set("hbase.zookeeper.property.clientPort", "2181");
+        conf.set("hbase.zookeeper.quorum","master");
+        conf.set("hbase.zookeeper.property.clientPort","2181");
 
         //创建连接
         return ConnectionFactory.createConnection(conf);
@@ -63,7 +62,7 @@ public class HBaseService {
         //创建put类
         Put put = new Put(Bytes.toBytes("1001"));
         //想put中添加列簇，列名，值  注意：需要转化成字节数组
-        put.addColumn(Bytes.toBytes("Info"), Bytes.toBytes("name"), Bytes.toBytes("zhangsan"));
+        put.addColumn(Bytes.toBytes("Info"),Bytes.toBytes("name"),Bytes.toBytes("zhangsan"));
         //调用API操作进行插入操作
         student.put(put);
     }
@@ -82,67 +81,67 @@ public class HBaseService {
         //将返回的结果进行遍历输出
         Cell[] cells = result.rawCells();
         for (Cell cell : cells) {
-            System.out.println("rowkey:" + Bytes.toString(CellUtil.cloneRow(cell)));
-            System.out.println("列簇:" + Bytes.toString(CellUtil.cloneFamily(cell)));
-            System.out.println("列名:" + Bytes.toString(CellUtil.cloneQualifier(cell)));
-            System.out.println("值:" + Bytes.toString(CellUtil.cloneValue(cell)));
+            System.out.println("rowkey:"+Bytes.toString(CellUtil.cloneRow(cell)));
+            System.out.println("列簇:"+Bytes.toString(CellUtil.cloneFamily(cell)));
+            System.out.println("列名:"+Bytes.toString(CellUtil.cloneQualifier(cell)));
+            System.out.println("值:"+Bytes.toString(CellUtil.cloneValue(cell)));
         }
     }
 
-    public JSONObject genderRatio() throws IOException {
+    public JSONObject genderRatio() throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int boy = 0;
-        int girl = 0;
+        int girl = 0 ;
         for (Result result : results) {
 
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
-                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("gender")) {
-                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("男")) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("gender")){
+                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("男")){
                         boy++;
-                    } else {
+                    }else{
                         girl++;
                     }
                 }
             }
         }
         JSONObject json = new JSONObject();
-        json.put("男", boy);
-        json.put("女", girl);
+        json.put("男",boy);
+        json.put("女",girl);
         System.out.println(json);
-        return json;
+        return  json;
     }
 
-    public JSONObject ageGroup() throws IOException {
+    public JSONObject ageGroup() throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
 
-        int zero = 0, one = 0, two = 0, three = 0, four = 0, five = 0, six = 0, seven = 0, eight = 0, nine = 0;
+        int zero = 0, one = 0, two = 0, three = 0, four = 0, five = 0, six = 0, seven = 0, eight = 0 , nine = 0;
 
         for (Result result : results) {
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
-                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("ageGroup")) {
-                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("00")) {
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("ageGroup")){
+                    if (Bytes.toString(CellUtil.cloneValue(cell)).equals("00")){
                         zero++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("10")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("10")){
                         one++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("20")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("20")){
                         two++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("30")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("30")){
                         three++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("40")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("40")){
                         four++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("50")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("50")){
                         five++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("60")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("60")){
                         six++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("70")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("70")){
                         seven++;
-                    } else if (Bytes.toString(CellUtil.cloneValue(cell)).equals("80")) {
+                    }else if(Bytes.toString(CellUtil.cloneValue(cell)).equals("80")){
                         eight++;
-                    } else {
+                    }else {
                         nine++;
                     }
                 }
@@ -150,27 +149,27 @@ public class HBaseService {
 
         }
         JSONObject json = new JSONObject();
-        json.put("00", zero);
-        json.put("10", one);
-        json.put("20", two);
-        json.put("30", three);
-        json.put("40", four);
-        json.put("60", six);
-        json.put("50", five);
-        json.put("70", seven);
-        json.put("80", eight);
-        json.put("90", nine);
+        json.put("00",zero);
+        json.put("10",one);
+        json.put("20",two);
+        json.put("30",three);
+        json.put("40",four);
+        json.put("60",six);
+        json.put("50",five);
+        json.put("70",seven);
+        json.put("80",eight);
+        json.put("90",nine);
         System.out.println(json);
-        return json;
+        return  json;
     }
 
 
-    public JSONObject genderAndAgeGroupRatio() throws IOException {
+    public JSONObject genderAndAgeGroupRatio() throws IOException{
         JSONObject json = new JSONObject();
         json.putAll(genderRatio());
         json.putAll(ageGroup());
         System.out.println(json);
-        return json;
+        return  json;
     }
 
     /*
@@ -178,7 +177,7 @@ public class HBaseService {
     返回：{family：[{id: ,col1: , coln:},{},{}]}
 
      */
-    public JSONObject family(String family) throws IOException {
+    public JSONObject family(String family) throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
         ResultScanner population = table.getScanner(Bytes.toBytes(family));
         JSONObject outPut = new JSONObject();
@@ -187,40 +186,39 @@ public class HBaseService {
             List<Cell> listCells = result.listCells();
             System.out.println(Bytes.toString(result.getRow()));
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", Bytes.toString(result.getRow()));
+            jsonObject.put("id",Bytes.toString(result.getRow()));
             for (Cell cell : listCells) {
-                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)), Bytes.toString(CellUtil.cloneValue(cell)));
+                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
             }
 
             jsonArray.add(jsonObject);
         }
-        outPut.put(family, jsonArray);
+        outPut.put(family,jsonArray);
         return outPut;
     }
 
 
-    public JSONObject searchByTel(String tel) throws IOException {
+    public JSONObject searchByTel(String tel) throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
-        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"), Bytes.toBytes("mobile")
-                , CompareFilter.CompareOp.EQUAL, Bytes.toBytes(tel));
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
+        , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
         filter.setFilterIfMissing(true);
         Scan scan = new Scan();
         scan.setFilter(filter);
         ResultScanner scanner = table.getScanner(scan);
 
         JSONObject outP = new JSONObject();
-        for (Result result : scanner) {
+        for (Result result : scanner){
             //System.out.println(Bytes.toString(result.getRow()));
-            outP.put("id", Bytes.toString(result.getRow()));
+            outP.put("id",Bytes.toString(result.getRow()));
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
                 //System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell))+Bytes.toString(CellUtil.cloneValue(cell)));
-                outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)), Bytes.toString(CellUtil.cloneValue(cell)));
+                outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
             }
         }
         return outP;
     }
-
 
 
     public JSONObject queryTable() throws IOException {
@@ -242,15 +240,15 @@ public class HBaseService {
             byte[] row = result.getRow();
 //            System.out.println("row key is:"+new String(row));
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", new String(row));
+            jsonObject.put("id",new String(row));
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
-                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)), Bytes.toString(CellUtil.cloneValue(cell)));
+                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
             }
             jsonArray.add(jsonObject);
 
         }
-        outPut.put("user_profile", jsonArray);
+        outPut.put("user_profile",jsonArray);
         //System.out.println(outPut);
 //        System.out.println("---------------查询整表数据结束----------");
         return outPut;
@@ -265,47 +263,6 @@ public class HBaseService {
         //调用API删除表
         admin.deleteTable(TableName.valueOf("student"));
     }
-
-
-         /* 获取数据（全表数据）
-            * @param tableName 表名
-     * @return map
-     */
-
-    public List<Map<String, String>> getData() {
-        List<Map<String, String>> list = new ArrayList<>();
-        try {
-            //获取数据表对象
-            Table table = getConnection().getTable(TableName.valueOf("user_profile"));
-            Scan scan = new Scan();
-            ResultScanner resultScanner = table.getScanner(scan);
-            for(Result result : resultScanner) {
-                HashMap<String, String> map = new HashMap<>();
-                //rowkey
-                String row = Bytes.toString(result.getRow());
-                map.put("row", row);
-                for (Cell cell : result.listCells()) {
-                    //列族
-                    String family = Bytes.toString(cell.getFamilyArray(),
-                            cell.getFamilyOffset(), cell.getFamilyLength());
-                    //列
-                    String qualifier = Bytes.toString(cell.getQualifierArray(),
-                            cell.getQualifierOffset(), cell.getQualifierLength());
-                    //值
-                    String data = Bytes.toString(cell.getValueArray(),
-                            cell.getValueOffset(), cell.getValueLength());
-                    map.put(family + ":" + qualifier, data);
-                }
-                list.add(map);
-            }
-            table.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-
 
 
 
@@ -352,7 +309,7 @@ public class HBaseService {
     }
 
 
-    public String searchByTelAndCol(String tel, String col) throws IOException{
+    public String searchByTelAndCol(String tel,String col) throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
                 , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
@@ -372,5 +329,45 @@ public class HBaseService {
             }
         }
         return out;
+    }
+
+
+    public int cell2Hours(Cell cell){
+        return Integer.parseInt(Bytes.toString(CellUtil.cloneValue(cell)).split(" ")[1].split(":")[0]);
+    }
+
+    public JSONObject LogTimeRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("tbl_logs"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0, four = 0, five = 0;
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("log_time")){
+                    if(cell2Hours(cell) >= 0 && cell2Hours(cell)<1){
+                        one++;
+                    }else if (cell2Hours(cell) >= 1 && cell2Hours(cell)<8){
+                        two++;
+                    }else if(cell2Hours(cell) < 13){
+                        three++;
+                    }else if(cell2Hours(cell) < 18){
+                        four++;
+                    }else if(cell2Hours(cell) < 22){
+                        five++;
+                    }else if(cell2Hours(cell) < 24){
+                        one++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("22时--24时",one);
+        json.put("1时--7时",two);
+        json.put("8时--12时",three);
+        json.put("13时--17时",four);
+        json.put("18时--21时",five);
+        //System.out.println(json);
+        return  json;
     }
 }
