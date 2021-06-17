@@ -10,6 +10,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -326,5 +329,45 @@ public class HBaseService {
             }
         }
         return out;
+    }
+
+
+    public int cell2Hours(Cell cell){
+        return Integer.parseInt(Bytes.toString(CellUtil.cloneValue(cell)).split(" ")[1].split(":")[0]);
+    }
+    @Test
+    public void LogTimeRatio() throws IOException{
+        Table table = getConnection().getTable(TableName.valueOf("tbl_logs"));
+        ResultScanner results = table.getScanner(new Scan());
+        int one = 0, two = 0, three = 0, four = 0, five = 0;
+        for (Result result : results) {
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                if(Bytes.toString(CellUtil.cloneQualifier(cell)).equals("log_time")){
+                    if(cell2Hours(cell) >= 0 && cell2Hours(cell)<1){
+                        one++;
+                    }else if (cell2Hours(cell) >= 1 && cell2Hours(cell)<8){
+                        two++;
+                    }else if(cell2Hours(cell) < 13){
+                        three++;
+                    }else if(cell2Hours(cell) < 18){
+                        four++;
+                    }else if(cell2Hours(cell) < 22){
+                        five++;
+                    }else if(cell2Hours(cell) < 24){
+                        one++;
+                    }
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("22时--24时",one);
+        json.put("1时--7时",two);
+        json.put("8时--12时",three);
+        json.put("13时--17时",four);
+        json.put("18时--21时",five);
+        System.out.println(json);
+        //return  json;
     }
 }

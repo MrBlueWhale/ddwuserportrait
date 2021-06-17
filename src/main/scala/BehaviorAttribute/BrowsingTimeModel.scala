@@ -33,29 +33,17 @@ object BrowsingTimeModel {
     val logTime = (date: String) => {
       val day = date.toInt
       var result:String = null
-      if (day >= 0 && day<2){
-        result="0时--2时"
-      }else if(day < 4){
-        result="2时--4时"
-      }else if(day < 6){
-        result="4时--6时"
-      }else if(day < 8){
-        result="6时--8时"
-      }else if(day < 10){
-        result="8时--10时"
-      }else if(day < 12){
-        result="10时--12时"
-      }else if(day < 14){
-        result="12时--14时"
-      }else if(day < 16){
-        result="14时--16时"
+      if(day >= 0 && day<1){
+        result="22时--24时"
+      }else if (day >= 1 && day<8){
+        result="1时--7时"
+      }else if(day < 13){
+        result="8时--12时"
       }else if(day < 18){
-        result="16时--18时"
-      }else if(day < 20){
-        result="18时--20时"
+        result="13时--17时"
       }else if(day < 22){
-        result="20时--22时"
-      }else{
+        result="18时--21时"
+      }else if(day < 24){
         result="22时--24时"
       }
       result
