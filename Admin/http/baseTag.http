@@ -39,7 +39,6 @@ Content-Type: application/json
 GET http://localhost:8083/baseTag/listRank3Tags
 
 ###
-
 ###
 #GET http://localhost:8083/baseTag/listRank4Tags?t3Name=用户价值
 #GET http://localhost:8083/baseTag/listRank4Tags?t3Name=商业属性
