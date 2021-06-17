@@ -112,9 +112,9 @@ object moneySaverModel {
 
     //5、将预测结果写入hbase中
     val newResult = result.select('memberId as "id",
-      when('predict === "0", "8折-9折")
+      when('predict === "0", "3折-4折")
         .when('predict === "1", "5折-7折")
-        .when('predict === "2", "3折-4折")
+        .when('predict === "2", "8折-9折")
         .otherwise("未知")
         .as("moneySaver")
     )

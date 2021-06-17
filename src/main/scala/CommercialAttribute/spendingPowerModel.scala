@@ -1,8 +1,7 @@
 package CommercialAttribute
 
 import org.apache.log4j.{Level, Logger}
-import org.apache.spark.ml
-.clustering.KMeans
+import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
@@ -135,11 +134,11 @@ object spendingPowerModel {
          |}
          |}""".stripMargin
 
-    newResult.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+//    newResult.write
+//      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//      .option(HBaseTableCatalog.newTable, "5")
+//      .format("org.apache.spark.sql.execution.datasources.hbase")
+//      .save()
 
 
 
