@@ -10,6 +10,8 @@ import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{DataTypes, LongType}
 
+import scala.util.Try
+
 object productRecommendationModel {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
@@ -37,7 +39,7 @@ object productRecommendationModel {
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .load()
 
-    logsDF.show()
+    //logsDF.show()
 
     val ratingDF = logsDF.select(
       'global_user_id.as("userId").cast(DataTypes.IntegerType),
@@ -46,79 +48,98 @@ object productRecommendationModel {
       .groupBy('userId, 'productId)
       .agg(count('productId) as "rating")
 
-    ratingDF.show()
+    ratingDF.createTempView("tb")
+    //ratingDF.show()
+    val befor = spark.sql("select userId as id,concat_ws(',',collect_set(productId)) as favorProductsTwo from tb group by userId").toDF()
+    //befor.show(false)
 
-    val als = new ALS()
-      .setUserCol("userId")
-      .setItemCol("productId")
-      .setRatingCol("rating")
-      .setPredictionCol("predict")
-      .setColdStartStrategy("drop")
-      .setAlpha(10)
-      .setMaxIter(10)
-      .setRank(10)
-      .setRegParam(1.0)
-      .setImplicitPrefs(true)
-
-    // 将数据集切分为两份，其中训练集占80%(0.8), 测试集占20%(0.2)
-    val Array(trainSet, testSet) = ratingDF.randomSplit(Array(0.8, 0.2))
-    trainSet.show()
-
-    // 回归模型评测器
-    val evaluator: RegressionEvaluator = new RegressionEvaluator()
-      .setLabelCol("rating")
-      .setPredictionCol("predict")
-      .setMetricName("rmse")
+//    val als = new ALS()
+//      .setUserCol("userId")
+//      .setItemCol("productId")
+//      .setRatingCol("rating")
+//      .setPredictionCol("predict")
+//      .setColdStartStrategy("drop")
+//      .setAlpha(10)
+//      .setMaxIter(10)
+//      .setRank(10)
+//      .setRegParam(1.0)
+//      .setImplicitPrefs(true)
+//
+//    // 将数据集切分为两份，其中训练集占80%(0.8), 测试集占20%(0.2)
+//    val Array(trainSet, testSet) = ratingDF.randomSplit(Array(0.8, 0.2))
+//    trainSet.show()
+//
+//    // 回归模型评测器
+//    val evaluator: RegressionEvaluator = new RegressionEvaluator()
+//      .setLabelCol("rating")
+//      .setPredictionCol("predict")
+//      .setMetricName("rmse")
 
      //通过训练集进行训练，建立模型
-    val model: ALSModel = als.fit(trainSet)
-
-
-    // 通过模型进行预测
-    val predictions = model.transform(trainSet)
-//
-    val rmse = evaluator.evaluate(predictions)
-//
-    println(s"rmse value is ${rmse}")
+//    val model: ALSModel = als.fit(trainSet)
 //
 //
-    model.transform(ratingDF).show()
+//    // 通过模型进行预测
+//    val predictions = model.transform(trainSet)
+////
+//    val rmse = evaluator.evaluate(predictions)
+////
+//    println(s"rmse value is ${rmse}")
+////
+////
+//    model.transform(ratingDF).show()
 //
 //
 //
 //
 //    val model: ALSModel = als.fit(ratingDF)
 //
-    model.save("model/product/als")
+    //model.save("model/product/als")
 
-    //val model = ALSModel.load("model/product/als")
+    def sub(str1:String,str2:String): String ={
+      val List1 = str1.split(",").flatMap(id => Try(id.trim).toOption)
+      val List2 = str2.split(",").flatMap(id => Try(id.trim).toOption)
+      List1.diff(List2).mkString(",")
+    }
+    val subFunc = udf(sub _)
+    val model = ALSModel.load("model/product/als")
 
     val predict2StringFunc = udf(predict2String _)
 
     // 为每个用户推荐
-//    val result: DataFrame = model.recommendForAllUsers(10)
-//      .withColumn("favorProducts", predict2StringFunc('recommendations))
-//      .withColumnRenamed("userId", "id")
-//      .drop('recommendations)
-//      .select('id.cast(LongType), 'favorProducts)
+    var result: DataFrame = model.recommendForAllUsers(10)
+      .withColumn("favorProducts", predict2StringFunc('recommendations))
+      .withColumnRenamed("userId", "id")
+      .drop('recommendations)
+      .select('id.cast(LongType), 'favorProducts)
+    //result.show(false)
+
+    result = result.join(befor,result.col("id") === befor.col("id"))
+        .select(result.col("id"),
+          befor.col("favorProductsTwo"),
+          result.col("favorProducts"))
+
+    result = result.select('id,subFunc('favorProducts,'favorProductsTwo).as("favorProducts"))
+    result.show(100, false)
+
+
 //
-//    result.show(100, false)
-//
-//    def recommendationCatalog =
-//      s"""{
-//         |  "table":{"namespace":"default", "name":"user_profile"},
-//         |  "rowkey":"id",
-//         |   "columns":{
-//         |     "id":{"cf":"rowkey", "col":"id", "type":"Long"},
-//         |     "favorProducts":{"cf":"cf", "col":"favorProducts", "type":"string"}
-//         |   }
-//         |}""".stripMargin
-//
-//    result.write
-//      .option(HBaseTableCatalog.tableCatalog, recommendationCatalog)
-//      .option(HBaseTableCatalog.newTable, "5")
-//      .format("org.apache.spark.sql.execution.datasources.hbase")
-//      .save()
+
+    def recommendationCatalog =
+      s"""{
+         |  "table":{"namespace":"default", "name":"user_profile"},
+         |  "rowkey":"id",
+         |   "columns":{
+         |     "id":{"cf":"rowkey", "col":"id", "type":"Long"},
+         |     "favorProducts":{"cf":"Recommendation", "col":"favorProducts", "type":"string"}
+         |   }
+         |}""".stripMargin
+
+    result.write
+      .option(HBaseTableCatalog.tableCatalog, recommendationCatalog)
+      .option(HBaseTableCatalog.newTable, "5")
+      .format("org.apache.spark.sql.execution.datasources.hbase")
+      .save()
 
     spark.stop()
   }
