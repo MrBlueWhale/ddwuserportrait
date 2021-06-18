@@ -12,71 +12,89 @@
         </span>
                 </template>
 
-                <div style="background-color: #ececec; padding: 20px">
-                    <a-row :gutter="16">
-                        <a-col :span="8">
-                            <a-card title="总用户数" :bordered="false">
-                                <p>card content</p>
-                            </a-card>
-                        </a-col>
-                        <a-col :span="8">
-                            <a-card title="成交额" :bordered="false">
-                                <p>card content</p>
-                            </a-card>
-                        </a-col>
-                        <a-col :span="8">
-                            <a-card title="Card title" :bordered="false">
-                                <p>card content</p>
-                            </a-card>
-                        </a-col>
-                    </a-row>
-                </div>
+<div class="tab-container" style="background-color: #f0f2f5; margin-top: 20px">
+    <div style="background-color: #7cabb1;width: 600px; padding: 20px;  margin-left: 25%;  margin-right: 25%; border-radius: 5px 5px 0 0;">
+        <a-row :gutter="16" >
+            <a-col :span="12">
+                <a-card title="总用户数" :bordered="true" style=" box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;">
+                    <h2>950</h2>
+                </a-card>
+            </a-col>
+            <a-col :span="12">
+                <a-card title="成交额" :bordered="false" style=" box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;">
+                    <h2>$ ᕙ༼ ͝°益° ༽ᕗ</h2>
+                </a-card>
+            </a-col>
+        </a-row>
+    </div>
 
 
-              <a-row>
+    <div class="ratio-box" style="background-color: #c6e6e8; margin-top: 50px; margin-left:10px; margin-right:50px; margin-bottom:50px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;">
+        <a-row>
 
-                <a-col :span="11" id="main-col">
+            <a-col :span="7" id="main-col">
 
-                  <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 100px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 100px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
                     <div id="job-ratio" style="height:360px;"></div>
-                  </a-card>
+                </a-card>
 
-<!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
-                </a-col>
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
 
-                <a-col :span="11" id="main-col2">
+            <a-col :span="9" id="main-col3">
 
-                  <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
-                    <div id="spend-power-ratio" style="height:360px;"></div>
-                  </a-card>
-
-                  <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
-                </a-col>
-
-              </a-row>
-
-<!--              <a-divider></a-divider>-->
-
-              <a-row>
-
-                <a-col :span="9" id="main-col3">
-
-                  <a-card style="width: 550px; height: 486px; margin: 0px 0 30px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                <a-card style="width: 550px; height: 486px; margin: 15px 0 30px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
                     <div id="device-ratio" style="height:360px;"></div>
-                  </a-card>
-                </a-col>
+                </a-card>
+            </a-col>
 
-<!--                <a-col :span="15" id="main-col2">-->
+            <a-col :span="6" id="main-col2">
 
-<!--                  <a-card style="width: 420px; height: 330px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >-->
-<!--                    <div id="-ratio" style="height:360px;"></div>-->
-<!--                  </a-card>-->
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="spend-power-ratio" style="height:360px;"></div>
+                </a-card>
 
-<!--                  &lt;!&ndash;                  <div id="job-ratio" style="width:400px;height:600px;"></div>&ndash;&gt;-->
-<!--                </a-col>-->
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
 
-              </a-row>
+        </a-row>
 
+        <!--              <a-divider></a-divider>-->
+
+        <a-row>
+            <a-col :span="8" id="main-col5">
+
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 100px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="gender-ratio" style="height:360px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+            <a-col :span="9" id="main-col4">
+
+                <a-card style="width: 500px; height: 380px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="device-polor" style="height:350px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+            <a-col :span="6" id="main-col6">
+
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="politic-ratio" style="height:360px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+        </a-row>
+    </div>
+
+</div>
+                <a-divider></a-divider>
+<!--           ==========示例==============-->
                 <a-row>
                     <a-col :span="11" id="main-col">
                         <div id="tag-statistic-sun" style="width:400px;height:600px;"></div>
@@ -87,19 +105,6 @@
                     </a-col>
 
                 </a-row>
-
-<!--                <a-row>-->
-<!--                    <a-col :span="24" id="commercial-statistic-radar-col">-->
-<!--                        <div id="commercial-statistic-radar" style="width:400px;height:800px;"></div>-->
-<!--                    </a-col>-->
-<!--                </a-row>-->
-
-                <!--        <a-row>-->
-                <!--          <a-col :span="24" id="main-col">-->
-                <!--            <div id="tag-statistic" style="width:50%;height:600px;"></div>-->
-                <!--          </a-col>-->
-                <!--        </a-row>-->
-
                 <a-row>
                     <a-col :span="24" id="main-col">
                         <div id="main2" style="width:100%;height:800px;"></div>
@@ -1715,10 +1720,183 @@
 
             };
 
+          const logTimePolorChart = () => {
+            // 基于准备好的dom，初始化echarts实例
+            const myChart = echarts.init(document.getElementById('device-polor'));
+            
+
+            // 指定图表的配置项和数据
+            const option = {
+                title: {
+                    text: '浏览时段统计',
+                    left: 'center'
+                },
+                dataset: {
+                    source: [
+                        [ 'amount', 'name'],
+                        [109716, '1时--7时'],
+                        [78752, '13时--17时'],
+                        [78497, '8时--12时'],
+                        [62648, '18时--21时'],
+                        [47370, '22时--24时'],
+                    ]
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}<br/ '
+                },
+                grid:{
+
+                    bottom:80,
+                    left:80,
+
+                    borderWidth:20
+                },
+                xAxis: {name: 'amount'},
+                yAxis: {type: 'category'},
+                visualMap: {
+                    orient: 'horizontal',
+                    left: 'center',
+                    min: 10,
+                    max: 70,
+                    text: ['高', '低'],
+                    // Map the score column to color
+                    dimension: 0,
+                    inRange: {
+                        color: ['#65B581', '#FFCE34', '#FD665F']
+                    }
+                },
+                series: [
+                    {
+                        type: 'bar',
+
+                        encode: {
+                            // Map the "amount" column to X axis.
+                            x: 'amount',
+                            // Map the "product" column to Y axis
+                            y: 'name'
+                        }
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+          };
+
+            const genderRatioPieChart = (data:any) => {
+
+                // 基于准备好的dom，初始化echarts实例
+                const myChart = echarts.init(document.getElementById('gender-ratio'));
+
+                // 指定图表的配置项和数据
+
+                let option = {
+                    title: {
+                        text: '性别分布',
+                        subtext: 'Pie-Chart',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                    },
+                    series: [
+                        {
+                            name: '职业',
+                            type: 'pie',
+                            radius: '50%',
+                            data: data,
+                            labelLine: {
+                                lineStyle: {
+                                    width: 3
+                                }
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 20,
+                                    shadowOffsetX: 10,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        },
+                    ]
+                };
+
+
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
+
+            };
+            const politicRatioPieRadiusChart = (datum:any) => {
+
+                // 基于准备好的dom，初始化echarts实例
+                const myChart = echarts.init(document.getElementById('politic-ratio'));
+
+                // 指定图表的配置项和数据
+
+                let option  = {
+                    title: {
+                        text: '政治面貌统计',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    textStyle: {
+                        fontSize: 12,
+                    },
+                    series: [
+                        {
+                            name: '消费能力统计',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '25',
+                                    fontWeight: '30'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: datum
+                        }
+                    ]
+                };
+
+
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
+
+            };
+
           const genderPolorChart = (datum:any) => {
             // 基于准备好的dom，初始化echarts实例
             const myChart = echarts.init(document.getElementById('main'));
-            
+
 
             // 指定图表的配置项和数据
             const option = {
@@ -1914,6 +2092,11 @@
                   jobRatioPieChart(jobRatio);
                   spendPowerRatioPieRadiusChart(spendPowerRatio);
                   debiceRatioRoseChart(deviceRatio);
+
+                    logTimePolorChart();
+
+                    genderRatioPieChart(genderRatio);
+                    politicRatioPieRadiusChart(politicsFaceRatio);
 
 
                   // commercialStatisticRadar();

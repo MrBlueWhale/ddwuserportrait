@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 // import com.ibegu.dalaoadmin.resp.BaseTagQueryResp;
 
@@ -89,12 +87,23 @@ public class UserProfileController {
         JSONObject tagRatioJson = new JSONObject();
 
         try {
-            JSONObject genderRatioJson = hBaseService.genderRatio();
-            JSONObject pliticsFaceRatioJson = hBaseService.politicsFaceRatio();
-            JSONObject spendPowerRatioJson = hBaseService.spendPowerRatio();
-            JSONObject LogTimeRatioJson = hBaseService.LogTimeRatio();
-            JSONObject deviceRatioJson = hBaseService.DeviceRatio();
-            JSONObject jobRatioJson = hBaseService.jobRatio();
+//            JSONObject genderRatioJson = hBaseService.genderRatio();
+//            JSONObject pliticsFaceRatioJson = hBaseService.politicsFaceRatio();
+//            JSONObject spendPowerRatioJson = hBaseService.spendPowerRatio();
+//            JSONObject LogTimeRatioJson = hBaseService.LogTimeRatio();
+//            JSONObject deviceRatioJson = hBaseService.DeviceRatio();
+//            JSONObject jobRatioJson = hBaseService.jobRatio();
+
+
+           //tagRatioJson. = hBaseService.jobRatio();
+
+            tagRatioJson.put("jobRatio",hBaseService.jobRatio().get("jobRatio"));
+            tagRatioJson.put("genderRatio",hBaseService.genderRatio().get("genderRatio"));
+            tagRatioJson.put("politicsFaceRatio",hBaseService.politicsFaceRatio().get("politicsFaceRatio"));
+            tagRatioJson.put("spendPowerRatio",hBaseService.spendPowerRatio().get("spendPowerRatio"));
+            tagRatioJson.put("deviceRatio",hBaseService.DeviceRatio().get("DeviceRatio"));
+            tagRatioJson.put("LogTimeRatio",hBaseService.LogTimeRatio().get("LogTimeRatio"));
+
 
 
 
@@ -102,13 +111,13 @@ public class UserProfileController {
 //            tagRatioJson.put("saas",pliticsFaceRatioJson);
 
 //            jobRatioJson.put
-            tagRatioJson.put("genderRatio", genderRatioJson);
-            tagRatioJson.put("pliticsFace", pliticsFaceRatioJson);
-
-            tagRatioJson.put("spendPowerRatio", spendPowerRatioJson);
-            tagRatioJson.put("LogTimeRatio", LogTimeRatioJson);
-            tagRatioJson.put("deviceRatio", deviceRatioJson);
-            tagRatioJson.put("jobRatio", jobRatioJson);
+//            tagRatioJson.put("genderRatio", genderRatioJson);
+//            tagRatioJson.put("pliticsFace", pliticsFaceRatioJson);
+//
+//            tagRatioJson.put("spendPowerRatio", spendPowerRatioJson);
+//            tagRatioJson.put("LogTimeRatio", LogTimeRatioJson);
+//            tagRatioJson.put("deviceRatio", deviceRatioJson);
+//            tagRatioJson.put("jobRatio", jobRatioJson);
 
 
 
@@ -119,7 +128,7 @@ public class UserProfileController {
         JsonFileUtil jsonFileUtil = new JsonFileUtil();
 
 //        jsonFileUtil.writeJson("D://portrait//data//", tagRatioJson, "tagRatioJson.json");
-        jsonFileUtil.writeJson("C://Users//Administrator//IdeaProjects//ddwuserportrait//Admin//web//src//views//portrait//data//", tagRatioJson, "tagRatioJson.json");
+        jsonFileUtil.writeJson("D://", tagRatioJson, "tagRatioJson.json");
     }
 
 
@@ -127,32 +136,13 @@ public class UserProfileController {
     public CommonResp showPanorama() throws IOException {
         CommonResp resp = new CommonResp<>();
 
-        Map<String,JSONObject> panorama = new HashMap<>();
+        // Map<String,JSONObject> panorama = new HashMap<>();
 
-        JSONObject genderRatioJson = hBaseService.genderRatio();
-        JSONObject pliticsFaceRatioJson = hBaseService.politicsFaceRatio();
-        JSONObject spendPowerRatioJson = hBaseService.spendPowerRatio();
-        JSONObject LogTimeRatioJson = hBaseService.LogTimeRatio();
-        JSONObject deviceRatioJson = hBaseService.DeviceRatio();
-        JSONObject jobRatioJson = hBaseService.jobRatio();
-//        JsonFileUtil jsonFileUtil = new JsonFileUtil();
-        LOG.info("gender"+"{}", genderRatioJson);
 
-        panorama.put("genderRatio", genderRatioJson);
-        LOG.info("panorama"+"{}", panorama);
-        panorama.put("pliticsFace", pliticsFaceRatioJson);
-        LOG.info("pliticsFace"+"{}", pliticsFaceRatioJson);
-        panorama.put("spendPowerRatio", spendPowerRatioJson);
-        panorama.put("LogTimeRatio", LogTimeRatioJson);
-        panorama.put("deviceRatio", deviceRatioJson);
-        panorama.put("jobRatio", jobRatioJson);
+        // resp.setContent(panorama);
+        JsonFileUtil jsonFileUtil = new JsonFileUtil();
 
-//        hBaseService.
-
-//        panoramaJson = JSONObject.parseObject();
-
-        resp.setContent(panorama);
-//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+        resp.setContent(JSONObject.parseObject(jsonFileUtil.readJson("Admin//web//src//views//portrait//data//tagRatioJson.json")));
 
         return resp;
     }

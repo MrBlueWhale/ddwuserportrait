@@ -1,0 +1,103 @@
+{
+  "jobRatio": [
+    {
+      "name": "学生",
+      "value": 162
+    },
+    {
+      "name": "公务员",
+      "value": 145
+    },
+    {
+      "name": "军人",
+      "value": 202
+    },
+    {
+      "name": "警察",
+      "value": 143
+    },
+    {
+      "name": "教师",
+      "value": 130
+    },
+    {
+      "name": "白领",
+      "value": 168
+    }
+  ],
+  "politicsFaceRatio": [
+    {
+      "name": "群众",
+      "value": 322
+    },
+    {
+      "name": "党员",
+      "value": 323
+    },
+    {
+      "name": "无党派人士",
+      "value": 305
+    }
+  ],
+  "genderRatio": [
+    {
+      "女": 469,
+      "name": "女"
+    },
+    {
+      "$ref": "$.genderRatio[0]"
+    }
+  ],
+  "spendPowerRatio": [
+    {
+      "name": "很低",
+      "value": 6
+    },
+    {
+      "name": "低",
+      "value": 29
+    },
+    {
+      "name": "中下",
+      "value": 1
+    },
+    {
+      "name": "中",
+      "value": 5
+    },
+    {
+      "name": "中上",
+      "value": 5
+    },
+    {
+      "name": "高",
+      "value": 204
+    },
+    {
+      "name": "超高",
+      "value": 719
+    }
+  ],
+  "deviceRatio": [
+    {
+      "name": "Android",
+      "value": 326
+    },
+    {
+      "name": "Windows",
+      "value": 515
+    },
+    {
+      "name": "iOS",
+      "value": 90
+    },
+    {
+      "name": "Mac",
+      "value": 0
+    },
+    {
+      "name": "Linux",
+      "value": 9
+    }
+  ]
+}

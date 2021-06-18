@@ -1,18 +1,20 @@
 package com.ibegu.dalaoadmin.service;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -618,7 +620,7 @@ public class HBaseService {
             json.put("value",counts[i]);
             temp.add(json);
         }
-        out.put("jobRatio",temp);
+        out.put("politicsFaceRatio",temp);
         System.out.println(out);
         return  out;
     }
