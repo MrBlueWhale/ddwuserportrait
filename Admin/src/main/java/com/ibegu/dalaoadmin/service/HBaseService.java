@@ -25,8 +25,15 @@ public class HBaseService {
 
     private static java.sql.Connection connection;
 
+    private static Connection HbaseConn;
+
     public HBaseService(){
         connection = TheSqlConnection();
+        try {
+            HbaseConn = getConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public java.sql.Connection TheSqlConnection()
@@ -78,7 +85,7 @@ public class HBaseService {
     public void createTable() throws IOException {
 
         //创建admin
-        Admin admin = getConnection().getAdmin();
+        Admin admin = HbaseConn.getAdmin();
         //创建表的描述信息
         HTableDescriptor student = new HTableDescriptor(TableName.valueOf("student"));
         //添加列簇
@@ -92,7 +99,7 @@ public class HBaseService {
     //判断表是否存在
     public void isTableExists() throws IOException {
         //创建admin
-        Admin admin = getConnection().getAdmin();
+        Admin admin = HbaseConn.getAdmin();
         //调用API进行判断表是否存在
         System.out.println(admin.tableExists(TableName.valueOf("user_profile")));
         //System.out.println(admin);
@@ -103,7 +110,7 @@ public class HBaseService {
     public void putData2Table() throws IOException {
 
         //创建table类
-        Table student = getConnection().getTable(TableName.valueOf("student"));
+        Table student = HbaseConn.getTable(TableName.valueOf("student"));
         //创建put类
         Put put = new Put(Bytes.toBytes("1001"));
         //想put中添加列簇，列名，值  注意：需要转化成字节数组
@@ -117,7 +124,7 @@ public class HBaseService {
     public void getDataFromTable() throws IOException {
 
         //创建table类
-        Table student = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table student = HbaseConn.getTable(TableName.valueOf("user_profile"));
         Scan scan = new Scan();
 
         //创建get类
@@ -135,7 +142,7 @@ public class HBaseService {
     }
 
     public JSONObject genderRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int boy = 0;
         int girl = 0 ;
@@ -171,7 +178,7 @@ public class HBaseService {
     }
 
     public JSONObject ageGroup() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
 
         int zero = 0, one = 0, two = 0, three = 0, four = 0, five = 0, six = 0, seven = 0, eight = 0 , nine = 0;
@@ -236,7 +243,7 @@ public class HBaseService {
 
      */
     public JSONObject family(String family) throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner population = table.getScanner(Bytes.toBytes(family));
         JSONObject outPut = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -258,7 +265,7 @@ public class HBaseService {
 
 
     public JSONObject searchByTel(String tel) throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
         , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
         filter.setFilterIfMissing(true);
@@ -288,14 +295,14 @@ public class HBaseService {
     @Test
     public void test(){
         try {
-            System.out.println(searchByTel("15105132750"));
+            System.out.println(searchByTel("13908735198"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public JSONObject spendPowerRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0,six = 0,seven = 0;
         for (Result result : results) {
@@ -347,7 +354,7 @@ public class HBaseService {
         }
     }
     public JSONObject jobRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0,six = 0,seven = 0;
         for (Result result : results) {
@@ -390,7 +397,7 @@ public class HBaseService {
     }
 
     public JSONObject DeviceRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0;
         for (Result result : results) {
@@ -433,7 +440,7 @@ public class HBaseService {
 //        System.out.println("--------------------查询整表的数据--------");
 
         //获取数据表对象
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
 
 
         //获取表中的数据
@@ -465,7 +472,7 @@ public class HBaseService {
     //删除表操作
     public void dropTable() throws IOException {
         //创建admin
-        Admin admin = getConnection().getAdmin();
+        Admin admin = HbaseConn.getAdmin();
         //调用API禁用表
         admin.disableTable(TableName.valueOf("student"));
         //调用API删除表
@@ -475,7 +482,7 @@ public class HBaseService {
 
 
     public JSONObject paymentCodeRate() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("tbl_orders"));
+        Table table = HbaseConn.getTable(TableName.valueOf("tbl_orders"));
 
         Scan scan = new Scan();
         scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("paymentCode"));
@@ -525,7 +532,7 @@ public class HBaseService {
 
 
     public String searchByTelAndCol(String tel,String col) throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
                 , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
         filter.setFilterIfMissing(true);
@@ -552,7 +559,7 @@ public class HBaseService {
     }
 
     public JSONObject LogTimeRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("tbl_logs"));
+        Table table = HbaseConn.getTable(TableName.valueOf("tbl_logs"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0;
         for (Result result : results) {
@@ -588,7 +595,7 @@ public class HBaseService {
 
 
     public JSONObject politicsFaceRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0;
         for (Result result : results) {
@@ -627,6 +634,7 @@ public class HBaseService {
     public String id2ProductName(List<String> strings){
         PreparedStatement statement;
         StringBuilder stringBuilder = new StringBuilder();
+        System.out.println("进入顶顶顶顶顶顶顶顶顶顶顶顶");
         try {
             statement = connection.prepareStatement("select productName from tbl_goods where productId = ?");
             for (String s:strings){
@@ -643,4 +651,6 @@ public class HBaseService {
         }
         return stringBuilder.toString();
     }
+
+
 }

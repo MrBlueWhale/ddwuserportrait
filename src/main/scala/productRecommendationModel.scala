@@ -18,25 +18,23 @@ object productRecommendationModel {
 
     import spark.implicits._
 
-    def Catalog =
+    def catalog =
       s"""{
-         |  "table":{"namespace":"default", "name":"tbl_logs"},
-         |  "rowkey":"id",
-         |   "columns":{
-         |     "id":{"cf":"rowkey", "col":"id", "type":"Long"},
-         |     "global_user_id":{"cf":"cf", "col":"global_user_id", "type":"string"},
-         |     "loc_url":{"cf":"cf", "col":"loc_url", "type":"string"}
-         |   }
+         |"table":{"namespace":"default", "name":"tbl_logs"},
+         |"rowkey":"id",
+         |"columns":{
+         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
+         |"global_user_id":{"cf":"cf", "col":"global_user_id", "type":"string"},
+         |"loc_url":{"cf":"cf", "col":"loc_url", "type":"string"}
+         |}
          |}""".stripMargin
 
     val url2ProductId = udf(getProductId _)
 
     val logsDF: DataFrame = spark.read
-      .option(HBaseTableCatalog.tableCatalog, Catalog)
+      .option(HBaseTableCatalog.tableCatalog, catalog)
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .load()
-
-    logsDF.show()
 
     val ratingDF = logsDF.select(
       'global_user_id.as("userId").cast(DataTypes.IntegerType),
@@ -46,6 +44,32 @@ object productRecommendationModel {
       .agg(count('productId) as "rating")
 
     ratingDF.show(false)
+    ratingDF.createTempView("tb")
+
+    val befor = spark.sql("select userId as id,concat_ws(',',collect_set(productId)) as favorProductsTwo from tb group by userId").toDF()
+
+
+
+    val subFunc = udf(sub _)
+    val model = ALSModel.load("model/product/als")
+    val predict2StringFunc = udf(predict2String _)
+
+    // 为每个用户推荐
+    var result: DataFrame = model.recommendForAllUsers(10)
+      .withColumn("favorProducts", predict2StringFunc('recommendations))
+      .withColumnRenamed("userId", "id")
+      .drop('recommendations)
+      .select('id.cast(LongType), 'favorProducts)
+    //result.show(false)
+
+    result = result.join(befor,result.col("id") === befor.col("id"))
+      .select(result.col("id"),
+        befor.col("favorProductsTwo"),
+        result.col("favorProducts"))
+
+    result = result.select('id,subFunc('favorProducts,'favorProductsTwo).as("favorProducts"))
+    result.show(100, false)
+    result  = result.select('id,'favorProducts).where('favorProducts.isNotNull)
 
 //    val als = new ALS()
 //      .setUserCol("userId")
@@ -91,6 +115,23 @@ object productRecommendationModel {
 //      .option(HBaseTableCatalog.newTable, "5")
 //      .format("org.apache.spark.sql.execution.datasources.hbase")
 //      .save()
+
+    def recommendationCatalog =
+      s"""{
+         |  "table":{"namespace":"default", "name":"user_profile"},
+         |  "rowkey":"id",
+         |   "columns":{
+         |     "id":{"cf":"rowkey", "col":"id", "type":"Long"},
+         |     "favorProducts":{"cf":"Recommendation", "col":"favorProducts", "type":"string"}
+         |   }
+         |}""".stripMargin
+
+    result.write
+      .option(HBaseTableCatalog.tableCatalog, recommendationCatalog)
+      .option(HBaseTableCatalog.newTable, "5")
+      .format("org.apache.spark.sql.execution.datasources.hbase")
+      .save()
+
 
     spark.stop()
   }
