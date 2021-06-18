@@ -1,15 +1,16 @@
-//商品推荐预测文件
-//根据用户购买记录向用户推荐10商品
-//针对用户已经购买过的商品，需要进行去重
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.ml.recommendation.{ALS, ALSModel}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{DataTypes, LongType}
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
-object ProductRecommendationModel {
+import scala.util.Try
+
+object productRecommendationModel {
   def main(args: Array[String]): Unit = {
+    //Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
     val spark = SparkSession.builder()
       .appName("GenderName")
       .master("local")
@@ -17,21 +18,21 @@ object ProductRecommendationModel {
 
     import spark.implicits._
 
-    def logsCatalog =
+    def catalog =
       s"""{
-         |  "table":{"namespace":"default", "name":"tbl_logs"},
-         |  "rowkey":"id",
-         |   "columns":{
-         |     "id":{"cf":"rowkey", "col":"id", "type":"string"},
-         |     "global_user_id":{"cf":"cf", "col":"global_user_id", "type":"string"},
-         |     "loc_url":{"cf":"cf", "col":"loc_url", "type":"string"}
-         |   }
+         |"table":{"namespace":"default", "name":"tbl_logs"},
+         |"rowkey":"id",
+         |"columns":{
+         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
+         |"global_user_id":{"cf":"cf", "col":"global_user_id", "type":"string"},
+         |"loc_url":{"cf":"cf", "col":"loc_url", "type":"string"}
+         |}
          |}""".stripMargin
 
     val url2ProductId = udf(getProductId _)
 
     val logsDF: DataFrame = spark.read
-      .option(HBaseTableCatalog.tableCatalog, logsCatalog)
+      .option(HBaseTableCatalog.tableCatalog, catalog)
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .load()
 
@@ -42,77 +43,95 @@ object ProductRecommendationModel {
       .groupBy('userId, 'productId)
       .agg(count('productId) as "rating")
 
-    val als = new ALS()
-      .setUserCol("userId")
-      .setItemCol("productId")
-      .setRatingCol("rating")
-      .setPredictionCol("predict")
-      .setColdStartStrategy("drop")
-      .setAlpha(10)
-      .setMaxIter(10)
-      .setRank(10)
-      .setRegParam(1.0)
-      .setImplicitPrefs(true)
+    ratingDF.show(false)
+    ratingDF.createTempView("tb")
 
-    val originDF = logsDF.select(
-      'global_user_id.as("userId").cast(DataTypes.IntegerType),
-      url2ProductId('loc_url).as("productId").cast(DataTypes.IntegerType)
-    ).filter('productId.isNotNull)
+    val befor = spark.sql("select userId as id,concat_ws(',',collect_set(productId)) as favorProductsTwo from tb group by userId").toDF()
 
 
-    val modelLoad: ALSModel = als.fit(ratingDF)
 
+    val subFunc = udf(sub _)
+    val model = ALSModel.load("model/product/als")
     val predict2StringFunc = udf(predict2String _)
 
-    //为每个用户推荐
-    val result1: DataFrame = modelLoad.recommendForAllUsers(10)
+    // 为每个用户推荐
+    var result: DataFrame = model.recommendForAllUsers(10)
       .withColumn("favorProducts", predict2StringFunc('recommendations))
       .withColumnRenamed("userId", "id")
       .drop('recommendations)
       .select('id.cast(LongType), 'favorProducts)
+    //result.show(false)
 
-    //DEBUG
-    //    val result3 = result1
-    //      .withColumn("productId", explode(col("favorProducts")))
-    //      .drop("favorProducts")
-    //      .groupBy('id)
-    //      .agg(count("productId"))
-    //      .where("id <= 950")
-    //      .orderBy("id")
-    //      result3.show(950,false)
+    result = result.join(befor,result.col("id") === befor.col("id"))
+      .select(result.col("id"),
+        befor.col("favorProductsTwo"),
+        result.col("favorProducts"))
 
-    var result2: DataFrame = result1
-      .withColumn("productId", explode(col("favorProducts")))
-      .drop("favorProducts")
-      .select('id.as("userId").cast(DataTypes.IntegerType), 'productId)
+    result = result.select('id,subFunc('favorProducts,'favorProductsTwo).as("favorProducts"))
+    result.show(100, false)
+    result  = result.select('id,'favorProducts).where('favorProducts.isNotNull)
 
+//    val als = new ALS()
+//      .setUserCol("userId")
+//      .setItemCol("productId")
+//      .setRatingCol("rating")
+//      .setPredictionCol("predict")
+//      .setColdStartStrategy("drop")
+//      .setAlpha(10)
+//      .setMaxIter(10)
+//      .setRank(5)
+//      .setRegParam(0.8)
+//      .setImplicitPrefs(true)
+//
+//    val model: ALSModel = als.fit(ratingDF)
+//
+//    model.save("model/product/als")
 
-    result2.createOrReplaceTempView("test");    result2 = result2.except(originDF)
-      .select('userId.as("id")cast(DataTypes.StringType), 'productId)
-      //        .groupBy('id)
-      //        .agg(count("productId"))
-      .where("id <= 950")
+//    val model = ALSModel.load("model/product/als")
+//
+//    val predict2StringFunc = udf(predict2String _)
+//
+//    // 为每个用户推荐
+//    val result: DataFrame = model.recommendForAllUsers(10)
+//      .withColumn("favorProducts", predict2StringFunc('recommendations))
+//      .withColumnRenamed("userId", "id")
+//      .drop('recommendations)
+//      .select('id.cast(LongType), 'favorProducts)
+//
+//    result.show(100, false)
+//
+//    def recommendationCatalog =
+//      s"""{
+//         |  "table":{"namespace":"default", "name":"user_profile"},
+//         |  "rowkey":"id",
+//         |   "columns":{
+//         |     "id":{"cf":"rowkey", "col":"id", "type":"Long"},
+//         |     "favorProducts":{"cf":"cf", "col":"favorProducts", "type":"string"}
+//         |   }
+//         |}""".stripMargin
+//
+//    result.write
+//      .option(HBaseTableCatalog.tableCatalog, recommendationCatalog)
+//      .option(HBaseTableCatalog.newTable, "5")
+//      .format("org.apache.spark.sql.execution.datasources.hbase")
+//      .save()
 
-    result2 = spark.sql("select id,concat_ws(',',collect_set(productId)) as favorProducts from test group by id")
-
-    result2.show(950,false)
-
-    //写入HBase
     def recommendationCatalog =
       s"""{
          |  "table":{"namespace":"default", "name":"user_profile"},
          |  "rowkey":"id",
          |   "columns":{
-         |     "id":{"cf":"rowkey", "col":"id", "type":"string"},
+         |     "id":{"cf":"rowkey", "col":"id", "type":"Long"},
          |     "favorProducts":{"cf":"Recommendation", "col":"favorProducts", "type":"string"}
          |   }
          |}""".stripMargin
 
-    result2.write
+    result.write
       .option(HBaseTableCatalog.tableCatalog, recommendationCatalog)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .save()
+
 
     spark.stop()
   }
@@ -129,7 +148,13 @@ object ProductRecommendationModel {
     productId
   }
 
+  def sub(str1:String,str2:String): String ={
+    val List1 = str1.split(",").flatMap(id => Try(id.trim).toOption)
+    val List2 = str2.split(",").flatMap(id => Try(id.trim).toOption)
+    List1.diff(List2).mkString(",")
+  }
+
   def predict2String(arr: Seq[Row]) = {
-    arr.map(_.getAs[Int]("productId")) //.mkString(",")
+    arr.map(_.getAs[Int]("productId")).mkString(",")
   }
 }

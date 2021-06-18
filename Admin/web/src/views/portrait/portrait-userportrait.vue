@@ -12,26 +12,89 @@
         </span>
                 </template>
 
-                <div style="background-color: #ececec; padding: 20px">
-                    <a-row :gutter="16">
-                        <a-col :span="8">
-                            <a-card title="总用户数" :bordered="false">
-                                <p>card content</p>
-                            </a-card>
-                        </a-col>
-                        <a-col :span="8">
-                            <a-card title="成交额" :bordered="false">
-                                <p>card content</p>
-                            </a-card>
-                        </a-col>
-                        <a-col :span="8">
-                            <a-card title="Card title" :bordered="false">
-                                <p>card content</p>
-                            </a-card>
-                        </a-col>
-                    </a-row>
-                </div>
+<div class="tab-container" style="background-color: #f0f2f5; margin-top: 20px">
+    <div style="background-color: #7cabb1;width: 600px; padding: 20px;  margin-left: 25%;  margin-right: 25%; border-radius: 5px 5px 0 0;">
+        <a-row :gutter="16" >
+            <a-col :span="12">
+                <a-card title="总用户数" :bordered="true" style=" box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;">
+                    <h2>950</h2>
+                </a-card>
+            </a-col>
+            <a-col :span="12">
+                <a-card title="成交额" :bordered="false" style=" box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;">
+                    <h2>$ ᕙ༼ ͝°益° ༽ᕗ</h2>
+                </a-card>
+            </a-col>
+        </a-row>
+    </div>
 
+
+    <div class="ratio-box" style="background-color: #c6e6e8; margin-top: 50px; margin-left:10px; margin-right:50px; margin-bottom:50px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;">
+        <a-row>
+
+            <a-col :span="7" id="main-col">
+
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 100px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="job-ratio" style="height:360px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+            <a-col :span="9" id="main-col3">
+
+                <a-card style="width: 550px; height: 486px; margin: 15px 0 30px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="device-ratio" style="height:360px;"></div>
+                </a-card>
+            </a-col>
+
+            <a-col :span="6" id="main-col2">
+
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="spend-power-ratio" style="height:360px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+        </a-row>
+
+        <!--              <a-divider></a-divider>-->
+
+        <a-row>
+            <a-col :span="8" id="main-col5">
+
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 100px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="gender-ratio" style="height:360px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+            <a-col :span="9" id="main-col4">
+
+                <a-card style="width: 500px; height: 380px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="device-polor" style="height:350px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+            <a-col :span="6" id="main-col6">
+
+                <a-card style="width: 390px; height: 350px; margin: 50px 0 50px 50px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 5px 5px 0 0;" >
+                    <div id="politic-ratio" style="height:360px;"></div>
+                </a-card>
+
+                <!--                  <div id="job-ratio" style="width:400px;height:600px;"></div>-->
+            </a-col>
+
+        </a-row>
+    </div>
+
+</div>
+                <a-divider></a-divider>
+<!--           ==========示例==============-->
                 <a-row>
                     <a-col :span="11" id="main-col">
                         <div id="tag-statistic-sun" style="width:400px;height:600px;"></div>
@@ -42,19 +105,6 @@
                     </a-col>
 
                 </a-row>
-
-<!--                <a-row>-->
-<!--                    <a-col :span="24" id="commercial-statistic-radar-col">-->
-<!--                        <div id="commercial-statistic-radar" style="width:400px;height:800px;"></div>-->
-<!--                    </a-col>-->
-<!--                </a-row>-->
-
-                <!--        <a-row>-->
-                <!--          <a-col :span="24" id="main-col">-->
-                <!--            <div id="tag-statistic" style="width:50%;height:600px;"></div>-->
-                <!--          </a-col>-->
-                <!--        </a-row>-->
-
                 <a-row>
                     <a-col :span="24" id="main-col">
                         <div id="main2" style="width:100%;height:800px;"></div>
@@ -62,6 +112,10 @@
                 </a-row>
 
             </a-tab-pane>
+
+<!--    ===============      个人用户画像检索 ===============  -->
+<!--    ===============      个人用户画像检索 ===============  -->
+
             <a-tab-pane key="user-profile-search">
                 <template #tab>
         <span @click="handleClick('user-profile-search')">
@@ -501,6 +555,10 @@
 
 
             </a-tab-pane>
+
+          <!--    ===============      群组用户画像检索 ===============  -->
+          <!--    ===============      群组用户画像检索 ===============  -->
+
             <a-tab-pane key="user-profile-group-search">
                 <template #tab>
         <span @click="handleClick('user-profile-search')">
@@ -562,7 +620,10 @@
         value: number;
     }
 
-
+    interface RatioItem {
+      name: string;
+      value: number;
+    }
 
 
 
@@ -1479,6 +1540,387 @@
                 myChart.setOption(option);
             };
 
+            const jobRatioPieChart = (data:any) => {
+
+              // 基于准备好的dom，初始化echarts实例
+              const myChart = echarts.init(document.getElementById('job-ratio'));
+
+              // 指定图表的配置项和数据
+
+              let option = {
+                title: {
+                  text: '用户职业分布',
+                  subtext: 'Pie-Chart',
+                  left: 'center'
+                },
+                tooltip: {
+                  trigger: 'item'
+                },
+                legend: {
+                  orient: 'vertical',
+                  left: 'left',
+                },
+                series: [
+                  {
+                    name: '职业',
+                    type: 'pie',
+                    radius: '50%',
+                    data: data,
+                    labelLine: {
+                      lineStyle: {
+                        width: 3
+                      }
+                    },
+                    emphasis: {
+                      itemStyle: {
+                        shadowBlur: 20,
+                        shadowOffsetX: 10,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      }
+                    }
+                  },
+                ]
+              };
+
+
+
+              // 使用刚指定的配置项和数据显示图表。
+              myChart.setOption(option);
+
+
+            };
+            const spendPowerRatioPieRadiusChart = (datum:any) => {
+
+              // 基于准备好的dom，初始化echarts实例
+              const myChart = echarts.init(document.getElementById('spend-power-ratio'));
+
+              // 指定图表的配置项和数据
+
+              let option  = {
+                title: {
+                  text: '消费能力统计',
+                  left: 'center'
+                },
+                tooltip: {
+                  trigger: 'item'
+                },
+                legend: {
+                  top: '5%',
+                  left: 'center'
+                },
+                textStyle: {
+                  fontSize: 12,
+                },
+                series: [
+                  {
+                    name: '消费能力统计',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                      borderRadius: 10,
+                      borderColor: '#fff',
+                      borderWidth: 2
+                    },
+                    label: {
+                      show: false,
+                      position: 'center'
+                    },
+                    emphasis: {
+                      label: {
+                        show: true,
+                        fontSize: '25',
+                        fontWeight: '30'
+                      }
+                    },
+                    labelLine: {
+                      show: false
+                    },
+                    data: datum
+                  }
+            ]
+            };
+
+
+
+              // 使用刚指定的配置项和数据显示图表。
+              myChart.setOption(option);
+
+
+            };
+            const debiceRatioRoseChart = (datum:any) => {
+
+              // 基于准备好的dom，初始化echarts实例
+              const myChart = echarts.init(document.getElementById('device-ratio'));
+
+              // 指定图表的配置项和数据
+
+              let option = {
+                title: {
+                  text: '登录设备统计',
+                  left: 'center'
+                },
+                legend: {
+                  top: 'bottom'
+                },
+                tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                toolbox: {
+                  show: true,
+                  feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: false},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                  }
+                },
+                series: [
+                  {
+                    name: '登录设备统计',
+                    type: 'pie',
+                    radius: [20, 140],
+                    center: ['50%', '50%'],
+                    roseType: 'area',
+                    itemStyle: {
+                      borderRadius: 8
+                    },
+                    data: [
+                      {
+                        "name": "Linux",
+                        "value": 9
+                      },
+                      {
+                        "name": "Windows",
+                        "value": 515
+                      },
+                      {
+                        "name": "iOS",
+                        "value": 90
+                      },
+                      {
+                        "name": "Mac",
+                        "value": 0
+                      },
+                      {
+                        "name": "Android",
+                        "value": 326
+                      }
+                    ]
+                  }
+                ]
+              };
+
+
+
+              // 使用刚指定的配置项和数据显示图表。
+              myChart.setOption(option);
+
+
+            };
+
+          const logTimePolorChart = () => {
+            // 基于准备好的dom，初始化echarts实例
+            const myChart = echarts.init(document.getElementById('device-polor'));
+            
+
+            // 指定图表的配置项和数据
+            const option = {
+                title: {
+                    text: '浏览时段统计',
+                    left: 'center'
+                },
+                dataset: {
+                    source: [
+                        [ 'amount', 'name'],
+                        [109716, '1时--7时'],
+                        [78752, '13时--17时'],
+                        [78497, '8时--12时'],
+                        [62648, '18时--21时'],
+                        [47370, '22时--24时'],
+                    ]
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}<br/ '
+                },
+                grid:{
+
+                    bottom:80,
+                    left:80,
+
+                    borderWidth:20
+                },
+                xAxis: {name: 'amount'},
+                yAxis: {type: 'category'},
+                visualMap: {
+                    orient: 'horizontal',
+                    left: 'center',
+                    min: 10,
+                    max: 70,
+                    text: ['高', '低'],
+                    // Map the score column to color
+                    dimension: 0,
+                    inRange: {
+                        color: ['#65B581', '#FFCE34', '#FD665F']
+                    }
+                },
+                series: [
+                    {
+                        type: 'bar',
+
+                        encode: {
+                            // Map the "amount" column to X axis.
+                            x: 'amount',
+                            // Map the "product" column to Y axis
+                            y: 'name'
+                        }
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+          };
+
+            const genderRatioPieChart = (data:any) => {
+
+                // 基于准备好的dom，初始化echarts实例
+                const myChart = echarts.init(document.getElementById('gender-ratio'));
+
+                // 指定图表的配置项和数据
+
+                let option = {
+                    title: {
+                        text: '性别分布',
+                        subtext: 'Pie-Chart',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                    },
+                    series: [
+                        {
+                            name: '职业',
+                            type: 'pie',
+                            radius: '50%',
+                            data: data,
+                            labelLine: {
+                                lineStyle: {
+                                    width: 3
+                                }
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 20,
+                                    shadowOffsetX: 10,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        },
+                    ]
+                };
+
+
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
+
+            };
+            const politicRatioPieRadiusChart = (datum:any) => {
+
+                // 基于准备好的dom，初始化echarts实例
+                const myChart = echarts.init(document.getElementById('politic-ratio'));
+
+                // 指定图表的配置项和数据
+
+                let option  = {
+                    title: {
+                        text: '政治面貌统计',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    textStyle: {
+                        fontSize: 12,
+                    },
+                    series: [
+                        {
+                            name: '消费能力统计',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '25',
+                                    fontWeight: '30'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: datum
+                        }
+                    ]
+                };
+
+
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
+
+            };
+
+          const genderPolorChart = (datum:any) => {
+            // 基于准备好的dom，初始化echarts实例
+            const myChart = echarts.init(document.getElementById('main'));
+
+
+            // 指定图表的配置项和数据
+            const option = {
+              title: {
+                text: '性别比例'
+              },
+              tooltip: {},
+              legend: {
+                data:['性别']
+              },
+              xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+              },
+              yAxis: {},
+              series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+              }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+          };
 
             const activeKey = ref('user-profile-statistic');
 
@@ -1618,10 +2060,67 @@
                 console.log('or use this.value', userSearchValue.value);
             };
 
+            const panorama = ref();
+            panorama.value = {};
+            let jobRatio: RatioItem[] = [];
+            let genderRatio: RatioItem[] = [];
+            let politicsFaceRatio: RatioItem[] = [];
+            let spendPowerRatio: RatioItem[] = [];
+            let deviceRatio: RatioItem[] = [];
+            let LogTimeRatio: RatioItem[] = [];
+
+            const showPanorama = () => {
+
+              console.log("开始获取统计概况...");
+
+              axios.get("user-profile/showPanorama").then((response) => {
+                const data = response.data;
+                if (data.success) {
+                  panorama.value = data.content;
+                  // alert(userProfile.value);
+                  console.log("Ratios",panorama.value.jobRatio);
+
+                  jobRatio = panorama.value.jobRatio;
+                  genderRatio = panorama.value.genderRatio;
+                  politicsFaceRatio = panorama.value.politicsFaceRatio;
+                  spendPowerRatio = panorama.value.spendPowerRatio;
+                  deviceRatio = panorama.value.deviceRatio;
+                  LogTimeRatio = panorama.value.LogTimeRatio;
+
+                  console.log("Ratios", deviceRatio);
+
+                  jobRatioPieChart(jobRatio);
+                  spendPowerRatioPieRadiusChart(spendPowerRatio);
+                  debiceRatioRoseChart(deviceRatio);
+
+                    logTimePolorChart();
+
+                    genderRatioPieChart(genderRatio);
+                    politicRatioPieRadiusChart(politicsFaceRatio);
+
+
+                  // commercialStatisticRadar();
+                  //
+                  // let userBrowseProducts = userProfile.value.BrowseProduct.split(",");
+                  // // let userBrowseProductWD:any = [];
+                  // console.log("userBrowseProductWD:",userBrowseProductWD);
+                  //
+                  // userBrowseProductWordCloud();
+
+                } else {
+                  message.error(data.message);
+                }
+              });
+
+
+            };
+
 
             //初始化逻辑都写到onMounted()里
             onMounted(() => {
                 console.log("onMounted");
+
+                showPanorama();
 
                 tagStatistic();
 

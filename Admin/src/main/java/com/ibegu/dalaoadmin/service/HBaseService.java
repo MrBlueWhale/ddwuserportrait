@@ -4,19 +4,71 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class HBaseService {
+
+    private static final String URL="jdbc:mysql://master:3306/tags_dat?";//数据库连接字符串，这里的deom为数据库名
+    private static final String NAME="root";//登录名
+    private static final String PASSWORD="mysqlroot";//密码
+
+    private static java.sql.Connection connection;
+
+    private static Connection HbaseConn;
+
+    public HBaseService(){
+        connection = TheSqlConnection();
+        try {
+            HbaseConn = getConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public java.sql.Connection TheSqlConnection()
+    {
+        //1.加载驱动
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("未能成功加载驱动程序，请检查是否导入驱动程序！");
+            //添加一个println，如果加载驱动异常，检查是否添加驱动，或者添加驱动字符串是否错误
+            e.printStackTrace();
+        }
+        java.sql.Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(URL, NAME, PASSWORD);
+            System.out.println("获取数据库连接成功！");
+        } catch (SQLException e) {
+            System.out.println("获取数据库连接失败！");
+            //添加一个println，如果连接失败，检查连接字符串或者登录名以及密码是否错误
+            e.printStackTrace();
+        }
+        return conn;
+        //数据库打开后就要关闭
+//        if(conn!=null)
+//        {
+//            try {
+//                conn.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//                conn=null;
+//            }
+//        }
+    }
+
 
     private Connection getConnection() throws IOException{
         //创建配置
@@ -33,7 +85,7 @@ public class HBaseService {
     public void createTable() throws IOException {
 
         //创建admin
-        Admin admin = getConnection().getAdmin();
+        Admin admin = HbaseConn.getAdmin();
         //创建表的描述信息
         HTableDescriptor student = new HTableDescriptor(TableName.valueOf("student"));
         //添加列簇
@@ -47,7 +99,7 @@ public class HBaseService {
     //判断表是否存在
     public void isTableExists() throws IOException {
         //创建admin
-        Admin admin = getConnection().getAdmin();
+        Admin admin = HbaseConn.getAdmin();
         //调用API进行判断表是否存在
         System.out.println(admin.tableExists(TableName.valueOf("user_profile")));
         //System.out.println(admin);
@@ -58,7 +110,7 @@ public class HBaseService {
     public void putData2Table() throws IOException {
 
         //创建table类
-        Table student = getConnection().getTable(TableName.valueOf("student"));
+        Table student = HbaseConn.getTable(TableName.valueOf("student"));
         //创建put类
         Put put = new Put(Bytes.toBytes("1001"));
         //想put中添加列簇，列名，值  注意：需要转化成字节数组
@@ -68,14 +120,15 @@ public class HBaseService {
     }
 
     //查看一条数据
+    //@Test
     public void getDataFromTable() throws IOException {
 
         //创建table类
-        Table student = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table student = HbaseConn.getTable(TableName.valueOf("user_profile"));
         Scan scan = new Scan();
 
         //创建get类
-        Get get = new Get(Bytes.toBytes("1"));
+        Get get = new Get(Bytes.toBytes("912"));
         //调用API进行获取数据
         Result result = student.get(get);
         //将返回的结果进行遍历输出
@@ -89,7 +142,7 @@ public class HBaseService {
     }
 
     public JSONObject genderRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int boy = 0;
         int girl = 0 ;
@@ -106,15 +159,26 @@ public class HBaseService {
                 }
             }
         }
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+
         JSONObject json = new JSONObject();
-        json.put("男",boy);
+        json.put("name","男");
+        json.put("value",boy);
+
+        temp.add(json);
+        json.clear();
+
+        json.put("name","女");
         json.put("女",girl);
-        System.out.println(json);
-        return  json;
+        temp.add(json);
+
+        out.put("genderRatio",temp);
+        return  out;
     }
 
     public JSONObject ageGroup() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
 
         int zero = 0, one = 0, two = 0, three = 0, four = 0, five = 0, six = 0, seven = 0, eight = 0 , nine = 0;
@@ -148,19 +212,20 @@ public class HBaseService {
             }
 
         }
-        JSONObject json = new JSONObject();
-        json.put("00",zero);
-        json.put("10",one);
-        json.put("20",two);
-        json.put("30",three);
-        json.put("40",four);
-        json.put("60",six);
-        json.put("50",five);
-        json.put("70",seven);
-        json.put("80",eight);
-        json.put("90",nine);
-        System.out.println(json);
-        return  json;
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+
+        int[] counts = {zero,one,two,three,four,five,six,seven,eight,nine};
+        String[] names = {"00","10","20","30","40","50","60","70","80","90"};
+
+        for (int i = 0;i < 10;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("ageGroupRatio",temp);
+        return  out;
     }
 
 
@@ -178,7 +243,7 @@ public class HBaseService {
 
      */
     public JSONObject family(String family) throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner population = table.getScanner(Bytes.toBytes(family));
         JSONObject outPut = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -198,8 +263,9 @@ public class HBaseService {
     }
 
 
+
     public JSONObject searchByTel(String tel) throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
         , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
         filter.setFilterIfMissing(true);
@@ -214,23 +280,30 @@ public class HBaseService {
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
                 //System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell))+Bytes.toString(CellUtil.cloneValue(cell)));
-                outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
+                    //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+                    String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                }else {
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                }
             }
         }
+
         return outP;
     }
 
-    @Test
+    //@Test
     public void test(){
         try {
-            System.out.println(searchByTel("15302753472"));
+            System.out.println(searchByTel("13908735198"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public JSONObject spendPowerRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0,six = 0,seven = 0;
         for (Result result : results) {
@@ -256,20 +329,33 @@ public class HBaseService {
                 }
             }
         }
-        JSONObject json = new JSONObject();
-        json.put("很低",one);
-        json.put("低",two);
-        json.put("中下",three);
-        json.put("中",four);
-        json.put("中上",five);
-        json.put("高",six);
-        json.put("超高",seven);
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+
+        int[] counts = {one,two,three,four,five,six,seven};
+        String[] names = {"很低","低","中下","中","中上","高","超高"};
+
+        for (int i = 0;i < 7;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("spendPowerRatio",temp);
         //System.out.println(json);
-        return  json;
+        return  out;
     }
 
+    //@Test
+    public void te(){
+        try {
+            jobRatio();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public JSONObject jobRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0,six = 0,seven = 0;
         for (Result result : results) {
@@ -293,19 +379,26 @@ public class HBaseService {
                 }
             }
         }
-        JSONObject json = new JSONObject();
-        json.put("学生",one);
-        json.put("公务员",two);
-        json.put("军人",three);
-        json.put("警察",four);
-        json.put("教师",five);
-        json.put("白领",six);
-        //System.out.println(json);
-        return  json;
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+
+
+        int[] counts = {one,two,three,four,five,six};
+        String[] names = {"学生","公务员","军人","警察","教师","白领"};
+
+        for (int i = 0;i < 6;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("jobRatio",temp);
+        System.out.println(out);
+        return  out;
     }
 
     public JSONObject DeviceRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0;
         for (Result result : results) {
@@ -327,21 +420,28 @@ public class HBaseService {
                 }
             }
         }
-        JSONObject json = new JSONObject();
-        json.put("Android",one);
-        json.put("Windows",two);
-        json.put("iOS",three);
-        json.put("Mac",four);
-        json.put("Linux",five);
+
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+        int[] counts = {one,two,three,four,five};
+        String[] names = {"Android","Windows","iOS","Mac","Linux"};
+
+        for (int i = 0;i < 5;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("DeviceRatio",temp);
         //System.out.println(json);
-        return  json;
+        return  out;
     }
 
     public JSONObject queryTable() throws IOException {
 //        System.out.println("--------------------查询整表的数据--------");
 
         //获取数据表对象
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
 
 
         //获取表中的数据
@@ -359,7 +459,18 @@ public class HBaseService {
             jsonObject.put("id",new String(row));
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
-                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
+                    //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+                    if (!Bytes.toString(CellUtil.cloneValue(cell)).isEmpty()){
+                        String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                        jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                    }else{
+                        jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),"");
+                    }
+                }else {
+                    jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                }
+                //jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
             }
             jsonArray.add(jsonObject);
 
@@ -373,7 +484,7 @@ public class HBaseService {
     //删除表操作
     public void dropTable() throws IOException {
         //创建admin
-        Admin admin = getConnection().getAdmin();
+        Admin admin = HbaseConn.getAdmin();
         //调用API禁用表
         admin.disableTable(TableName.valueOf("student"));
         //调用API删除表
@@ -383,7 +494,7 @@ public class HBaseService {
 
 
     public JSONObject paymentCodeRate() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("tbl_orders"));
+        Table table = HbaseConn.getTable(TableName.valueOf("tbl_orders"));
 
         Scan scan = new Scan();
         scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("paymentCode"));
@@ -413,20 +524,27 @@ public class HBaseService {
             }
         }
 
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
 
-        JSONObject json = new JSONObject();
-        json.put("货到付款",cdd);
-        json.put("微信支付",wx);
-        json.put("支付宝",alipay);
-        json.put("银行卡",card);
-        json.put("其他",other);
-        System.out.println(json);
-        return  json;
+
+        int[] counts = {alipay,cdd,wx,card,other};
+        String[] names = {"支付宝","货到付款","微信支付","银行卡","其它"};
+
+        for (int i = 0;i < 5;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("jobRatio",temp);
+        //System.out.println(out);
+        return  out;
     }
 
 
     public String searchByTelAndCol(String tel,String col) throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
                 , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
         filter.setFilterIfMissing(true);
@@ -453,7 +571,7 @@ public class HBaseService {
     }
 
     public JSONObject LogTimeRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("tbl_logs"));
+        Table table = HbaseConn.getTable(TableName.valueOf("tbl_logs"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0, four = 0, five = 0;
         for (Result result : results) {
@@ -489,7 +607,7 @@ public class HBaseService {
 
 
     public JSONObject politicsFaceRatio() throws IOException{
-        Table table = getConnection().getTable(TableName.valueOf("user_profile"));
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
         int one = 0, two = 0, three = 0;
         for (Result result : results) {
@@ -506,11 +624,50 @@ public class HBaseService {
                 }
             }
         }
-        JSONObject json = new JSONObject();
-        json.put("群众",one);
-        json.put("党员",two);
-        json.put("无党派人士",three);
-        //System.out.println(json);
-        return  json;
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+
+
+        int[] counts = {one,two,three};
+        String[] names = {"群众","党员","无党派人士"};
+
+        for (int i = 0;i < 3;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("politicsFaceRatio",temp);
+        System.out.println(out);
+        return  out;
     }
+
+
+    public String id2ProductName(String[] strings){
+        //System.out.println(strings[0]);
+        PreparedStatement statement;
+        StringBuilder stringBuilder = new StringBuilder();
+        //System.out.println("进入顶顶顶顶顶顶顶顶顶顶顶顶");
+        try {
+            statement = connection.prepareStatement("select distinct(productName) from tbl_goods where productId = ?");
+            for (String s:strings){
+                System.out.println(s);
+                statement.setString(1,s);
+                statement.addBatch();
+            }
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                stringBuilder.append(resultSet.getString("productName")+',');
+                //System.out.println(resultSet.getString("productName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (stringBuilder.length()!=0){
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+        return stringBuilder.toString();
+    }
+
+
 }
