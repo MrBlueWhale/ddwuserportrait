@@ -459,7 +459,14 @@ public class HBaseService {
             jsonObject.put("id",new String(row));
             List<Cell> listCells = result.listCells();
             for (Cell cell : listCells) {
-                jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
+                    //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+                    String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                    jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                }else {
+                    jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                }
+                //jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
             }
             jsonArray.add(jsonObject);
 
