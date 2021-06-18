@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -11,10 +12,7 @@ import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -122,7 +120,7 @@ public class HBaseService {
     }
 
     //查看一条数据
-    @Test
+    //@Test
     public void getDataFromTable() throws IOException {
 
         //创建table类
@@ -283,8 +281,9 @@ public class HBaseService {
             for (Cell cell : listCells) {
                 //System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell))+Bytes.toString(CellUtil.cloneValue(cell)));
                 if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
-                    List<String> lists = Arrays.asList(",".split(Bytes.toString(CellUtil.cloneValue(cell))));
-                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(lists));
+                    //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+                    String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
                 }else {
                     outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
                 }
@@ -294,7 +293,7 @@ public class HBaseService {
         return outP;
     }
 
-    @Test
+    //@Test
     public void test(){
         try {
             System.out.println(searchByTel("13908735198"));
@@ -347,7 +346,7 @@ public class HBaseService {
         return  out;
     }
 
-    @Test
+    //@Test
     public void te(){
         try {
             jobRatio();
@@ -633,24 +632,27 @@ public class HBaseService {
     }
 
 
-    public String id2ProductName(List<String> strings){
+    public String id2ProductName(String[] strings){
+        //System.out.println(strings[0]);
         PreparedStatement statement;
         StringBuilder stringBuilder = new StringBuilder();
-        System.out.println("进入顶顶顶顶顶顶顶顶顶顶顶顶");
+        //System.out.println("进入顶顶顶顶顶顶顶顶顶顶顶顶");
         try {
-            statement = connection.prepareStatement("select productName from tbl_goods where productId = ?");
+            statement = connection.prepareStatement("select distinct(productName) from tbl_goods where productId = ?");
             for (String s:strings){
+                System.out.println(s);
                 statement.setString(1,s);
                 statement.addBatch();
             }
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 stringBuilder.append(resultSet.getString("productName")+',');
-                System.out.println(resultSet.getString("productName"));
+                //System.out.println(resultSet.getString("productName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        stringBuilder.deleteCharAt(stringBuilder.length()-1);
         return stringBuilder.toString();
     }
 
