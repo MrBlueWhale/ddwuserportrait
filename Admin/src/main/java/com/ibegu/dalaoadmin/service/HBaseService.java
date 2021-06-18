@@ -461,8 +461,12 @@ public class HBaseService {
             for (Cell cell : listCells) {
                 if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
                     //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
-                    String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
-                    jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                    if (!Bytes.toString(CellUtil.cloneValue(cell)).isEmpty()){
+                        String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                        jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                    }else{
+                        jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),"");
+                    }
                 }else {
                     jsonObject.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
                 }
