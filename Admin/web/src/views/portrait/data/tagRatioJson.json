@@ -1,42 +1,131 @@
 {
-  "jobRatio": {
-    "学生": 162,
-    "教师": 130,
-    "军人": 202,
-    "白领": 168,
-    "公务员": 145,
-    "警察": 143
-  },
-  "genderRatio": {
-    "女": 469,
-    "男": 481
-  },
-  "pliticsFace": {
-    "党员": 323,
-    "群众": 322,
-    "无党派人士": 305
-  },
-  "spendPowerRatio": {
-    "超高": 719,
-    "中上": 5,
-    "中下": 1,
-    "高": 204,
-    "很低": 6,
-    "中": 5,
-    "低": 29
-  },
-  "deviceRatio": {
-    "Linux": 9,
-    "Windows": 515,
-    "iOS": 90,
-    "Mac": 0,
-    "Android": 326
-  },
-  "LogTimeRatio": {
-    "1时--7时": 109716,
-    "13时--17时": 78752,
-    "8时--12时": 78497,
-    "18时--21时": 62648,
-    "22时--24时": 47370
-  }
+  "jobRatio": [
+    {
+      "name": "学生",
+      "value": 162
+    },
+    {
+      "name": "教师",
+      "value": 130
+    },
+    {
+      "name": "军人",
+      "value": 202
+    },
+    {
+      "name": "白领",
+      "value": 168
+    },
+    {
+      "name": "公务员",
+      "value": 145
+    },
+    {
+      "name": "警察",
+      "value": 143
+    }
+  ],
+
+  "genderRatio": [
+    {
+      "name": "女",
+      "value": 469
+    },
+    {
+      "name": "男",
+      "value": 481
+    }
+  ],
+
+  "politicsFaceRatio": [
+    {
+      "name": "党员",
+      "value": 323
+    },
+    {
+      "name": "群众",
+      "value": 322
+    },
+    {
+      "name": "无党派人士",
+      "value": 305
+    }
+  ],
+
+  "spendPowerRatio": [
+    {
+      "name": "超高",
+      "value": 719
+    },
+    {
+      "name": "中上",
+      "value": 5
+    },
+    {
+      "name": "中下",
+      "value": 1
+    },
+    {
+      "name": "高",
+      "value": 204
+    },
+    {
+      "name": "很低",
+      "value": 6
+    },
+    {
+      "name": "中",
+      "value": 5
+    },
+    {
+      "name": "低",
+      "value": 29
+    }
+  ],
+
+  "deviceRatio": [
+    {
+      "name": "Linux",
+      "value": 9
+    },
+    {
+      "name": "Windows",
+      "value": 515
+    },
+    {
+      "name": "iOS",
+      "value": 90
+    },
+    {
+      "name": "Mac",
+      "value": 0
+    },
+    {
+      "name": "Android",
+      "value": 326
+    }
+  ],
+
+  "LogTimeRatio": [
+    {
+      "name": "1时--7时",
+      "value": 109716
+    },
+    {
+      "name": "13时--17时",
+      "value": 78752
+    },
+    {
+      "name": "8时--12时",
+      "value": 78497
+    },
+    {
+      "name": "18时--21时",
+      "value": 62648
+    },
+    {
+      "name": "22时--24时",
+      "value": 47370
+    }
+  ]
 }
