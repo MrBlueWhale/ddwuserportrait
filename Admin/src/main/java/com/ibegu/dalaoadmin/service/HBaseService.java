@@ -1,4 +1,5 @@
 package com.ibegu.dalaoadmin.service;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
@@ -166,7 +167,6 @@ public class HBaseService {
         temp.add(json);
 
         out.put("genderRatio",temp);
-        System.out.println(json);
         return  out;
     }
 
@@ -207,19 +207,17 @@ public class HBaseService {
         }
         JSONObject out = new JSONObject();
         JSONArray  temp = new JSONArray();
-        JSONObject json = new JSONObject();
 
         int[] counts = {zero,one,two,three,four,five,six,seven,eight,nine};
         String[] names = {"00","10","20","30","40","50","60","70","80","90"};
 
         for (int i = 0;i < 10;i++){
+            JSONObject json = new JSONObject();
             json.put("name",names[i]);
             json.put("value",counts[i]);
             temp.add(json);
-            json.clear();
         }
         out.put("ageGroupRatio",temp);
-        System.out.println(json);
         return  out;
     }
 
@@ -325,22 +323,29 @@ public class HBaseService {
         }
         JSONObject out = new JSONObject();
         JSONArray  temp = new JSONArray();
-        JSONObject json = new JSONObject();
 
         int[] counts = {one,two,three,four,five,six,seven};
         String[] names = {"很低","低","中下","中","中上","高","超高"};
 
         for (int i = 0;i < 7;i++){
+            JSONObject json = new JSONObject();
             json.put("name",names[i]);
             json.put("value",counts[i]);
             temp.add(json);
-            json.clear();
         }
         out.put("spendPowerRatio",temp);
         //System.out.println(json);
         return  out;
     }
 
+    @Test
+    public void te(){
+        try {
+            jobRatio();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public JSONObject jobRatio() throws IOException{
         Table table = getConnection().getTable(TableName.valueOf("user_profile"));
         ResultScanner results = table.getScanner(new Scan());
@@ -368,19 +373,19 @@ public class HBaseService {
         }
         JSONObject out = new JSONObject();
         JSONArray  temp = new JSONArray();
-        JSONObject json = new JSONObject();
+
 
         int[] counts = {one,two,three,four,five,six};
         String[] names = {"学生","公务员","军人","警察","教师","白领"};
 
-        for (int i = 0;i < 10;i++){
+        for (int i = 0;i < 6;i++){
+            JSONObject json = new JSONObject();
             json.put("name",names[i]);
             json.put("value",counts[i]);
             temp.add(json);
-            json.clear();
         }
         out.put("jobRatio",temp);
-        //System.out.println(json);
+        System.out.println(out);
         return  out;
     }
 
@@ -410,16 +415,14 @@ public class HBaseService {
 
         JSONObject out = new JSONObject();
         JSONArray  temp = new JSONArray();
-        JSONObject json = new JSONObject();
-
         int[] counts = {one,two,three,four,five};
         String[] names = {"Android","Windows","iOS","Mac","Linux"};
 
-        for (int i = 0;i < 10;i++){
+        for (int i = 0;i < 5;i++){
+            JSONObject json = new JSONObject();
             json.put("name",names[i]);
             json.put("value",counts[i]);
             temp.add(json);
-            json.clear();
         }
         out.put("DeviceRatio",temp);
         //System.out.println(json);
@@ -502,15 +505,22 @@ public class HBaseService {
             }
         }
 
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
 
-        JSONObject json = new JSONObject();
-        json.put("货到付款",cdd);
-        json.put("微信支付",wx);
-        json.put("支付宝",alipay);
-        json.put("银行卡",card);
-        json.put("其他",other);
-        System.out.println(json);
-        return  json;
+
+        int[] counts = {alipay,cdd,wx,card,other};
+        String[] names = {"支付宝","货到付款","微信支付","银行卡","其它"};
+
+        for (int i = 0;i < 5;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("jobRatio",temp);
+        //System.out.println(out);
+        return  out;
     }
 
 
@@ -595,12 +605,22 @@ public class HBaseService {
                 }
             }
         }
-        JSONObject json = new JSONObject();
-        json.put("群众",one);
-        json.put("党员",two);
-        json.put("无党派人士",three);
-        //System.out.println(json);
-        return  json;
+        JSONObject out = new JSONObject();
+        JSONArray  temp = new JSONArray();
+
+
+        int[] counts = {one,two,three};
+        String[] names = {"群众","党员","无党派人士"};
+
+        for (int i = 0;i < 3;i++){
+            JSONObject json = new JSONObject();
+            json.put("name",names[i]);
+            json.put("value",counts[i]);
+            temp.add(json);
+        }
+        out.put("jobRatio",temp);
+        System.out.println(out);
+        return  out;
     }
 
 
