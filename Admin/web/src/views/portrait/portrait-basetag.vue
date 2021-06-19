@@ -13,15 +13,15 @@
         </span>
         </template>
 
-        <a-row>
-          <a-col :span="24" id="main-col">
-            <div id="tag-statistic-sun" style="width:50%;height:600px;"></div>
-          </a-col>
-        </a-row>
+<!--        <a-row>-->
+<!--          <a-col :span="24" id="main-col">-->
+<!--            <div id="tag-statistic-sun" style="width:50%;height:600px;"></div>-->
+<!--          </a-col>-->
+<!--        </a-row>-->
 
         <a-row>
           <a-col :span="24" id="main-col">
-            <div id="tag-statistic" style="width:50%;height:600px;"></div>
+            <div id="tag-statistic" style="width:65%;height:1000px;margin-left: 20%;"></div>
           </a-col>
         </a-row>
 
@@ -127,7 +127,151 @@
         const colors = ['#FFAE57', '#FF7853', '#EA5151', '#CC3F57', '#9A2555'];
         const bgColor = '#2E2733';
 
-        const itemStyle:any = {
+        const  data1: any = [
+          {
+            name: '人口属性',
+            children: [{
+              name: '性别',
+              value: 1,
+            }, {
+              name: '年龄段',
+              value: 1,
+            }, {
+              name: '身高',
+              value: 1,
+            }, {
+              name: '民族',
+              value: 1,
+            }, {
+              name: '籍贯',
+              value: 1,
+            }, {
+              name: '政治面貌',
+              value: 1,
+            }, {
+              name: '职业',
+              value: 1,
+            }, {
+              name: '婚姻状况',
+              value: 1,
+            }, {
+              name: '学历',
+              value: 1,
+            }, {
+              name: '就业状况',
+              value: 1,
+            }, {
+              name: '星座',
+              value: 1,
+            }, {
+              name: '所在商圈',
+              value: 1,
+            }, {
+              name: '国籍',
+              value: 1,
+            }
+
+            ]
+          },
+          {
+            name: '行为属性',
+            children: [{
+              name: '最近登录',
+              value: 1,
+            }, {
+              name: '浏览页面',
+              value: 1,
+            }, {
+              name: '浏览时长',
+              value: 1,
+            }, {
+              name: '访问频率',
+              value: 1,
+            }, {
+              name: '设备类型',
+              value: 1,
+            }, {
+              name: '浏览时段',
+              value: 1,
+            }, {
+              name: '登录频率',
+              value: 1,
+            }, {
+              name: '浏览商品',
+              value: 1,
+            }, {
+              name: '购买商品',
+              value: 1,
+            }, {
+              name: '商品偏好',
+              value: 1,
+            }, {
+              name: '品类偏好',
+              value: 1,
+            }, {
+              name: '品牌偏好',
+              value: 1,
+            }
+
+            ]
+          },
+          {
+            name: '商业属性',
+            children: [{
+              name: '消费周期',
+              value: 1,
+            }, {
+              name: '消费能力',
+              value: 1,
+            }, {
+              name: '客单价',
+              value: 1,
+            }, {
+              name: '支付方式',
+              value: 1,
+            }, {
+              name: '单笔最高',
+              value: 1,
+            }, {
+              name: '购买频率',
+              value: 1,
+            }, {
+              name: '退货率',
+              value: 1,
+            }, {
+              name: '换货率',
+              value: 1,
+            }, {
+              name: '省钱能手',
+              value: 1,
+            }, {
+              name: '有券必买',
+              value: 1,
+            }, {
+              name: '客服咨询频率',
+              value: 1,
+            }
+            ]
+          },
+          {
+            name: '用户价值',
+            children: [{
+              name: '房产',
+              value: 2,
+            },{
+              name: '房产价值',
+              value: 2,
+            },{
+              name: '车产',
+              value: 2,
+            },{
+              name: '车产价值',
+              value: 2,
+            }
+            ]
+          }
+        ];
+        const itemStyle: any = {
           star5: {
             color: colors[0]
           },
@@ -142,7 +286,7 @@
           }
         };
 
-        const data:any = [
+        const data: any = [
           {
             name: '虚构',
             itemStyle: {
@@ -324,11 +468,11 @@
         for (var j = 0; j < data.length; ++j) {
           let level1 = data[j].children;
           for (var i = 0; i < level1.length; ++i) {
-            let block:any = level1[i].children;
-            let bookScore:any = [];
+            let block: any = level1[i].children;
+            let bookScore: any = [];
             let bookScoreId = 0;
             for (var star = 0; star < block.length; ++star) {
-              var style = (function (name:string) {
+              var style = (function (name: string) {
                 switch (name) {
                   case '5☆':
                     bookScoreId = 0;
@@ -358,7 +502,7 @@
                   color: style.color
                 };
 
-                block[star].children.forEach(function (book:any) {
+                block[star].children.forEach(function (book: any) {
                   book.value = 1;
                   book.itemStyle = style;
 
@@ -373,8 +517,7 @@
 
                   if (bookScore[bookScoreId]) {
                     bookScore[bookScoreId].value += value;
-                  }
-                  else {
+                  } else {
                     bookScore[bookScoreId] = {
                       color: colors[bookScoreId],
                       value: value
@@ -390,6 +533,25 @@
           }
         }
 
+        let option1 = {
+          visualMap: {
+            type: 'continuous',
+            min: 0,
+            max: 10,
+            inRange: {
+              color: ['#2F93C8', '#AEC48F', '#FFDB5C', '#F98862']
+            }
+          },
+          series: {
+            type: 'sunburst',
+            data: data1,
+            radius: [0, '90%'],
+            label: {
+              rotate: 'radial'
+            }
+          }
+        };
+
         let option = {
           backgroundColor: bgColor,
           color: colors,
@@ -397,11 +559,10 @@
             type: 'sunburst',
             center: ['50%', '48%'],
             data: data,
-            sort: function (a:any, b:any) {
+            sort: function (a: any, b: any) {
               if (a.depth === 1) {
                 return b.getValue() - a.getValue();
-              }
-              else {
+              } else {
                 return a.dataIndex - b.dataIndex;
               }
             },
@@ -458,7 +619,7 @@
 
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        myChart.setOption(option1);
       };
 
       const tagTreeStatistic = () => {
