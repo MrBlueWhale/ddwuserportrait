@@ -125,33 +125,30 @@
                 </template>
                 检索条件
 
-                <!--        <transition-->
-                <!--                enter-active-class="animate__animated animate__fadeIn"-->
-                <!--                leave-active-class="animate__animated animate__fadeOut"-->
-                <!--        >-->
-                <!--          <div class="fixedSearch" >-->
-                <!--              <a-input-search-->
-                <!--                      v-model:value="value"-->
-                <!--                      placeholder="请输入检索条件"-->
-                <!--                      enter-button-->
-                <!--                      @search="onSearch"-->
-                <!--              />-->
-
                 <br>
 
-                <div style="margin-bottom: 16px; width: 600px; position: center;">
-                    <a-input v-model:value="userSearchValue" placeholder="请输入检索条件，回车搜索..."
-                             @pressEnter="onSearch">
-                        <template #addonBefore>
-                            <a-select v-model:value="userSearchKey" style="width: 111px">
-                                <a-select-option value="telNum">电话号码</a-select-option>
-                                <a-select-option value="userName">用户名</a-select-option>
-                            </a-select>
-                        </template>
-                    </a-input>
+                <div style="margin-left: 30%; position: center;">
+                    <a-form layout="inline">
+                        <a-form-item>
+                            <a-input v-model:value="userSearchValue" placeholder="请输入检索条件，回车搜索..."
+                                     @pressEnter="onSearch">
+                                <template #addonBefore>
+                                    <a-select v-model:value="userSearchKey" style="width: 111px">
+                                        <a-select-option value="telNum">电话号码</a-select-option>
+                                        <a-select-option value="userName">用户名</a-select-option>
+                                    </a-select>
+                                </template>
+                            </a-input>
+                        </a-form-item>
+                        <a-form-item>
+                            <a-button type="primary" @click="onSearch">
+                                搜一波
+                            </a-button>
+                        </a-form-item>
+                    </a-form>
                 </div>
 
-                <a-divider></a-divider>
+<!--                <a-divider></a-divider>-->
 
                 <div class="post-area">
                     <div class="container">
@@ -2008,52 +2005,101 @@
 
 
             const onSearch = (searchValue: string) => {
+
+                console.log("userSearchKey:", userSearchKey);
+
                 console.log('use value', searchValue);
                 console.log('or use this.value', userSearchValue.value);
 
-                axios.get("user-profile/searchByTel/" + userSearchValue.value).then((response) => {
-                    const data = response.data;
-                    if (data.success) {
-                        userProfile.value = data.content;
-                        // alert(userProfile.value);
-                        console.log(userProfile.value);
+                if (userSearchKey.value === 'telNum') {
+                    axios.get("user-profile/searchByTel/" + userSearchValue.value).then((response) => {
+                        const data = response.data;
+                        if (data.success) {
+                            userProfile.value = data.content;
+                            // alert(userProfile.value);
+                            console.log(userProfile.value);
 
-                        userProfile.value.paymentCode = paymentMap.has(userProfile.value.paymentCode) ? paymentMap.get(userProfile.value.paymentCode) : "暂无数据";
+                            userProfile.value.paymentCode = paymentMap.has(userProfile.value.paymentCode) ? paymentMap.get(userProfile.value.paymentCode) : "暂无数据";
 
-                        if (userProfile.value.spendPower === null || userProfile.value.spendPower === undefined || userProfile.value.spendPower === '') {
-                            userProfile.value.spendPower = "中";
-                        }
-
-                        commercialStatisticRadar();
-
-                        let userBrowseProducts = userProfile.value.BrowseProduct.split(",");
-                        // let userBrowseProductWD:any = [];
-                        console.log("userBrowseProductWD:",userBrowseProductWD);
-                        for(let i=0; i<userBrowseProducts.length; i++){
-
-
-                            let ubpWordCloud: UBPWordCloud = {
-                                name: userBrowseProducts[i],
-                                value: Math.floor(Math.random()*userBrowseProducts.length)
+                            if (userProfile.value.spendPower === null || userProfile.value.spendPower === undefined || userProfile.value.spendPower === '') {
+                                userProfile.value.spendPower = "中";
                             }
 
-                            userBrowseProductWD.push(ubpWordCloud);
+                            commercialStatisticRadar();
 
-                            // userBrowseProductWD.name = userBrowseProducts[i];
-                            // userBrowseProductWD[i].value = Math.floor(Math.random()*userBrowseProducts.length);
+                            let userBrowseProducts = userProfile.value.BrowseProduct.split(",");
+                            // let userBrowseProductWD:any = [];
+                            console.log("userBrowseProductWD:",userBrowseProductWD);
+                            for(let i=0; i<userBrowseProducts.length; i++){
+
+
+                                let ubpWordCloud: UBPWordCloud = {
+                                    name: userBrowseProducts[i],
+                                    value: Math.floor(Math.random()*userBrowseProducts.length)
+                                }
+
+                                userBrowseProductWD.push(ubpWordCloud);
+
+                                // userBrowseProductWD.name = userBrowseProducts[i];
+                                // userBrowseProductWD[i].value = Math.floor(Math.random()*userBrowseProducts.length);
+                            }
+
+                            console.log("userBrowseProductWD:",userBrowseProductWD);
+                            // userBrowseProductWD
+
+                            userBrowseProductWordCloud();
+
+                        } else {
+                            message.error(data.message);
                         }
+                    });
+                }else {
+                    axios.get("user-profile/searchByName/" + userSearchValue.value).then((response) => {
+                        const data = response.data;
+                        if (data.success) {
+                            userProfile.value = data.content;
+                            // alert(userProfile.value);
+                            console.log(userProfile.value);
 
-                        console.log("userBrowseProductWD:",userBrowseProductWD);
-                        // userBrowseProductWD
+                            userProfile.value.paymentCode = paymentMap.has(userProfile.value.paymentCode) ? paymentMap.get(userProfile.value.paymentCode) : "暂无数据";
 
-                        userBrowseProductWordCloud();
+                            if (userProfile.value.spendPower === null || userProfile.value.spendPower === undefined || userProfile.value.spendPower === '') {
+                                userProfile.value.spendPower = "中";
+                            }
 
-                    } else {
-                        message.error(data.message);
-                    }
-                });
+                            commercialStatisticRadar();
 
-            };
+                            let userBrowseProducts = userProfile.value.BrowseProduct.split(",");
+                            // let userBrowseProductWD:any = [];
+                            console.log("userBrowseProductWD:",userBrowseProductWD);
+                            for(let i=0; i<userBrowseProducts.length; i++){
+
+
+                                let ubpWordCloud: UBPWordCloud = {
+                                    name: userBrowseProducts[i],
+                                    value: Math.floor(Math.random()*userBrowseProducts.length)
+                                }
+
+                                userBrowseProductWD.push(ubpWordCloud);
+
+                                // userBrowseProductWD.name = userBrowseProducts[i];
+                                // userBrowseProductWD[i].value = Math.floor(Math.random()*userBrowseProducts.length);
+                            }
+
+                            console.log("userBrowseProductWD:",userBrowseProductWD);
+                            // userBrowseProductWD
+
+                            userBrowseProductWordCloud();
+
+                        } else {
+                            message.error(data.message);
+                        }
+                    });
+
+                }
+
+
+                };
 
             const handleClick = (tabValue: string) => {
                 console.log('use value', tabValue);
