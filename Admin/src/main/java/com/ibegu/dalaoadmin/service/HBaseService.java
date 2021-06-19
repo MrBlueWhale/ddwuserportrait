@@ -1,10 +1,12 @@
 package com.ibegu.dalaoadmin.service;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Service;
@@ -262,7 +264,45 @@ public class HBaseService {
         return outPut;
     }
 
+    public JSONObject searchByConditions(JSONArray jsonArray) throws IOException{
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
+        FilterList filterList = new FilterList();
+        for (int i = 0;i < jsonArray.size();i++){
+            SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes(jsonArray.getJSONObject(i).getString("cf"))
+                    ,Bytes.toBytes(jsonArray.getJSONObject(i).getString("cName"))
+                    , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(jsonArray.getJSONObject(i).getString("value")));
+            filter.setFilterIfMissing(true);
+            filterList.addFilter(filter);
+        }
+//        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
+//                , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
 
+        Scan scan = new Scan();
+        scan.setFilter(filterList);
+        ResultScanner scanner = table.getScanner(scan);
+        JSONArray jsonArray1 = new JSONArray();
+        for (Result result : scanner){
+            JSONObject outP = new JSONObject();
+            //System.out.println(Bytes.toString(result.getRow()));
+            outP.put("id",Bytes.toString(result.getRow()));
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                //System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell))+Bytes.toString(CellUtil.cloneValue(cell)));
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
+                    //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+                    String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                }else {
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                }
+            }
+            jsonArray1.add(outP);
+        }
+        JSONObject result = new JSONObject();
+        result.put("results",jsonArray1);
+
+        return result;
+    }
 
     public JSONObject searchByTel(String tel) throws IOException{
         Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
