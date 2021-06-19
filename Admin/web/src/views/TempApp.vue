@@ -2,7 +2,14 @@
 <!--    <router-view></router-view>-->
 
   <a-layout>
-    <a-layout-sider width="200" style="background: #fff">
+    <a-layout-sider width="200" style="background: #fff;
+    position: fixed;
+    width: 200px;
+    height: 90%;
+    top:70px;
+    left: 0;
+    z-index: 999"
+    >
       <a-menu
           mode="inline"
           v-model:selectedKeys="selectedKeys2"
@@ -89,7 +96,7 @@
         <a-breadcrumb-item>App</a-breadcrumb-item>
       </a-breadcrumb>
       <a-layout-content
-          :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+          :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px', marginLeft: '200px' }"
       >
         <router-view></router-view>
       </a-layout-content>

@@ -1,7 +1,7 @@
 <template>
 
 
-  <a-layout-footer style="background: #2c3e50">
+  <a-layout-footer style="background: #2c3e50; margin-left: 200px;">
 
 
 
