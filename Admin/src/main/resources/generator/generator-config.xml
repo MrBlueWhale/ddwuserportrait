@@ -50,9 +50,10 @@
 <!--        <table tableName="user" />-->
 <!--        <table tableName="role" />-->
 <!--        <table tableName="user_role" />-->
-        <table tableName="rank_3_tags" />
-        <table tableName="rank_4_tags" />
-        <table tableName="rank_5_tags" />
+        <table tableName="group_tag" />
+<!--        <table tableName="rank_3_tags" />-->
+<!--        <table tableName="rank_4_tags" />-->
+<!--        <table tableName="rank_5_tags" />-->
 
         <!--        <table tableName="demo" domainObjectName="Demo"/>-->
         <!--<table tableName="ebook"/>-->
