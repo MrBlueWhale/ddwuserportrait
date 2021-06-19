@@ -591,6 +591,17 @@
         </span>
                 </template>
                 检索条件
+
+<!--                <template>-->
+                    <a-cascader
+                            v-model:value="cascaderValue"
+                            :options="json"
+                            :show-search="{ cascaderFilter }"
+                            placeholder="Please select"
+                    />
+<!--                </template>-->
+
+
             </a-tab-pane>
         </a-tabs>
 
@@ -605,6 +616,8 @@
 
     import {createFromIconfontCN} from "@ant-design/icons-vue/es/index";
     import store from "@/store";
+
+    import {Tool} from '@/util/tool';
 
     import {message, Empty} from 'ant-design-vue';
 
@@ -649,6 +662,23 @@
       value: number;
     }
 
+    interface TagItem {
+        btId: number;
+        btName: string;
+        parentId: number;
+        processStatus: number;
+        auditStatus: number;
+        desc: string;
+        children?: TagItem[]
+    }
+    //
+    interface Option {
+        value: number;
+        label: string;
+        disabled?: boolean;
+        children?: Option[];
+    }
+
 
 
     export default defineComponent({
@@ -673,9 +703,6 @@
           //身高
           let heights = ['150以下'.repeat(1),'160-164'.repeat(2),'165-168'.repeat(12),'169-171'.repeat(20),'172-174'.repeat(30),'175-177'.repeat(20),'178-181'.repeat(12),'182-186'.repeat(2),'187以上'.repeat(1)];
           let randomHeight = heights[Math.floor(Math.random()*heights.length)];
-
-
-
 
           const statistic = ref();
             statistic.value = {};
@@ -2202,6 +2229,95 @@
             };
 
 
+            //   -------------------      群像检索     -----------------------   //
+            //   -------------------                  -----------------------   //
+            //   -------------------                  -----------------------   //
+            //   -------------------      群像检索     -----------------------   //
+
+            // const baseTags = ref
+
+            //加载基础标签
+
+            const baseTags = ref<TagItem[]>();
+            baseTags.value = [];
+
+            const getData = ref();
+
+            const cascaderFilter = (inputValue: string, path: Option[]) => {
+                return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
+            };
+
+
+            let json:any = [];
+            const handleQueryTags = () => {
+                axios.get('baseTag/listBaseTags').then((response) => {
+                    const data = response.data;
+                    if (data.success) {
+                        message.success("获取标签数据成功！");
+                        baseTags.value = Tool.array2Tree(data.content, 10);
+                        console.log("baseTag:", baseTags.value);
+
+                        for(let i = 0; i<baseTags.value.length;i++){
+                            var a = (baseTags.value)[i].children;
+                            var json2 = []
+                            if(a !== undefined){
+                                console.log(a)
+                                for(let j=0; j<a.length;j++){
+                                    var b = a[j].children
+                                    var json1 = []
+                                    if(b!==undefined){
+                                        for(let k=0; k<b.length;k++){
+                                            const json0: Option = {
+                                                value: b[k].btId,
+                                                label: b[k].btName,
+                                            };
+                                            json1.push(json0);
+                                        }
+                                    }
+                                    const jsonb1: Option = {
+                                        value: a[j].btId,
+                                        label: a[j].btName,
+                                        children: json1
+                                    };
+                                    json2.push(jsonb1);
+                                }
+                            }
+                            const jsonb2: Option = {
+                                value:(baseTags.value)[i].btId,
+                                label:(baseTags.value)[i].btName,
+                                children: json2
+                            };
+                            json.push(jsonb2);
+                        }
+                        console.log(json)
+
+                        getData.value = Tool.array2Tree(data.content, 10);
+                        getData.value.map((item:any) =>{
+                            delete item["processStatus"];
+                            delete item["auditStatus"];
+                            delete item["desc"];
+                            delete item["parentId"];
+                        });
+
+                        let casData = getData.value;
+
+                        JSON.parse(JSON.stringify(casData).replace(/btId/g, 'value').replace(/btName/g,'label'))
+
+                        // getData.value.map((item:any) =>{
+                        //     return{
+                        //         value: item.btId,
+                        //         label: item.btName,
+                        //     }
+                        // });
+
+                        console.log("casData:", casData);
+                    } else {
+                        message.error(data.message);
+                    }
+                });
+            };
+
+
             //初始化逻辑都写到onMounted()里
             onMounted(() => {
                 console.log("onMounted");
@@ -2213,6 +2329,8 @@
                 tagTreeStatistic();
 
                 tagStatisticSun();
+
+                handleQueryTags();
 
               // commercialStatisticPolar();
 
@@ -2247,6 +2365,13 @@
                 userValueData,
 
                 handleClick,
+
+                //------------  群像检索界面   ------------
+                cascaderFilter,
+                baseTags,
+                getData,
+                json,
+                cascaderValue: ref<string[]>([]),
 
                 pagination: {
                     onChange: (page: any) => {

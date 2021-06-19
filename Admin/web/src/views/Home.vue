@@ -1,80 +1,99 @@
 <template>
-  <a-layout>
-<!--    <a-layout-sider width="200" style="background: #fff">-->
-<!--      <a-menu-->
-<!--          mode="inline"-->
-<!--          v-model:selectedKeys="selectedKeys2"-->
-<!--          v-model:openKeys="openKeys"-->
-<!--          :style="{ height: '100%', borderRight: 0 }"-->
-<!--      >-->
-<!--        <a-menu-item key="welcome">-->
-<!--          <MailOutlined />-->
-<!--          <span>欢迎</span>-->
-<!--        </a-menu-item>-->
-<!--        <a-sub-menu key="portrait">-->
-<!--          <template #title>-->
-<!--              <span>-->
-<!--                <user-outlined/>-->
-<!--                画像管理-->
-<!--              </span>-->
-<!--          </template>-->
-<!--          <a-menu-item key="userportrait"><router-link to="/portrait/userportrait">用户画像</router-link></a-menu-item>-->
-<!--          <a-menu-item key="basetag"><router-link to="/portrait/basetag">基础标签</router-link></a-menu-item>-->
-<!--          <a-menu-item key="grouptag"><router-link to="/portrait/grouptag">组合标签</router-link></a-menu-item>-->
-<!--          <a-menu-item key="4">option4</a-menu-item>-->
-<!--        </a-sub-menu>-->
-<!--        <a-sub-menu key="system">-->
-<!--          <template #title>-->
-<!--              <span>-->
-<!--                <laptop-outlined/>-->
-<!--                系统设置-->
-<!--              </span>-->
-<!--          </template>-->
-<!--          <a-menu-item key="user"><router-link to="/system/user-manage">用户管理</router-link></a-menu-item>-->
-<!--          <a-menu-item key="role"><router-link to="/system/role-manage">角色管理</router-link></a-menu-item>-->
-<!--          <a-menu-item key="authority"><router-link to="/system/authority-manage">权限管理</router-link></a-menu-item>-->
-<!--          <a-menu-item key="log"><router-link to="/system/log-manage">日志管理</router-link></a-menu-item>-->
-<!--        </a-sub-menu>-->
-<!--        <a-sub-menu key="engine">-->
-<!--          <template #title>-->
-<!--              <span>-->
-<!--                <notification-outlined/>-->
-<!--                引擎管理-->
-<!--              </span>-->
-<!--          </template>-->
-<!--          <a-menu-item key="9">option9</a-menu-item>-->
-<!--          <a-menu-item key="10">option10</a-menu-item>-->
-<!--        </a-sub-menu>-->
-<!--      </a-menu>-->
-<!--    </a-layout-sider>-->
-    <a-layout style="padding: 0 24px 24px">
-<!--      <a-breadcrumb style="margin: 16px 0">-->
-<!--        <a-breadcrumb-item>Home</a-breadcrumb-item>-->
-<!--        <a-breadcrumb-item>List</a-breadcrumb-item>-->
-<!--        <a-breadcrumb-item>App</a-breadcrumb-item>-->
-<!--      </a-breadcrumb>-->
-<!--      <a-layout-content-->
-<!--          :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"-->
-<!--      >-->
-<!--        Content-->
-<!--      </a-layout-content>-->
-      Content---这里是首页
+
+    <a-layout>
+        <a-layout style="padding: 0 24px 24px">
+
+            <a-layout-content
+                    :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+            >
+                <div class="intro-box" style="padding-left: 41%;
+  padding-bottom: 30px;">
+                    <div class="intro" >
+                        <span>欢迎使用用户画像！！！</span>
+                    </div>
+                </div>
+
+                <div style="background-color: #eaedf2; padding: 20px">
+
+                    <a-row :gutter="10">
+                        <a-col :span="6">
+                            <a-card hoverable bordered style="width: 1400px; height: 1200px">
+                                <template #cover>
+                                    <img
+                                            alt="example"
+                                            src="/img/welcome_image.jpg"
+                                            style="height: 600px;"
+                                    />
+                                </template>
+
+                            </a-card>
+
+                        </a-col>
+                    </a-row>
+
+                    <div class="divide-box" style="padding: 30px;"></div>
+
+                </div>
+
+
+            </a-layout-content>
+        </a-layout>
     </a-layout>
-  </a-layout>
+
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+    import {defineComponent, onMounted, ref, reactive, toRef} from 'vue';
+
+    import { SmileTwoTone, HeartTwoTone, CheckCircleTwoTone } from '@ant-design/icons-vue';
+
 // import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 // import AdminHeader from '@/components/admin-header.vue'; // @ is an alias to /src
 // import AdminFooter from '@/components/admin-footer.vue'; // @ is an alias to /src
 
 export default defineComponent({
   name: 'Home',
-  components: {
-    // HelloWorld,
-    // AdminHeader,
-    // AdminFooter,
-  },
+
+
+    //放一些参数定义，方法定义
+    setup() {
+        console.log("setup");
+        // 使用ref()定义响应式数据
+        const demos = ref();
+        //reactive中放入对象 并自定义属性
+        const demos2 = reactive({demos: []});
+
+        //初始化逻辑都写到onMounted()里
+        onMounted(() => {
+            console.log("onMounted");
+
+        });
+
+        //html代码要拿到响应式变量 需要在setup的最后return
+        return {
+            demos,
+            demos_reactive: toRef(demos2, "demos"),
+            pagination : {
+                onChange: (page: any) => {
+                    console.log(page);
+                },
+                pageSize: 3,
+            },
+            actions: [
+                { type: 'StarOutlined', text: '156' },
+                { type: 'LikeOutlined', text: '156' },
+                { type: 'MessageOutlined', text: '2' },
+            ],
+        }
+    },
+
+
+    components: {
+
+        SmileTwoTone,
+        HeartTwoTone,
+        CheckCircleTwoTone,
+    },
+
 });
 </script>

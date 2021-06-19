@@ -169,14 +169,7 @@
 
       </a-tab-pane>
 
-
     </a-tabs>
-
-
-
-
-
-
 
 
   </a-layout>
