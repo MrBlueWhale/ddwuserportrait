@@ -214,8 +214,6 @@ public class UserProfileController {
         return resp;
 
 
-
-
     }
 
     @GetMapping("/searchByTel/{tel}")
@@ -227,6 +225,31 @@ public class UserProfileController {
 
         try {
             userProfileJson =  hBaseService.searchByTel(tel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(userProfileJson.isEmpty()){
+            resp.setSuccess(false);
+            resp.setMessage("找不到该用户的画像，请核准查询条件！");
+//            JSONObject content =
+        }
+
+        resp.setContent(userProfileJson);
+//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+
+        return resp;
+    }
+
+    @GetMapping("/searchByName/{Name}")
+    public CommonResp searchByName(@PathVariable String Name) {
+        CommonResp resp = new CommonResp<>();
+
+        JSONObject userProfileJson = null;
+        JsonFileUtil jsonFileUtil = new JsonFileUtil();
+
+        try {
+            userProfileJson =  hBaseService.searchByName(Name);
         } catch (IOException e) {
             e.printStackTrace();
         }

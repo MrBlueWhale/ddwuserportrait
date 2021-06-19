@@ -149,394 +149,421 @@
                 </div>
 
 <!--                <a-divider></a-divider>-->
+                <div class="empty-tab" v-show="!showUserProfile" >
+                    <a-empty :image="simpleImage" />
+                </div>
 
-                <div class="post-area">
-                    <div class="container">
-                        <div class="row">
-                            <div class="single-post">
-                                <div class="inner-post">
-                                    <div class="post-img">
-                                        <a href="#"><img src="/img/userprofile/popAttr.png" alt="blog"></a>
+                <div class="user-profile-area" style="margin-top: 150px; margin-left: 50px;">
+                    <div class="secendary-menu-area" v-show="showUserProfile" style="margin-left: 100px;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="secendary-menu">
+                                        <nav>
+                                            <ul>
+                                                <li><a href="#">用户ID <span class="flaticon-worldwide" style="color: #000;">{{ userProfile.id }}</span> </a></li>
+                                                <li><a href="#">姓名 <span class="flaticon-boat" style="color: #000;">{{ userProfile.userName }}</span> </a></li>
+                                                <li><a href="#">QQ <span class="flaticon-boat" style="color: #000;">暂无(╥╯^╰╥) </span> </a></li>
+                                                <li><a href="#">电话 <span class="flaticon-sunset" style="color: #000;">{{ userProfile.mobile }}</span> </a></li>
+                                                <li><a href="#">邮箱 <span class="flaticon-museum" style="color: #000;">{{ userProfile.email }}</span> </a></li>
+<!--                                                <li><a href="#"> <span class="flaticon-video-camera"></span> Fashion </a></li>-->
+                                            </ul>
+                                        </nav>
                                     </div>
-                                    <div class="post-info">
-                                        <div class="post-title">
-                                            <h3><a href="#">人口属性 · 用户特征</a></h3>
-                                        </div>
-
-                                        <div class="blog-meta fix">
-                                            <div class="meta-left pull-left">
-                                                <ul>
-                                                  <li><span class="flaticon-user user"></span>
-                                                    <a href="#" style="font-size: 20px;">性别 </a><p style="font-size: 30px;">{{ userProfile.gender }}</p>
-                                                  </li>
-                                                  <li><span class="flaticon-calendar clendar"></span>
-                                                    <a href="#" style="font-size: 20px;">年龄段 </a><p style="font-size: 30px;">{{ userProfile.ageGroup }}后</p>
-                                                  </li>
-                                                    <li><span class="flaticon-man-user user"></span>
-                                                      <a href="#" style="font-size: 20px;">身高 </a><p style="font-size: 30px;">170-179cm</p>
-                                                    </li>
-                                                    <li><span class="flaticon-calendar clendar"></span>
-                                                      <a href="#" style="font-size: 20px;">民族 </a><p style="font-size: 30px;">汉族</p>
-                                                    </li>
-                                                  <li><span class="flaticon-man-clendar clendar"></span>
-                                                    <a href="#" style="font-size: 20px;">籍贯 </a><p style="font-size: 30px;">成都</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-user user"></span>
-                                                    <a href="#" style="font-size: 20px;">政治面貌 </a><p style="font-size: 30px;">{{ userProfile.politicalFace }}</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-clendar clendar"></span>
-                                                    <a href="#" style="font-size: 20px;">职业 </a><p style="font-size: 30px;">{{ userProfile.job }}</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-user user"></span>
-                                                    <a href="#" style="font-size: 20px;">婚姻状况 </a><p style="font-size: 30px;">{{ userProfile.marriage }}</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-clendar clendar"></span>
-                                                    <a href="#" style="font-size: 20px;">学历 </a><p style="font-size: 30px;">本科</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-user user"></span>
-                                                    <a href="#" style="font-size: 20px;">就业状况 </a><p style="font-size: 30px;">事业单位</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-clendar clendar"></span>
-                                                    <a href="#" style="font-size: 20px;">星座 </a><p style="font-size: 30px;">
-                                                      {{ userProfile.Constellation }}</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-user user"></span>
-                                                    <a href="#" style="font-size: 20px;">所在商圈 </a><p style="font-size: 30px;">王府井</p>
-                                                  </li>
-                                                  <li><span class="flaticon-man-clendar clendar"></span>
-                                                    <a href="#" style="font-size: 20px;">国籍 </a><p style="font-size: 30px;">
-                                                      {{ userProfile.nationality }}</p>
-                                                  </li>
-
-
-                                                </ul>
-                                            </div>
-                                            <div class="post-readmore pull-right">
-                                                <a href="#" class="readmore-btn">Read More <span>+</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-date one">
-                                    <span>01</span>
-                                </div>
-                            </div>
-                            <div class="single-post">
-                                <div class="inner-post">
-                                    <div class="post-img">
-                                        <a href="#"><img src="/img/userprofile/commercial.png" alt="blog"></a>
-                                    </div>
-                                    <div class="post-info">
-                                        <div class="post-title">
-                                            <h3><a href="#">商业属性 · 消费特征</a></h3>
-                                        </div>
-
-                                        <div class="blog-meta fix">
-                                            <div class="meta-left pull-left">
-                                                <ul>
-                                                    <li><span class="flaticon-user commercial-head"></span>
-                                                        <a href="#" style="font-size: 20px;">消费周期 </a><p style="font-size: 30px;">7日</p>
-                                                    </li>
-                                                    <li><span class="flaticon-calendar commercial-tail"></span>
-                                                        <a href="#" style="font-size: 20px;">客单价 </a><p style="font-size: 30px;">1-999</p>
-                                                    </li>
-                                                    <li><span class="flaticon-man-user commercial-head"></span>
-                                                        <a href="#" style="font-size: 20px;">最喜欢的支付方式 </a><p style="font-size: 30px;">{{ userProfile.paymentCode }}</p>
-                                                    </li>
-                                                    <li><span class="flaticon-calendar commercial-tail"></span>
-                                                        <a href="#" style="font-size: 20px;">单笔最高 </a><p style="font-size: 30px;">{{ userProfile.highestPay }}</p>
-                                                    </li>
-                                                    <li><span class="flaticon-man-clendar commercial-head"></span>
-                                                        <a href="#" style="font-size: 20px;">省钱能手 </a><p style="font-size: 30px;">{{ userProfile.moneySaver }}</p>
-                                                    </li>
-                                                    <li><span class="flaticon-man-user commercial-tail"></span>
-                                                        <a href="#" style="font-size: 20px;">有券必买 </a><p style="font-size: 30px;">折扣券</p>
-                                                    </li>
-                                                    <li><span class="flaticon-man-clendar commercial-head"></span>
-                                                        <a href="#" style="font-size: 20px;">消费能力 </a><p style="font-size: 30px;">{{ userProfile.spendPower }}</p>
-                                                    </li>
-
-                                                </ul>
-
-                                            </div>
-
-                                          <div class="commercial-radar" style="padding-left: 100px;">
-                                              <a-row>
-                                                  <a-col :span="24" id="commercial-statistic-radar-col">
-                                                      <div id="commercial-statistic-radar" style="width:490px;height:400px;"></div>
-                                                  </a-col>
-                                              </a-row>
-                                          </div>
-
-                                            <div class="post-readmore pull-right">
-                                                <a href="#" class="readmore-btn">Read More <span>+</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-date two">
-                                    <span>02</span>
-                                </div>
-                            </div>
-                            <div class="single-post">
-                                <div class="inner-post">
-                                    <div class="post-img">
-                                        <a href="#"><img src="/img/userprofile/behaveAttr.png" alt="blog"></a>
-                                    </div>
-                                    <div class="post-info">
-                                        <div class="post-title">
-                                            <h3><a href="#">行为属性 · 兴趣特征</a></h3>
-                                        </div>
-
-                                        <div class="blog-meta fix">
-                                            <div class="meta-left pull-left">
-
-                                                    <p class="behavior-item" style="font-size: 20px; color: #61ac85;">
-                                                        <icon-font class="icons-bar" type="icon-denglu" style="font-size: 18px"/>
-                                                访问状态 </p>
-
-                                                <div class="contact-info">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-telephone">
-                                                                            <icon-font class="icons-bar" type="icon-huabanfuben" style="font-size: 18px"/>
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>最近登录</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>{{ userProfile.RecentLogin }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>设备类型</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>@{{ userProfile.DeviceType }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>登录频率</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>较少</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                                <p class="behavior-item" style="font-size: 20px; color: #57c3c2;">
-                                                    <icon-font class="icons-bar" type="icon-liulan" style="font-size: 18px"/>
-                                                    浏览轨迹 </p>
-
-                                                <div class="contact-info">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-telephone">
-                                                                            <icon-font class="icons-bar" type="icon-huabanfuben" style="font-size: 18px"/>
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>浏览页面 · 时长</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>{{ userProfile.BrowsePage }} -- 5分钟以上</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>浏览时段</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>@{{ userProfile.log_time }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>浏览商品</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>较少</p>
-                                                                        </div>
-
-                                                                        <div class="user-BP-wordCloud" style="padding-left: 100px;">
-                                                                            <a-row>
-                                                                                <a-col :span="24" id="commercial-statistic-radar-col">
-                                                                                    <div id="user-browse-product-wordCloud" style="width:520px;height:400px;"></div>
-                                                                                </a-col>
-                                                                            </a-row>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                                <p class="behavior-item" style="font-size: 20px; color: #29b7cb;">
-                                                    <icon-font class="icons-bar" type="icon-fengxianpianhaoceshi" style="font-size: 18px"/>
-                                                    偏好分析 </p>
-
-
-                                                <div class="contact-info">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-telephone"></span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>商品偏好</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>{{ userProfile.favorProducts }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="single-info box-shadow">
-                                                                <div class="info-iiner">
-                                                                    <div class="info-incon">
-                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
-                                                                    </div>
-                                                                    <div class="info-content">
-                                                                        <div class="contact-info-title">
-                                                                            <h5>品类偏好</h5>
-                                                                        </div>
-                                                                        <div class="contact-info-content">
-                                                                            <p>所有品类</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="single-info box-shadow">
-                                                            <div class="info-iiner">
-                                                                <div class="info-incon">
-                                                                    <span class="flaticon-black-back-closed-envelope-shape"></span>
-                                                                </div>
-                                                                <div class="info-content">
-                                                                    <div class="contact-info-title">
-                                                                        <h5>品牌偏好</h5>
-                                                                    </div>
-                                                                    <div class="contact-info-content">
-                                                                        <p>海尔 卡萨帝 摩卡 小超人 统帅</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="post-readmore pull-right">
-                                                <a href="#" class="readmore-btn">Read More <span>+</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-date three">
-                                    <span>03</span>
-                                </div>
-                            </div>
-                            <div class="single-post">
-                                <div class="inner-post">
-                                    <div class="post-img">
-                                        <a href="#"><img src="/img/userprofile/userValueAttr.png" alt="blog"></a>
-                                    </div>
-                                    <div class="post-info">
-                                        <div class="post-title">
-                                            <h3><a href="#">用户价值</a></h3>
-                                        </div>
-                                        <div class="post-content">
-                                            <p> </p>
-                                        </div>
-                                        <div class="blog-meta fix">
-                                            <div class="meta-left pull-left">
-                                                <a-list :grid="{ gutter: 16, column: 4 }" :data-source="userValueData">
-                                                    <template #renderItem="{ item }">
-                                                        <a-list-item>
-                                                            <a-card :title="item.title">
-                                                                <p style="font-weight: bolder;">{{ item.value }}</p>
-                                                            </a-card>
-                                                        </a-list-item>
-                                                    </template>
-                                                </a-list>
-                                            </div>
-                                            <div class="post-readmore pull-right">
-                                                <a href="#" class="readmore-btn">Read More <span>+</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-date four">
-                                    <span>04</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="post-area" v-show="showUserProfile">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="single-post">
+                                    <div class="inner-post">
+                                        <div class="post-img">
+                                            <a href="#"><img src="/img/userprofile/popAttr.png" alt="blog"></a>
+                                        </div>
+                                        <div class="post-info">
+                                            <div class="post-title">
+                                                <h3><a href="#">人口属性 · 用户特征</a></h3>
+                                            </div>
+
+                                            <div class="blog-meta fix">
+                                                <div class="meta-left pull-left">
+                                                    <ul>
+                                                        <li><span class="flaticon-user user"></span>
+                                                            <a href="#" style="font-size: 20px;">性别 </a><p style="font-size: 30px;">{{ userProfile.gender }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-calendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">年龄段 </a><p style="font-size: 30px;">{{ userProfile.ageGroup }}后</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user user"></span>
+                                                            <a href="#" style="font-size: 20px;">身高 </a><p style="font-size: 30px;">170-179cm</p>
+                                                        </li>
+                                                        <li><span class="flaticon-calendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">民族 </a><p style="font-size: 30px;">汉族</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">籍贯 </a><p style="font-size: 30px;">成都</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user user"></span>
+                                                            <a href="#" style="font-size: 20px;">政治面貌 </a><p style="font-size: 30px;">{{ userProfile.politicalFace }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">职业 </a><p style="font-size: 30px;">{{ userProfile.job }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user user"></span>
+                                                            <a href="#" style="font-size: 20px;">婚姻状况 </a><p style="font-size: 30px;">{{ userProfile.marriage }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">学历 </a><p style="font-size: 30px;">本科</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user user"></span>
+                                                            <a href="#" style="font-size: 20px;">就业状况 </a><p style="font-size: 30px;">事业单位</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">星座 </a><p style="font-size: 30px;">
+                                                                {{ userProfile.Constellation }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user user"></span>
+                                                            <a href="#" style="font-size: 20px;">所在商圈 </a><p style="font-size: 30px;">王府井</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar clendar"></span>
+                                                            <a href="#" style="font-size: 20px;">国籍 </a><p style="font-size: 30px;">
+                                                                {{ userProfile.nationality }}</p>
+                                                        </li>
+
+
+                                                    </ul>
+                                                </div>
+                                                <div class="post-readmore pull-right">
+                                                    <a href="#" class="readmore-btn">Read More <span>+</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="post-date one">
+                                        <span>01</span>
+                                    </div>
+                                </div>
+                                <div class="single-post">
+                                    <div class="inner-post">
+                                        <div class="post-img">
+                                            <a href="#"><img src="/img/userprofile/commercial.png" alt="blog"></a>
+                                        </div>
+                                        <div class="post-info">
+                                            <div class="post-title">
+                                                <h3><a href="#">商业属性 · 消费特征</a></h3>
+                                            </div>
+
+                                            <div class="blog-meta fix">
+                                                <div class="meta-left pull-left">
+                                                    <ul>
+                                                        <li><span class="flaticon-user commercial-head"></span>
+                                                            <a href="#" style="font-size: 20px;">消费周期 </a><p style="font-size: 30px;">7日</p>
+                                                        </li>
+                                                        <li><span class="flaticon-calendar commercial-tail"></span>
+                                                            <a href="#" style="font-size: 20px;">客单价 </a><p style="font-size: 30px;">1-999</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user commercial-head"></span>
+                                                            <a href="#" style="font-size: 20px;">最喜欢的支付方式 </a><p style="font-size: 30px;">{{ userProfile.paymentCode }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-calendar commercial-tail"></span>
+                                                            <a href="#" style="font-size: 20px;">单笔最高 </a><p style="font-size: 30px;">{{ userProfile.highestPay }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar commercial-head"></span>
+                                                            <a href="#" style="font-size: 20px;">省钱能手 </a><p style="font-size: 30px;">{{ userProfile.moneySaver }}</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-user commercial-tail"></span>
+                                                            <a href="#" style="font-size: 20px;">有券必买 </a><p style="font-size: 30px;">折扣券</p>
+                                                        </li>
+                                                        <li><span class="flaticon-man-clendar commercial-head"></span>
+                                                            <a href="#" style="font-size: 20px;">消费能力 </a><p style="font-size: 30px;">{{ userProfile.spendPower }}</p>
+                                                        </li>
+
+                                                    </ul>
+
+                                                </div>
+
+                                                <div class="commercial-radar" style="padding-left: 100px;">
+                                                    <a-row>
+                                                        <a-col :span="24" id="commercial-statistic-radar-col">
+                                                            <div id="commercial-statistic-radar" style="width:490px;height:400px;"></div>
+                                                        </a-col>
+                                                    </a-row>
+                                                </div>
+
+                                                <div class="post-readmore pull-right">
+                                                    <a href="#" class="readmore-btn">Read More <span>+</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="post-date two">
+                                        <span>02</span>
+                                    </div>
+                                </div>
+                                <div class="single-post">
+                                    <div class="inner-post">
+                                        <div class="post-img">
+                                            <a href="#"><img src="/img/userprofile/behaveAttr.png" alt="blog"></a>
+                                        </div>
+                                        <div class="post-info">
+                                            <div class="post-title">
+                                                <h3><a href="#">行为属性 · 兴趣特征</a></h3>
+                                            </div>
+
+                                            <div class="blog-meta fix">
+                                                <div class="meta-left pull-left">
+
+                                                    <p class="behavior-item" style="font-size: 20px; color: #61ac85;">
+                                                        <icon-font class="icons-bar" type="icon-denglu" style="font-size: 18px"/>
+                                                        访问状态 </p>
+
+                                                    <div class="contact-info">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                        <span class="flaticon-telephone">
+                                                                            <icon-font class="icons-bar" type="icon-huabanfuben" style="font-size: 18px"/>
+                                                                        </span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>最近登录</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>{{ userProfile.RecentLogin }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                            <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>设备类型</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>@{{ userProfile.DeviceType }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                            <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>登录频率</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>较少</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <p class="behavior-item" style="font-size: 20px; color: #57c3c2;">
+                                                        <icon-font class="icons-bar" type="icon-liulan" style="font-size: 18px"/>
+                                                        浏览轨迹 </p>
+
+                                                    <div class="contact-info">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                        <span class="flaticon-telephone">
+                                                                            <icon-font class="icons-bar" type="icon-huabanfuben" style="font-size: 18px"/>
+                                                                        </span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>浏览页面 · 时长</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>{{ userProfile.BrowsePage }} -- 5分钟以上</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                            <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>浏览时段</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>@{{ userProfile.log_time }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                            <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>浏览商品</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>较少</p>
+                                                                            </div>
+
+                                                                            <div class="user-BP-wordCloud" style="padding-left: 100px;">
+                                                                                <a-row>
+                                                                                    <a-col :span="24" id="commercial-statistic-radar-col">
+                                                                                        <div id="user-browse-product-wordCloud" style="width:520px;height:400px;"></div>
+                                                                                    </a-col>
+                                                                                </a-row>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <p class="behavior-item" style="font-size: 20px; color: #29b7cb;">
+                                                        <icon-font class="icons-bar" type="icon-fengxianpianhaoceshi" style="font-size: 18px"/>
+                                                        偏好分析 </p>
+
+
+                                                    <div class="contact-info">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                            <span class="flaticon-telephone"></span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>商品偏好</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>{{ userProfile.favorProducts }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="single-info box-shadow">
+                                                                    <div class="info-iiner">
+                                                                        <div class="info-incon">
+                                                                            <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                        </div>
+                                                                        <div class="info-content">
+                                                                            <div class="contact-info-title">
+                                                                                <h5>品类偏好</h5>
+                                                                            </div>
+                                                                            <div class="contact-info-content">
+                                                                                <p>所有品类</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="single-info box-shadow">
+                                                                <div class="info-iiner">
+                                                                    <div class="info-incon">
+                                                                        <span class="flaticon-black-back-closed-envelope-shape"></span>
+                                                                    </div>
+                                                                    <div class="info-content">
+                                                                        <div class="contact-info-title">
+                                                                            <h5>品牌偏好</h5>
+                                                                        </div>
+                                                                        <div class="contact-info-content">
+                                                                            <p>海尔 卡萨帝 摩卡 小超人 统帅</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="post-readmore pull-right">
+                                                    <a href="#" class="readmore-btn">Read More <span>+</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="post-date three">
+                                        <span>03</span>
+                                    </div>
+                                </div>
+                                <div class="single-post">
+                                    <div class="inner-post">
+                                        <div class="post-img">
+                                            <a href="#"><img src="/img/userprofile/userValueAttr.png" alt="blog"></a>
+                                        </div>
+                                        <div class="post-info">
+                                            <div class="post-title">
+                                                <h3><a href="#">用户价值</a></h3>
+                                            </div>
+                                            <div class="post-content">
+                                                <p> </p>
+                                            </div>
+                                            <div class="blog-meta fix">
+                                                <div class="meta-left pull-left">
+                                                    <a-list :grid="{ gutter: 16, column: 4 }" :data-source="userValueData">
+                                                        <template #renderItem="{ item }">
+                                                            <a-list-item>
+                                                                <a-card :title="item.title">
+                                                                    <p style="font-weight: bolder;">{{ item.value }}</p>
+                                                                </a-card>
+                                                            </a-list-item>
+                                                        </template>
+                                                    </a-list>
+                                                </div>
+                                                <div class="post-readmore pull-right">
+                                                    <a href="#" class="readmore-btn">Read More <span>+</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="post-date four">
+                                        <span>04</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <!--          </div>-->
@@ -579,7 +606,7 @@
     import {createFromIconfontCN} from "@ant-design/icons-vue/es/index";
     import store from "@/store";
 
-    import {message} from 'ant-design-vue';
+    import {message, Empty} from 'ant-design-vue';
 
     const IconFont = createFromIconfontCN({
         scriptUrl: '//at.alicdn.com/t/font_2614026_u9y8k012thc.js',
@@ -1754,8 +1781,8 @@
                 visualMap: {
                     orient: 'horizontal',
                     left: 'center',
-                    min: 10,
-                    max: 70,
+                    min: 0,
+                    max: 120000,
                     text: ['高', '低'],
                     // Map the score column to color
                     dimension: 0,
@@ -1919,9 +1946,10 @@
             myChart.setOption(option);
           };
 
+
             const activeKey = ref('user-profile-statistic');
 
-            const userSearchKey = ref('电话号码');
+            const userSearchKey = ref('telNum');
             const userSearchValue = ref('');
 
             let userBrowseProductWD: UBPWordCloud[]  = [];
@@ -2004,6 +2032,8 @@
             };
 
 
+            const showUserProfile = ref(false);
+
             const onSearch = (searchValue: string) => {
 
                 console.log("userSearchKey:", userSearchKey);
@@ -2015,6 +2045,9 @@
                     axios.get("user-profile/searchByTel/" + userSearchValue.value).then((response) => {
                         const data = response.data;
                         if (data.success) {
+
+                            showUserProfile.value = true;
+
                             userProfile.value = data.content;
                             // alert(userProfile.value);
                             console.log(userProfile.value);
@@ -2048,6 +2081,8 @@
                             // userBrowseProductWD
 
                             userBrowseProductWordCloud();
+
+                            message.success("找到了哦~");
 
                         } else {
                             message.error(data.message);
@@ -2057,6 +2092,9 @@
                     axios.get("user-profile/searchByName/" + userSearchValue.value).then((response) => {
                         const data = response.data;
                         if (data.success) {
+
+                            showUserProfile.value = true;
+
                             userProfile.value = data.content;
                             // alert(userProfile.value);
                             console.log(userProfile.value);
@@ -2090,6 +2128,8 @@
                             // userBrowseProductWD
 
                             userBrowseProductWordCloud();
+
+                            message.success("找到了哦~");
 
                         } else {
                             message.error(data.message);
@@ -2197,6 +2237,8 @@
                 userSearchValue,
                 userSearchKey,
                 onSearch,
+                simpleImage: Empty.PRESENTED_IMAGE_SIMPLE,
+                showUserProfile,
 
                 userProfile,
               randomHeight,
@@ -2257,6 +2299,65 @@
         background: #3a8ee6;
         border: 1px solid black;
     }
+
+
+    /*=================================================
+    6. secendary-menu-area
+==============================================================*/
+    .secendary-menu-area .secendary-menu {
+        -webkit-box-shadow: 0 0 20px #dcdbff;
+        -o-box-shadow: 0 0 20px #dcdbff;
+        -moz-box-shadow: 0 0 20px #dcdbff;
+        -ms-box-shadow: 0 0 20px #dcdbff;
+        box-shadow: 0 0 20px #dcdbff;
+        margin-top: -80px;
+        background: #ffffff; }
+    .secendary-menu-area .secendary-menu nav ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center; }
+    .secendary-menu-area .secendary-menu nav ul li {
+        display: inline-block; }
+    .secendary-menu-area .secendary-menu nav ul li:last-child a {
+        margin-right: 0px; }
+    .secendary-menu-area .secendary-menu nav ul li.active a {
+        color: #6c62ff;
+        border-bottom: 3px solid #6c62ff; }
+    .secendary-menu-area .secendary-menu nav ul li.active a span:before {
+        color: #6c62ff; }
+    .secendary-menu-area .secendary-menu nav ul li:hover a {
+        color: #6c62ff;
+        border-bottom: 3px solid #6c62ff; }
+    .secendary-menu-area .secendary-menu nav ul li:hover a span:before {
+        color: #1e12cf; }
+    .secendary-menu-area .secendary-menu nav ul li a {
+        display: block;
+        padding: 30px  35px 35px 35px;
+        margin-right: 30px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #6c62ff;
+        text-transform: capitalize;
+        letter-spacing: 3px;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s;
+        border-bottom: 3px solid transparent; }
+    .secendary-menu-area .secendary-menu nav ul li a span {
+        display: block;
+        margin-bottom: 6px; }
+    .secendary-menu-area .secendary-menu nav ul li a span:before {
+        margin-left: 0px;
+        font-size: 40px;
+        font-weight: 500;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        transition: all 0.5s; }
 
 
     /*=================================================
