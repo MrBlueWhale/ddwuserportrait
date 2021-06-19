@@ -214,8 +214,6 @@ public class UserProfileController {
         return resp;
 
 
-
-
     }
 
     @GetMapping("/searchByTel/{tel}")
@@ -227,6 +225,25 @@ public class UserProfileController {
 
         try {
             userProfileJson =  hBaseService.searchByTel(tel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        resp.setContent(userProfileJson);
+//        resp.setContent(jsonFileUtil.readJson("D://portrait//data//userProfileJson.json"));
+
+        return resp;
+    }
+
+    @GetMapping("/searchByName/{Name}")
+    public CommonResp searchByName(@PathVariable String Name) {
+        CommonResp resp = new CommonResp<>();
+
+        JSONObject userProfileJson = null;
+        JsonFileUtil jsonFileUtil = new JsonFileUtil();
+
+        try {
+            userProfileJson =  hBaseService.searchByName(Name);
         } catch (IOException e) {
             e.printStackTrace();
         }

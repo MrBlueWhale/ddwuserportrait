@@ -25,6 +25,9 @@ GET http://localhost:8083/user-profile/saveTagRatio
 ###
 GET http://localhost:8083/user-profile/searchByTel/15806945687
 
+###
+GET http://localhost:8083/user-profile/searchByName/sb
+
 
 ###
 GET http://localhost:8083/user-profile/listUserProfileByTel/15806945687
