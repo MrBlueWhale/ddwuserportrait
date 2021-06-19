@@ -9,7 +9,7 @@ public class GroupTag {
 
     private String desc;
 
-    private Integer status;
+    private Integer tagStatus;
 
     public Long getGtId() {
         return gtId;
@@ -43,12 +43,12 @@ public class GroupTag {
         this.desc = desc;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getTagStatus() {
+        return tagStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setTagStatus(Integer tagStatus) {
+        this.tagStatus = tagStatus;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GroupTag {
         sb.append(", bt5Id=").append(bt5Id);
         sb.append(", bt5Name=").append(bt5Name);
         sb.append(", desc=").append(desc);
-        sb.append(", status=").append(status);
+        sb.append(", tagStatus=").append(tagStatus);
         sb.append("]");
         return sb.toString();
     }

@@ -364,63 +364,63 @@ public class GroupTagExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("`status` is null");
+        public Criteria andTagStatusIsNull() {
+            addCriterion("tag_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("`status` is not null");
+        public Criteria andTagStatusIsNotNull() {
+            addCriterion("tag_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Integer value) {
-            addCriterion("`status` =", value, "status");
+        public Criteria andTagStatusEqualTo(Integer value) {
+            addCriterion("tag_status =", value, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Integer value) {
-            addCriterion("`status` <>", value, "status");
+        public Criteria andTagStatusNotEqualTo(Integer value) {
+            addCriterion("tag_status <>", value, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Integer value) {
-            addCriterion("`status` >", value, "status");
+        public Criteria andTagStatusGreaterThan(Integer value) {
+            addCriterion("tag_status >", value, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`status` >=", value, "status");
+        public Criteria andTagStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("tag_status >=", value, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Integer value) {
-            addCriterion("`status` <", value, "status");
+        public Criteria andTagStatusLessThan(Integer value) {
+            addCriterion("tag_status <", value, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("`status` <=", value, "status");
+        public Criteria andTagStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("tag_status <=", value, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Integer> values) {
-            addCriterion("`status` in", values, "status");
+        public Criteria andTagStatusIn(List<Integer> values) {
+            addCriterion("tag_status in", values, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Integer> values) {
-            addCriterion("`status` not in", values, "status");
+        public Criteria andTagStatusNotIn(List<Integer> values) {
+            addCriterion("tag_status not in", values, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Integer value1, Integer value2) {
-            addCriterion("`status` between", value1, value2, "status");
+        public Criteria andTagStatusBetween(Integer value1, Integer value2) {
+            addCriterion("tag_status between", value1, value2, "tagStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("`status` not between", value1, value2, "status");
+        public Criteria andTagStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("tag_status not between", value1, value2, "tagStatus");
             return (Criteria) this;
         }
     }

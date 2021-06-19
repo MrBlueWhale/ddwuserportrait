@@ -17,9 +17,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -109,19 +107,19 @@ public class GroupTagService {
         for(Long groupTagId : groupTagIds){
             List<GroupTag> base5Tags = groupTagMapper.findBaseTagByGtId(groupTagId);
             LOG.info("base5Tags:{}", base5Tags);
-            Map<String,String> baseTagNames = new HashMap<>();
+            List<String> baseTagNames = new ArrayList<>();
 
             GroupTagQueryResp groupTagQueryResp = new GroupTagQueryResp();
             groupTagQueryResp.setGtId(groupTagId);
             groupTagQueryResp.setDesc(base5Tags.get(0).getDesc());
-            groupTagQueryResp.setStatus(base5Tags.get(0).getStatus());
+            groupTagQueryResp.setTagStatus(base5Tags.get(0).getTagStatus());
 
             for (GroupTag groupTag : base5Tags) {
 //                LOG.info("groupTag:{}", groupTag);
 
                 String rank4TagName = baseTagMapper.findParentNameById(groupTag.getBt5Id());
 
-                baseTagNames.put(rank4TagName, groupTag.getBt5Name());
+                baseTagNames.add(rank4TagName + ":" + groupTag.getBt5Name());
 //                LOG.info("baseTagNames:{}", baseTagNames);
             }
             groupTagQueryResp.setBaseTagNames(baseTagNames);

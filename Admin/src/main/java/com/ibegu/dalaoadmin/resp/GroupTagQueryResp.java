@@ -1,15 +1,15 @@
 package com.ibegu.dalaoadmin.resp;
 
-import java.util.Map;
+import java.util.List;
 
 public class GroupTagQueryResp {
     private Long gtId;
 
-    private Map<String, String> baseTagNames;
+    private List<String> baseTagNames;
 
     private String desc;
 
-    private Integer status;
+    private Integer tagStatus;
 
 
     public Long getGtId() {
@@ -21,12 +21,12 @@ public class GroupTagQueryResp {
     }
 
 
-    public void setBaseTagNames(Map<String, String> baseTagNames) {
-        this.baseTagNames = baseTagNames;
+    public List<String> getBaseTagNames() {
+        return baseTagNames;
     }
 
-    public Map<String, String> getBaseTagNames() {
-        return baseTagNames;
+    public void setBaseTagNames(List<String> baseTagNames) {
+        this.baseTagNames = baseTagNames;
     }
 
     public String getDesc() {
@@ -37,14 +37,13 @@ public class GroupTagQueryResp {
         this.desc = desc;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getTagStatus() {
+        return tagStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setTagStatus(Integer tagStatus) {
+        this.tagStatus = tagStatus;
     }
-
 
     @Override
     public String toString() {
@@ -52,7 +51,7 @@ public class GroupTagQueryResp {
                 "gtId=" + gtId +
                 ", baseTagNames=" + baseTagNames +
                 ", desc='" + desc + '\'' +
-                ", status=" + status +
+                ", tagStatus=" + tagStatus +
                 '}';
     }
 }
