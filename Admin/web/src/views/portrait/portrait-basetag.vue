@@ -32,24 +32,140 @@
         </a-row>
 
       </a-tab-pane>
-      <a-tab-pane key="tag-process" >
-        <template #tab >
+
+
+      <a-tab-pane key="tag-process">
+        <template #tab>
         <span @click="handleClick('tag-process')">
           <icon-font class="icons-bar" type="icon-jindutiao" style="font-size: 18px"/>
           标签进度管理
         </span>
         </template>
-        开发中
+
+        <p>
+          <a-form layout="inline" :model="param">
+            <a-form-item>
+              <a-input v-model:value="param.tagName" placeholder="标签名">
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary" @click="handleQuery({page: 1, size: pagination.pageSize})">
+                查询
+              </a-button>
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary" @click="add()">
+                标签申请
+              </a-button>
+            </a-form-item>
+          </a-form>
+        </p>
+
+        <a-table :row-key="record => record.btId" :columns="columns" :data-source="baseTags"
+                 :row-selection="rowSelection">
+
+          <template #processStatus="{ text: processStatus, record }">
+
+            <a-tag :color="processStatusColorMap.get(processStatus)" :processStatus="processStatus">
+              <template #icon>
+                <exclamation-circle-outlined/>
+              </template>
+              {{ processStatusMap.get(processStatus) }}
+            </a-tag>
+          </template>
+
+          <template v-slot:action="{ text, record }">
+            <a-space size="small">
+              <a-button type="primary" @click="edit(record.btId)">
+                编辑
+              </a-button>
+              <a-popconfirm
+                      title="禁用后标签无法使用，确认禁用?"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="handleban(record)"
+              >
+                <a-button type="danger" :disabled="record.processStatus===6" v-show="record.btId>199">
+                  禁用
+                </a-button>
+              </a-popconfirm>
+              <a-button type="primary" @click="online(record)" :disabled="record.processStatus===4"
+                        v-show="record.btId>199">
+                上线
+              </a-button>
+              <a-popconfirm
+                      title="下线后标签不可见，确认下线?"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="offline(record.btId)"
+              >
+                <a-button type="danger" :disabled="record.processStatus===5" v-show="record.btId>199">
+                  下线
+                </a-button>
+              </a-popconfirm>
+            </a-space>
+          </template>
+
+
+        </a-table>
+
+
       </a-tab-pane>
-      <a-tab-pane key="tag-audit" >
+
+
+      <a-tab-pane key="tag-audit">
         <template #tab>
         <span @click="handleClick('tag-audit')">
           <icon-font class="icons-bar" type="icon-shenhe" style="font-size: 20px"/>
           审核状态管理
         </span>
         </template>
-        未通过
+        <a-table :row-key="record => record.btId" :columns="columnsAudit" :data-source="baseTagsAudit"
+                 :row-selection="rowSelectionAudit">
+
+          <template #auditStatus="{ text: auditStatus, record }">
+
+            <a-tag :color="auditStatusColorMap.get(auditStatus)" :auditStatus="auditStatus">
+              <template #icon>
+                <exclamation-circle-outlined/>
+              </template>
+              {{ auditStatusMap.get(auditStatus) }}
+            </a-tag>
+          </template>
+
+          <template v-slot:action="{ text, record }">
+            <a-space size="small">
+              <a-popconfirm
+                      title="通过后标签可进行开发，确认通过?"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="pass(record)"
+              >
+                <a-button type="primary" >
+                  通过
+                </a-button>
+              </a-popconfirm>
+
+              <a-popconfirm
+                      title="驳回后标签需要修改，确认驳回?"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="handelReject(record)"
+              >
+                <a-button type="danger" :disabled="record.auditStatus===2" v-show="record.btId>199">
+                  驳回
+                </a-button>
+              </a-popconfirm>
+
+            </a-space>
+          </template>
+
+
+        </a-table>
+
       </a-tab-pane>
+
+
     </a-tabs>
 
 
@@ -76,9 +192,8 @@
 
 
   import { groupItems } from './data/tagdata';
-
-
-
+  import {Tool} from '@/util/tool';
+  import {message} from 'ant-design-vue';
 
   // import resizefrom "./mixins/resize";
 
@@ -92,6 +207,102 @@
 
   // import HelloWorld from "@/components/HelloWorld.vue";
 
+  interface TagItem {
+    btId: number;
+    btName: string;
+    parentId: number;
+    processStatus: number;
+    auditStatus: number;
+    desc: string;
+    children?: TagItem[]
+  }
+
+  const columns = [
+    {
+      title: '标签名',
+      dataIndex: 'btName',
+      key: 'btName',
+    },
+    {
+      title: '进度状态',
+      dataIndex: 'processStatus',
+      key: 'processStatus',
+      slots: {customRender: 'processStatus'}
+      // width: '12%',
+    },
+    {
+      title: '标签描述',
+      dataIndex: 'desc',
+      width: '30%',
+      key: 'desc',
+    },
+    {
+      title: '操作',
+      key: 'action',
+      slots: {customRender: 'action'}
+    }
+  ];
+
+  const rowSelection = {
+    onChange: (selectedRowKeys: (string | number)[], selectedRows: TagItem[]) => {
+      console.log("onChange");
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    onSelect: (record: TagItem, selected: boolean, selectedRows: TagItem[]) => {
+      console.log("onSelect");
+      console.log(record, selected, selectedRows);
+    },
+    onSelectAll: (selected: boolean, selectedRows: TagItem[], changeRows: TagItem[]) => {
+      console.log("onSelectAll");
+      console.log(selected, selectedRows, changeRows);
+    },
+  };
+
+
+  const columnsAudit = [
+    {
+      title: '标签名',
+      dataIndex: 'btName',
+      key: 'btName',
+    },
+    {
+      title: '审核状态',
+      dataIndex: 'auditStatus',
+      key: 'auditStatus',
+      slots: {customRender: 'auditStatus'}
+      // width: '12%',
+    },
+    {
+      title: '标签描述',
+      dataIndex: 'desc',
+      width: '30%',
+      key: 'desc',
+    },
+    {
+      title: '操作',
+      key: 'action',
+      slots: {customRender: 'action'}
+    }
+  ];
+
+  const rowSelectionAudit = {
+    onChange: (selectedRowKeys: (string | number)[], selectedRows: TagItem[]) => {
+      console.log("onChange");
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    onSelect: (record: TagItem, selected: boolean, selectedRows: TagItem[]) => {
+      console.log("onSelect");
+      console.log(record, selected, selectedRows);
+    },
+    onSelectAll: (selected: boolean, selectedRows: TagItem[], changeRows: TagItem[]) => {
+      console.log("onSelectAll");
+      console.log(selected, selectedRows, changeRows);
+    },
+  };
+
+
+
+
 
 
   export default defineComponent({
@@ -100,6 +311,126 @@
     //放一些参数定义，方法定义
     setup() {
       console.log("setup");
+
+      let processStatusMap = new Map;
+
+      processStatusMap.set(1, "申请中");
+      processStatusMap.set(2, "开发中");
+      processStatusMap.set(3, "开发完成");
+      processStatusMap.set(4, "已上线");
+      processStatusMap.set(5, "已下线");
+      processStatusMap.set(6, "已禁用");
+
+      let processStatusColorMap = new Map;
+
+      processStatusColorMap.set(1, "pink");
+      processStatusColorMap.set(2, "red");
+      processStatusColorMap.set(3, "orange");
+      processStatusColorMap.set(4, "green");
+      processStatusColorMap.set(5, "cyan");
+      processStatusColorMap.set(6, "blue");
+
+
+      let auditStatusMap = new Map;
+
+      auditStatusMap.set(1, "未处理");
+      auditStatusMap.set(2, "未通过");
+      auditStatusMap.set(3, "已通过");
+
+      let auditStatusColorMap = new Map;
+
+      auditStatusColorMap.set("未处理", "warning");
+      auditStatusColorMap.set("未通过", "error");
+      auditStatusColorMap.set("已通过", "success");
+
+      const edit = (btId: number) => {
+        console.log("拿到的数据：", btId);
+
+        axios.get('baseTag/editBaseTag/' + btId).then((response) => {
+          const data = response.data;
+          if (data.success) {
+
+            handleQueryTags();
+
+
+          } else {
+            message.error(data.message);
+          }
+        });
+
+      };
+
+      const handleban = (record: any) => {
+        console.log("拿到的数据：", record.btId);
+
+        if (record.processStatus !== 4 ) {
+          message.error('下你个头！！');
+        }  else
+        {
+          axios.get('baseTag/banBaseTag/' + record.btId).then((response) => {
+            const data = response.data;
+            if (data.success) {
+
+              handleQueryTags();
+
+
+            } else {
+              message.error(data.message);
+            }
+          });
+        }
+
+      };
+
+      const online = (record: any) => {
+        console.log("拿到的数据：", record.btId);
+
+        if (record.processStatus === 6) {
+          message.error('办不了，谁让你把标签禁用的！！');
+        } else if (record.processStatus === 2) {
+          message.error('干什么 干什么 还在开发呢');
+        } else if (record.processStatus === 3 || record.processStatus === 5 )
+        {
+          axios.get('baseTag/onlineBaseTag/' + record.btId).then((response) => {
+            const data = response.data;
+            if (data.success) {
+
+              handleQueryTags();
+              message.success(data.content);
+
+            } else {
+              message.error(data.message);
+            }
+          });
+        }else {
+          message.error('不想理你~');
+        }
+
+      };
+
+      const offline = (btId: number) => {
+        console.log("拿到的数据：", btId);
+
+        axios.get('baseTag/offlineBaseTag/' + btId).then((response) => {
+          const data = response.data;
+          if (data.success) {
+
+            handleQueryTags();
+
+
+          } else {
+            message.error(data.message);
+          }
+        });
+
+      };
+
+      const param = ref({
+        tagName: '',
+      });
+
+
+
 
       const statistic = ref();
       statistic.value = {};
@@ -1004,6 +1335,85 @@
         myChart.setOption(option);
       };
 
+      // const baseTags = ref();
+      // baseTags.value = {};
+
+      // const baseTagsTree = ref([])
+      const baseTagsTree = ref();
+      baseTagsTree.value = [];
+
+      const handleQueryBaseTag = () => {
+        // axios.get("/baseTag/listBaseTags").then((response) => {
+        axios.get("/baseTag/listBaseTagsTreeNodes").then((response) => {
+          const data = response.data;
+
+          // console.log(response)
+
+          if (data.success) {
+            baseTags.value = data.content;
+
+            baseTagsTree.value = [];
+            baseTagsTree.value = Tool.array2Tree(baseTags.value, 10);
+
+            console.log("baseTagTree",baseTagsTree.value)
+
+            // alert(JSON.stringify(baseTagsTree));
+
+          } else {
+            message.error(data.message);
+          }
+
+        });
+
+      };
+
+      const baseTags = ref<TagItem[]>();
+      baseTags.value = [];
+
+      const baseTagsAudit = ref<TagItem[]>();
+      baseTagsAudit.value = [];
+
+      const handleQueryTags = () => {
+
+
+        axios.get('baseTag/listBaseTags').then((response) => {
+          const data = response.data;
+          if (data.success) {
+            message.success("获取标签数据成功！");
+            baseTags.value = Tool.array2Tree(data.content, 10);
+            console.log("baseTag:", baseTags.value);
+
+
+          } else {
+            message.error(data.message);
+          }
+        });
+
+      };
+
+      const handleClick = (tabName: string) => {
+
+        if(tabName === 'tag-audit'){
+
+          axios.get('/baseTag/listBaseTagsAudit').then((response) => {
+            const data = response.data;
+            if (data.success) {
+              message.success("获取标签数据成功！");
+              baseTagsAudit.value = Tool.array2Tree(data.content, 10);
+              console.log("baseTagsAudit:", baseTagsAudit.value);
+
+
+            } else {
+              message.error(data.message);
+            }
+          });
+
+
+        }
+
+
+      }
+
 
       const activeKey = ref('basetag-statistic')
 
@@ -1018,7 +1428,9 @@
 
         tagStatisticSun();
 
+        handleQueryBaseTag();
 
+        handleQueryTags();
 
       });
 
@@ -1028,6 +1440,27 @@
         statistic,
 
         activeKey,
+
+        baseTags,
+        columns,
+        rowSelection,
+
+        processStatusMap,
+        processStatusColorMap,
+
+        edit,
+        handleban,
+        online,
+        offline,
+
+        param,
+
+        handleClick,
+        baseTagsAudit,
+        columnsAudit,
+        rowSelectionAudit,
+        auditStatusMap,
+        auditStatusColorMap,
 
         // pagination : {
         //   onChange: (page: any) => {

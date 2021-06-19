@@ -1,5 +1,9 @@
 <template>
-  <a-layout-header class="header">
+  <a-layout-header class="header" style="position: fixed;width: 99%;
+height: 70px;
+top:0;
+left: 0;
+z-index: 999">
     <div class="logo" />
     <a-menu
         theme="dark"

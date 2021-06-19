@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : userportrait
+ Source Server         : dalao
  Source Server Type    : MySQL
  Source Server Version : 80019
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 16/06/2021 09:29:29
+ Date: 19/06/2021 09:57:06
 */
 
 SET NAMES utf8mb4;
@@ -29,18 +29,18 @@ CREATE TABLE `base_tag`  (
   `audit_status` int(0) NULL DEFAULT NULL COMMENT '审核状态（未通过、已通过、未处理）',
   `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`bt_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 479 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_tag
 -- ----------------------------
-INSERT INTO `base_tag` VALUES (100, '人口属性', 10, 3, 1, '用户特征');
+INSERT INTO `base_tag` VALUES (100, '人口属性', 10, 2, 1, '用户特征');
 INSERT INTO `base_tag` VALUES (101, '商业属性', 10, 3, 1, '消费特征');
 INSERT INTO `base_tag` VALUES (102, '行为属性', 10, 3, 1, '兴趣特征');
-INSERT INTO `base_tag` VALUES (103, '用户价值', 10, 3, 1, '用户价值');
-INSERT INTO `base_tag` VALUES (200, '性别', 100, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (201, '年龄段', 100, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (202, '身高', 100, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (103, '用户价值', 10, 2, 1, '用户价值');
+INSERT INTO `base_tag` VALUES (200, '性别', 100, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (201, '年龄段', 100, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (202, '身高', 100, 6, 1, NULL);
 INSERT INTO `base_tag` VALUES (203, '民族', 100, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (204, '籍贯', 100, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (205, '政治面貌', 100, 3, 1, NULL);
@@ -49,9 +49,9 @@ INSERT INTO `base_tag` VALUES (207, '婚姻状况', 100, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (208, '学历', 100, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (209, '就业状况', 100, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (210, '星座', 100, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (211, '所在商圈', 100, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (211, '所在商圈', 100, 6, 1, NULL);
 INSERT INTO `base_tag` VALUES (212, '国籍', 100, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (213, '消费周期', 101, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (213, '消费周期', 101, 4, 1, NULL);
 INSERT INTO `base_tag` VALUES (214, '消费能力', 101, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (215, '客单价', 101, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (216, '支付方式', 101, 3, 1, NULL);
@@ -61,9 +61,9 @@ INSERT INTO `base_tag` VALUES (219, '退货率', 101, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (220, '换货率', 101, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (221, '有券必买', 101, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (222, '客服咨询频率', 101, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (223, '最近登录', 102, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (224, '浏览页面', 102, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (225, '浏览时长', 102, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (223, '最近登录', 102, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (224, '浏览页面', 102, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (225, '浏览时长', 102, 4, 1, NULL);
 INSERT INTO `base_tag` VALUES (226, '访问频率', 102, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (227, '设备类型', 102, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (228, '浏览时段', 102, 3, 1, NULL);
@@ -71,22 +71,22 @@ INSERT INTO `base_tag` VALUES (229, '登录频率', 102, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (230, '浏览商品', 102, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (231, '购买商品', 102, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (232, '商品偏好', 102, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (233, '品类偏好	', 102, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (234, '品牌偏好', 102, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (235, '房产', 103, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (236, '房产价值', 103, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (237, '车产', 103, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (238, '车产价值', 103, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (233, '品类偏好	', 102, 1, 1, NULL);
+INSERT INTO `base_tag` VALUES (234, '品牌偏好', 102, 1, 1, NULL);
+INSERT INTO `base_tag` VALUES (235, '房产', 103, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (236, '房产价值', 103, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (237, '车产', 103, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (238, '车产价值', 103, 6, 1, NULL);
 INSERT INTO `base_tag` VALUES (300, '男', 200, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (301, '女', 200, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (302, '50后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (303, '60后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (304, '70后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (305, '80后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (306, '90后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (307, '00后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (308, '10后', 201, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (309, '20后', 201, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (302, '50后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (303, '60后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (304, '70后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (305, '80后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (306, '90后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (307, '00后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (308, '10后', 201, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (309, '20后', 201, 4, 1, NULL);
 INSERT INTO `base_tag` VALUES (310, '150-159', 202, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (311, '160-169', 202, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (312, '170-179', 202, 3, 1, NULL);
@@ -142,27 +142,27 @@ INSERT INTO `base_tag` VALUES (361, '射手座', 210, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (362, '摩蝎座', 210, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (363, '水瓶座', 210, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (364, '双鱼座', 210, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (365, '国贸CBD', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (366, '西单', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (367, '王府井', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (368, '朝外', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (369, '三里屯', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (370, '崇文门', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (371, '徐家汇', 211, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (372, '环球港', 211, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (365, '国贸CBD', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (366, '西单', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (367, '王府井', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (368, '朝外', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (369, '三里屯', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (370, '崇文门', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (371, '徐家汇', 211, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (372, '环球港', 211, 6, 1, NULL);
 INSERT INTO `base_tag` VALUES (373, '中国大陆', 212, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (374, '中国香港', 212, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (375, '中国澳门', 212, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (376, '中国台湾', 212, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (377, '其他', 212, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (378, '7日', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (379, '2周', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (380, '1月', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (381, '2月', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (382, '3月', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (383, '4月', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (384, '5月', 213, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (385, '6月', 213, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (378, '7日', 213, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (379, '2周', 213, 5, 1, NULL);
+INSERT INTO `base_tag` VALUES (380, '1月', 213, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (381, '2月', 213, 5, 1, NULL);
+INSERT INTO `base_tag` VALUES (382, '3月', 213, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (383, '4月', 213, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (384, '5月', 213, 5, 1, NULL);
+INSERT INTO `base_tag` VALUES (385, '6月', 213, 4, 1, NULL);
 INSERT INTO `base_tag` VALUES (386, '超高', 214, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (387, '高', 214, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (388, '中上', 214, 3, 1, NULL);
@@ -200,18 +200,18 @@ INSERT INTO `base_tag` VALUES (419, '积分换购', 221, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (420, '高', 222, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (421, '中', 222, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (422, '低', 222, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (423, '1天内', 223, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (424, '7天内', 223, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (425, '14天内', 223, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (426, '30天内', 223, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (427, '登录页', 224, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (428, '首页', 224, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (429, '分类页', 224, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (430, '商品页', 224, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (431, '我的订单页', 224, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (432, '1分钟以内', 225, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (433, '1-5分钟以内', 225, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (434, '5分钟以上', 225, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (423, '1天内', 223, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (424, '7天内', 223, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (425, '14天内', 223, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (426, '30天内', 223, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (427, '登录页', 224, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (428, '首页', 224, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (429, '分类页', 224, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (430, '商品页', 224, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (431, '我的订单页', 224, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (432, '1分钟以内', 225, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (433, '1-5分钟以内', 225, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (434, '5分钟以上', 225, 4, 1, NULL);
 INSERT INTO `base_tag` VALUES (435, '经常', 226, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (436, '从不', 226, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (437, '偶尔', 226, 3, 1, NULL);
@@ -239,22 +239,23 @@ INSERT INTO `base_tag` VALUES (458, '卡萨帝', 234, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (459, '摩卡', 234, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (460, '小超人', 234, 3, 1, NULL);
 INSERT INTO `base_tag` VALUES (461, '统帅', 234, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (462, '有房无贷', 235, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (463, '公积金贷款', 235, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (464, '商业贷款', 235, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (465, '无妨房', 235, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (466, '50W以内', 236, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (467, '50-100W以内', 236, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (468, '100-200W以内', 236, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (469, '200-500W以内', 236, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (470, '500W及以上', 236, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (471, '有车无贷', 237, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (472, '有车有贷', 237, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (473, '无车', 237, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (474, '10W以内', 238, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (475, '10-20W以内', 238, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (476, '20-30W以内', 238, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (477, '30-70W以内', 238, 3, 1, NULL);
-INSERT INTO `base_tag` VALUES (478, '70W及以上', 238, 3, 1, NULL);
+INSERT INTO `base_tag` VALUES (462, '有房无贷', 235, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (463, '公积金贷款', 235, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (464, '商业贷款', 235, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (465, '无妨房', 235, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (466, '50W以内', 236, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (467, '50-100W以内', 236, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (468, '100-200W以内', 236, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (469, '200-500W以内', 236, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (470, '500W及以上', 236, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (471, '有车无贷', 237, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (472, '有车有贷', 237, 2, 1, NULL);
+INSERT INTO `base_tag` VALUES (473, '无车', 237, 4, 1, NULL);
+INSERT INTO `base_tag` VALUES (474, '10W以内', 238, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (475, '10-20W以内', 238, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (476, '20-30W以内', 238, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (477, '30-70W以内', 238, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (478, '70W及以上', 238, 6, 1, NULL);
+INSERT INTO `base_tag` VALUES (479, '健康状况', 100, 1, 1, '申请开发');
 
 SET FOREIGN_KEY_CHECKS = 1;

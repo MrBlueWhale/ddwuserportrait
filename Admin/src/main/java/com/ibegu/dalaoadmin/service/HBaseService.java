@@ -293,6 +293,35 @@ public class HBaseService {
         return outP;
     }
 
+    public JSONObject searchByName(String tel) throws IOException{
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("userName")
+                , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
+        filter.setFilterIfMissing(true);
+        Scan scan = new Scan();
+        scan.setFilter(filter);
+        ResultScanner scanner = table.getScanner(scan);
+
+        JSONObject outP = new JSONObject();
+        for (Result result : scanner){
+            //System.out.println(Bytes.toString(result.getRow()));
+            outP.put("id",Bytes.toString(result.getRow()));
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells) {
+                //System.out.println(Bytes.toString(CellUtil.cloneQualifier(cell))+Bytes.toString(CellUtil.cloneValue(cell)));
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals("favorProducts")){
+                    //System.out.println(Bytes.toString(CellUtil.cloneValue(cell)));
+                    String[] split = Bytes.toString(CellUtil.cloneValue(cell)).split(",");
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),id2ProductName(split));
+                }else {
+                    outP.put(Bytes.toString(CellUtil.cloneQualifier(cell)),Bytes.toString(CellUtil.cloneValue(cell)));
+                }
+            }
+        }
+
+        return outP;
+    }
+
     //@Test
     public void test(){
         try {
@@ -547,6 +576,28 @@ public class HBaseService {
         Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("mobile")
                 , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(tel));
+        filter.setFilterIfMissing(true);
+        String out = "";
+        Scan scan = new Scan();
+        scan.setFilter(filter);
+        ResultScanner results = table.getScanner(scan);
+        for (Result result : results){
+
+            List<Cell> listCells = result.listCells();
+            for (Cell cell : listCells){
+                if (Bytes.toString(CellUtil.cloneQualifier(cell)).equals(col)){
+                    out = Bytes.toString(CellUtil.cloneValue(cell));
+                    //System.out.println(out);
+                }
+            }
+        }
+        return out;
+    }
+
+    public String searchByNameAndCol(String name,String col) throws IOException{
+        Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("Population"),Bytes.toBytes("userName")
+                , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(name));
         filter.setFilterIfMissing(true);
         String out = "";
         Scan scan = new Scan();
