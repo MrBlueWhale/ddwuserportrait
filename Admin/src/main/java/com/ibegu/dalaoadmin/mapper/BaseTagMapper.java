@@ -2,10 +2,12 @@ package com.ibegu.dalaoadmin.mapper;
 
 import com.ibegu.dalaoadmin.domain.BaseTag;
 import com.ibegu.dalaoadmin.domain.BaseTagExample;
-import java.util.List;
+import com.ibegu.dalaoadmin.mapper.extendMapper.BaseTagMapperExtend;
 import org.apache.ibatis.annotations.Param;
 
-public interface BaseTagMapper {
+import java.util.List;
+
+public interface BaseTagMapper extends BaseTagMapperExtend {
     long countByExample(BaseTagExample example);
 
     int deleteByExample(BaseTagExample example);
@@ -27,4 +29,6 @@ public interface BaseTagMapper {
     int updateByPrimaryKeySelective(BaseTag record);
 
     int updateByPrimaryKey(BaseTag record);
+
+
 }

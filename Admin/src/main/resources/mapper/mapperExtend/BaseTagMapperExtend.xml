@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibegu.dalaoadmin.mapper.BaseTagMapper">
+
+  <select id="findParentNameById" resultType="java.lang.String">
+
+    select bt_name from base_tag bt1 WHERE bt1.bt_id = (
+
+      select parent_id FROM base_tag bt2 where bt2.bt_id = #{btId}
+
+    );
+
+  </select>
+
+
+</mapper>

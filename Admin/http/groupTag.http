@@ -1,0 +1,74 @@
+###
+GET http://localhost:8083/groupTag/list
+
+
+###
+GET http://localhost:8083/groupTag/listGroupTags
+
+###
+GET http://localhost:8083/groupTag/listGroupTagsAudit
+
+###
+GET http://localhost:8083/groupTag/listGroupTagsTree
+
+###
+GET http://localhost:8083/groupTag/listGroupTagsTreeNodes
+
+
+###
+GET http://localhost:8083/groupTag/list?groupTagName=超级管理员
+
+###
+GET http://localhost:8083/groupTag/list?groupTagName=admin2
+
+
+###
+POST http://localhost:8083/groupTag/save
+Content-Type: application/json
+
+{
+  "rid": "59192977502900224",
+  "groupTagName": "testRank3Tags3",
+  "desc": "test2"
+
+}
+
+
+###
+DELETE http://localhost:8083/groupTag/delete/59192977502900224
+
+
+###
+POST http://localhost:8083/groupTag/distribute
+Content-Type: application/json
+
+{
+  "uid": "59165037641732096",
+  "groupTagName": "超级管理员"
+}
+
+
+###
+GET http://localhost:8083/groupTag/listRank3Tags
+
+###
+###
+#GET http://localhost:8083/groupTag/listRank4Tags?t3Name=用户价值
+#GET http://localhost:8083/groupTag/listRank4Tags?t3Name=商业属性
+#GET http://localhost:8083/groupTag/listRank4Tags?t3Name=行为属性
+GET http://localhost:8083/groupTag/listRank4Tags?t3Name=人口属性
+
+###
+
+###
+#GET http://localhost:8083/groupTag/listRank5Tags?t4Name=所在商圈
+GET http://localhost:8083/groupTag/listRank5Tags?t4Name=设备类型
+
+
+###
+
+#GET http://localhost:8083/groupTag/listRank5Tags?t4Name=所在商圈
+GET http://localhost:8083/groupTag/listGroupTags
+
+
+###

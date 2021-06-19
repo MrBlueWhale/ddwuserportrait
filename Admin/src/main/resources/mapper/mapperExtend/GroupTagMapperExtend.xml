@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibegu.dalaoadmin.mapper.GroupTagMapper">
+
+
+  <select id="findGroupTagIds" resultType="java.lang.Long">
+
+      select DISTINCT `gt_id`  from group_tag ;
+
+  </select>
+
+    <select id="findBaseTagByGtId" resultMap="BaseResultMap">
+
+        select * from group_tag where gt_id = #{groupTagId};
+
+  </select>
+
+</mapper>

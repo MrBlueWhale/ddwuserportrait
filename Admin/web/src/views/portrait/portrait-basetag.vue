@@ -622,6 +622,13 @@
         };
 
         let option1 = {
+            title: {
+                text: '基础标签组--旭日图',
+                left: 'center',
+                textStyle: {
+                    color: '#000'
+                }
+            },
           visualMap: {
             type: 'continuous',
             min: 0,
