@@ -1,5 +1,5 @@
 package com.ibegu.dalaoadmin.service;
-import com.alibaba.fastjson.JSON;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.hadoop.conf.Configuration;
@@ -9,8 +9,8 @@ import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -264,10 +264,36 @@ public class HBaseService {
         return outPut;
     }
 
+//    @Test
+//    public void tes(){
+//        JSONArray jsonArray = new JSONArray();
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("cf","Population");
+//        jsonObject.put("cName","ageGroup");
+//        jsonObject.put("value","90");
+//
+//        JSONObject jsonObject1 = new JSONObject();
+//        jsonObject1.put("cf","Population");
+//        jsonObject1.put("cName","marriage");
+//        jsonObject1.put("value","未婚");
+//
+//        //System.out.println(jsonObject1);
+//        jsonArray.add(jsonObject);
+//        jsonArray.add(jsonObject1);
+//
+//        try {
+//            System.out.println(searchByConditions(jsonArray));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     public JSONObject searchByConditions(JSONArray jsonArray) throws IOException{
+        //System.out.println(jsonArray);
         Table table = HbaseConn.getTable(TableName.valueOf("user_profile"));
         FilterList filterList = new FilterList();
         for (int i = 0;i < jsonArray.size();i++){
+            //System.out.println(jsonArray.getJSONObject(i));
             SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes(jsonArray.getJSONObject(i).getString("cf"))
                     ,Bytes.toBytes(jsonArray.getJSONObject(i).getString("cName"))
                     , CompareFilter.CompareOp.EQUAL,Bytes.toBytes(jsonArray.getJSONObject(i).getString("value")));
