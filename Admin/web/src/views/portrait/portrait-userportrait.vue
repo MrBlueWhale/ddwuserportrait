@@ -1757,8 +1757,8 @@
                 visualMap: {
                     orient: 'horizontal',
                     left: 'center',
-                    min: 10,
-                    max: 70,
+                    min: 0,
+                    max: 120000,
                     text: ['高', '低'],
                     // Map the score column to color
                     dimension: 0,
