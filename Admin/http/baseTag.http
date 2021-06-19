@@ -3,6 +3,19 @@ GET http://localhost:8083/baseTag/list
 
 
 ###
+GET http://localhost:8083/baseTag/listBaseTags
+
+###
+GET http://localhost:8083/baseTag/listBaseTagsAudit
+
+###
+GET http://localhost:8083/baseTag/listBaseTagsTree
+
+###
+GET http://localhost:8083/baseTag/listBaseTagsTreeNodes
+
+
+###
 GET http://localhost:8083/baseTag/list?baseTagName=超级管理员
 
 ###

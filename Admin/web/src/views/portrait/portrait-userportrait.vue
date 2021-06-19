@@ -247,10 +247,10 @@
                                                         <a href="#" style="font-size: 20px;">最喜欢的支付方式 </a><p style="font-size: 30px;">{{ userProfile.paymentCode }}</p>
                                                     </li>
                                                     <li><span class="flaticon-calendar commercial-tail"></span>
-                                                        <a href="#" style="font-size: 20px;">单笔最高 </a><p style="font-size: 30px;">1-999</p>
+                                                        <a href="#" style="font-size: 20px;">单笔最高 </a><p style="font-size: 30px;">{{ userProfile.highestPay }}</p>
                                                     </li>
                                                     <li><span class="flaticon-man-clendar commercial-head"></span>
-                                                        <a href="#" style="font-size: 20px;">省钱能手 </a><p style="font-size: 30px;">5折-7折</p>
+                                                        <a href="#" style="font-size: 20px;">省钱能手 </a><p style="font-size: 30px;">{{ userProfile.moneySaver }}</p>
                                                     </li>
                                                     <li><span class="flaticon-man-user commercial-tail"></span>
                                                         <a href="#" style="font-size: 20px;">有券必买 </a><p style="font-size: 30px;">折扣券</p>
@@ -447,7 +447,7 @@
                                                                             <h5>商品偏好</h5>
                                                                         </div>
                                                                         <div class="contact-info-content">
-                                                                            <p>所有商品</p>
+                                                                            <p>{{ userProfile.favorProducts }}</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
